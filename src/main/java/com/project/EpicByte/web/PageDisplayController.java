@@ -1,5 +1,8 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.model.entity.User;
+import com.project.EpicByte.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +12,19 @@ import java.util.Map;
 
 @Controller
 public class PageDisplayController {
+    private final UserRepository userRepository;
+
+    @Autowired
+    public PageDisplayController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/")
     public String displayHomePage() {
+        User user = new User();
+        user.setUsername("Successful user");
+        this.userRepository.save(user);
+
         return "index";
     }
 
