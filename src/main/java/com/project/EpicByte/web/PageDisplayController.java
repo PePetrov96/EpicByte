@@ -12,18 +12,8 @@ import java.util.Map;
 
 @Controller
 public class PageDisplayController {
-    private final UserRepository userRepository;
-
-    @Autowired
-    public PageDisplayController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @GetMapping("/")
     public String displayHomePage() {
-        User user = new User();
-        user.setUsername("Final test success");
-        this.userRepository.save(user);
         return "index";
     }
 
