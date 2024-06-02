@@ -22,9 +22,8 @@ public class PageDisplayController {
     @GetMapping("/")
     public String displayHomePage() {
         User user = new User();
-        user.setUsername("Successful user");
+        user.setUsername("Final test success");
         this.userRepository.save(user);
-
         return "index";
     }
 
