@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="carousel-container">
+            <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="1000">
+                        <img src="/img/placeholder-for-carosel.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="1000">
+                        <img src="/img/placeholder-for-carosel.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item" data-bs-interval="1000">
+                        <img src="/img/placeholder-for-carosel.png" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="newsletter-container">
+            <div class="newsletter">
+                <h1>Don't miss out on new products and offers!</h1>
+
+                <div class="newsletter-input-container">
+                    <div class="form-floating mb-3">
+                        <input type="text"
+                               class="form-control"
+                               id="floatingName"
+                               placeholder="Nme">
+                        <label for="floatingInput">First name</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="email"
+                               class="form-control"
+                               id="floatingInput"
+                               placeholder="Email">
+                        <label for="floatingInput">Email address</label>
+                    </div>
+                </div>
+
+                <p>By subscribing you agree to receive emails from EpicByte,
+                    including upcoming offers, news and exclusive events.</p>
+
+                <div class="col-12">
+                    <button class="btn btn-primary subscribe-button" type="submit">Subscribe to our newsletter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+
+</html>

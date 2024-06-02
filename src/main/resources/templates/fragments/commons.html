@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="site-head">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>EpicByte</title>
+
+    <link rel="icon" href="/img/Site-Tab-Logo-2.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!--    <link rel="stylesheet" href="/css/bootstrap.min.css"/>-->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/root.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/footer-styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/header-styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/responsive.css"/>
+
+    <script src="/js/main.js"></script>
+
+    <!--    <script src="/js/jquery-3.5.1.slim.min.js"></script>-->
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!--    <script src="/js/bootstrap.min.js"></script>-->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</head>
+
+<body>
+    <header th:fragment="site-navigation">
+        <div class="header-container">
+            <div class="top-header-container">
+                <div class="top-header">
+                    <!-- LOGO IMAGE -->
+                    <div class="header-left">
+                        <a href="/">
+                            <img src="/img/Site-Logo-Full-2.png" type="image/png" alt="Site logo">
+                        </a>
+                    </div>
+                    <!-- EO: LOGO IMAGE -->
+
+                    <!-- SEARCH FORM -->
+                    <form class="search-form">
+                        <div class="search">
+                            <input type="text" class="search-input form-floating" placeholder="Search..." name="">
+                            <a href="#" class="search-icon">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                    </form>
+                    <!-- EO: SEARCH FORM -->
+
+                    <div class="header-right">
+                        <!-- SHOPPING CART BUTTON -->
+                        <div class="shopping-cart">
+                            <div class="shopping-cart-count">
+                                <p>0</p>
+                            </div>
+                            <a type="button" class="shopping-cart-button" aria-expanded="false" href="/cart">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </div>
+                        <!-- EO: SHOPPING CART BUTTON -->
+
+                        <span class="vertical-line"></span>
+
+                        <!-- USER MENU BUTTON -->
+                        <div class="btn-group header-user-menu">
+                            <button type="button" class="header-user-menu-button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="far fa-user"></i>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <div>
+                                    <li><a class="dropdown-item" href="/user/register">Register</a></li>
+                                    <li><a class="dropdown-item" href="/user/login">Login</a></li>
+                                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                                    <li><a class="dropdown-item" href="/user/orders">Orders</a></li>
+                                </div>
+                                <div>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add">Add Product</a></li>
+                                    <li><a class="dropdown-item" href="/admin/orders">View Orders</a></li>
+                                </div>
+                            </ul>
+                        </div>
+                        <!-- EO: USER MENU BUTTON -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-header-container">
+                <div class="bottom-header">
+                    <div class="btn-group categories-dropdown">
+                        <!-- CATEGORIES MENU BUTTON -->
+                        <button type="button" class="categories-button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bars"></i> Categories
+                        </button>
+
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/products/books">Books</a></li>
+                            <li><a class="dropdown-item" href="/products/textbooks">Textbooks</a></li>
+                            <li><a class="dropdown-item" href="/products/music">Music</a></li>
+                            <li><a class="dropdown-item" href="/products/movies">Movies</a></li>
+                            <li><a class="dropdown-item" href="/products/games-and-toys">Games and Toys</a></li>
+                            <div style="display: none">
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/products/add-product">Add Products</a></li>
+                                <li><a class="dropdown-item" href="#">View Open Orders</a></li>
+                            </div>
+                        </ul>
+                        <!-- EO: CATEGORIES MENU BUTTON -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb-container" th:fragment="breadcrumbs">
+        <nav class="breadcrumb-row" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li th:each="breadcrumb : ${breadcrumbs.entrySet()}"
+                    th:classappend="${breadcrumbStat.last} ? 'active' : ''"
+                    aria-current="${breadcrumbStat.last} ? 'page' : null">
+
+                    <a th:if="${!breadcrumbStat.last}" th:href="${breadcrumb.value}" th:text="${breadcrumb.key}"></a>
+                    <span th:if="${breadcrumbStat.last}" th:text="${breadcrumb.key}"></span>
+
+                    <!-- FontAwesome chevron icon -->
+                    <i th:unless="${breadcrumbStat.last}" class="fas fa-chevron-right px-2"></i>
+                </li>
+            </ol>
+        </nav>
+    </div>
+</body>
+
+<footer th:fragment="site-footer">
+    <div class="footer-container">
+        <div class="footer-container-text">
+            <h1>EPICBYTE</h1>
+
+            <p>EpicByte brings professionals together to connect, learn from each other, find opportunities, and
+                find talent. We started as a meetup and have grown to be Alberta’s largest Product Management community.
+            </p>
+        </div>
+
+        <div class="footer-container-socials">
+            <a href="https://www.facebook.com/" target="_blank">
+                <i class="fab fa-facebook-square"></i>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://twitter.com/" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+
+        <p class="footer-container-privacy">
+            <a href="/privacy">Privacy</a> — <a href="/tandc">Terms & Conditions</a> — © 2024 EpicByte All rights reserved
+        </p>
+
+    </div>
+</footer>
+
+</html>

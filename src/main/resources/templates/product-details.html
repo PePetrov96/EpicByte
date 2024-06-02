@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="product-details-container">
+            <!--        <i class="fas fa-cart-plus"></i> &lt;!&ndash; add cart -->
+            <!--        <i class="far fa-heart"></i> &lt;!&ndash; empty heart -->
+            <!--        <i class="fas fa-heart"></i> &lt;!&ndash; full heart -->
+            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+
+            <div class="product-container">
+                <div class="product-main-details-container">
+                    <div class="product-details-image-container">
+                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                    </div>
+
+                    <div class="product-main-details">
+                        <div class="product-main-details-specs">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Publisher</th>
+                                        <td>some publisher sitting right here on two rows i guess</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Publication date</th>
+                                        <td>01-01-2001</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Language</th>
+                                        <td>English</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Print Length</th>
+                                        <td>720 pages</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dimensions</th>
+                                        <td>19.7 x 12.9 x 4.27 cm</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="product-item details-additional details-page">
+                            <span class="product-price product-price-details-page">250<span class="product-price-precision details-page">,00</span>
+                                <span class="product-price-currency"> €</span>
+                            </span>
+
+                            <div class="product-item buttons">
+                                <button class="item-add-to-cart-button details-page">Add to Cart</button>
+                            </div>
+                        </div>
+
+                        <div class="product-details-admin-items">
+                            <a class="item-update-button" href="/product/update">UPDATE</a>
+                            <a class="item-delete-button" href="/product/delete">DELETE</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-details-container-divider"></div>
+
+                <div class="product-additional-details-container">
+                    <div class="product-main-details-resume">
+                        <h1>Description</h1>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                            ut labore et dolore magna aliqua. Quisque sagittis purus sit amet volutpat. Nibh venenatis
+                            cras sed felis eget velit aliquet sagittis. Nullam eget felis eget nunc lobortis.
+                            Diam volutpat commodo sed egestas egestas. Ac odio tempor orci dapibus ultrices in iaculis.
+                            Non diam phasellus vestibulum lorem sed risus ultricies tristique nulla. Cras pulvinar
+                            mattis nunc sed. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Ultricies
+                            mi quis hendrerit dolor. In pellentesque massa placerat duis. Molestie nunc non blandit
+                            massa enim nec dui nunc. Tempor commodo ullamcorper a lacus vestibulum sed arcu non.
+                            Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Turpis
+                            tincidunt id aliquet risus feugiat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05); border-radius: 15px;">
+                <div class="modal-body">
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <img id="modalImage" class="img-fluid" src="" alt="Product image">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+</html>

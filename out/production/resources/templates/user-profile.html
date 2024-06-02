@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="user-profile-container">
+            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+
+            <h1 class="order-name">My Profile</h1>
+            <span class="order-name-underline"></span>
+
+            <div class="user-profile">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>First and Last Name</th>
+                            <td>
+                                <input value="Peter Petrov">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Username</th>
+                            <td>
+                                <input value="PePetrov96">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email Address</th>
+                            <td>
+                                <input value="PePetrov96@gmail.com">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="col-12 update-user-button-container">
+                    <button class="btn btn-primary update-user-button" type="submit">Confirm Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+</html>

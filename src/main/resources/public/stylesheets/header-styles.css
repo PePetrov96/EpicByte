@@ -1,0 +1,203 @@
+* {
+    font-family: Inter, serif;
+}
+
+/* HEADER STYLES */
+
+header {
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    padding: 0 var(--page-padding);
+}
+
+.bottom-header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--page-padding);
+}
+
+.top-header,
+.bottom-header {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* LEFT HEADER (LOGO IMAGE) */
+.header-left {
+    width: auto;
+    height: auto;
+    padding: 10px 0 10px var(--page-padding);
+}
+
+.header-left img {
+    object-fit: cover;
+    width: var(--logo-width);
+    height: auto;
+}
+
+/* RIGHT HEADER (SHOPPING CART & USER) */
+.header-right {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    padding-right: var(--page-padding);
+}
+
+.shopping-cart-button,
+.header-user-menu-button,
+.categories-button {
+    border: none;
+    background: none;
+}
+
+.shopping-cart-button,
+.header-user-menu-button {
+    padding: 0 0.5em;
+}
+
+.shopping-cart {
+    position: relative;
+}
+
+.shopping-cart-button {
+    font-size: 1.44em;
+}
+
+.vertical-line {
+    align-self: stretch; /* This will stretch the span to fill the parent's height */
+    width: 1px;
+    padding: 0;
+    margin: 0;
+}
+
+.header-user-menu-button {
+    font-size: 1.62em;
+}
+
+.shopping-cart {
+    align-self: end;
+}
+
+.shopping-cart-count {
+    position: absolute;
+    float: left;
+    width: 1em;
+    height: 0.7em;
+    line-height: 0.75em;
+    left: 50%;
+    top: -20%;
+    text-align: center;
+    border-radius: 50em;
+    direction: ltr;
+
+    align-items: center;
+    align-content: center;
+}
+
+.shopping-cart-count p {
+    font-size: 0.5em;
+    align-self: center;
+    text-align: center;
+}
+
+/* MIDDLE HEADER (SEARCH BAR) */
+.search-form {
+    width: 30%;
+}
+
+.search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 1.8em;
+    padding: 2px 10px;
+    border-radius: 50em;
+    border: 1px solid var(--blue);
+}
+
+.search-input {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 0 5px;
+    font-size: 0.8em;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* BOTTOM HEADER (categories) */
+.categories-button {
+    width: calc(var(--logo-width) + var(--page-padding) + var(--page-padding));
+    text-align: start;
+}
+
+.categories-button {
+    padding: 0.2em var(--page-padding);
+}
+
+/* TEXT COLORS */
+.categories-button,
+.search-icon i,
+.header-right i {
+    color: var(--blue);
+}
+
+.dropdown-item:hover {
+    color: var(--red);
+}
+
+.search-input::placeholder,
+.search-input,
+.header-right i:hover,
+.categories-button:hover {
+    color: var(--lighter-blue);
+}
+
+.shopping-cart-count p {
+    color: var(--white-blue);
+}
+
+/* BACKGROUND COLORS */
+.search,
+.top-header-container {
+    background-color: var(--white-color);
+}
+
+.bottom-header-container,
+.vertical-line {
+    background-color: var(--blue);
+}
+
+.categories-button,
+.shopping-cart-count {
+    background: var(--red);
+}

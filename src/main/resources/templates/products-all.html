@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="products-container">
+            <!--        <i class="fas fa-cart-plus"></i> &lt;!&ndash; add cart -->
+            <!--        <i class="far fa-heart"></i> &lt;!&ndash; empty heart -->
+            <!--        <i class="fas fa-heart"></i> &lt;!&ndash; full heart -->
+            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+
+            <div class="products-list-container">
+                <div class="products-list header">
+                    <h1 class="products-list-name" th:text="${productType}"></h1>
+                    <span class="products-list-name-underline"></span>
+
+                    <div class="products-list-header-sorting">
+                        <div class="header-sorting-sorting-options">
+                            <label>Sort by: </label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option value="1" selected="selected">Alphabetical</option>
+                                <option value="2">Lowest price</option>
+                                <option value="3">Highest price</option>
+                            </select>
+                        </div>
+
+                        <nav class="sorting-page-navigation" aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+
+                                <li class="page-item" aria-current="page">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+
+                                <li class="page-item" aria-current="page">
+                                    <a class="page-link" href="#">4</a>
+                                </li>
+
+                                <li class="page-item">
+                                    <a class="page-link" href="#">5</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="products-list all-items-wrapper">
+                    <ul class="products-list all-items">
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="/product/details">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button">
+                                                        <i class="far fa-heart"></i>
+                                                    </button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button href="/cart" class="item-add-to-cart-button">
+                                                        <i class="fas fa-cart-plus"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <!--DELETE PLACEHOLDERS FROM HERE -->
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                                <span class="product-price">250<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" href="#">
+                                    <div class="product-item-image">
+                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p class="product-item details-names book-name">My Grandmother Asked Me To Tell You She's Sorry</p>
+                                            <p class="product-item details-names author-name">Author: Fredrik Backman</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price">10<span class="product-price-precision">,00</span>
+                                                    <span class="product-price-currency"> €</span>
+                                                </span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-favourite-button"><i class="far fa-heart"></i></button>
+                                                </form>
+
+                                                <form method="POST">
+                                                    <!--                                    <input type="hidden" th:value="${product.id}" name="productId">-->
+                                                    <button class="item-add-to-cart-button"><i class="fas fa-cart-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                        <!--TO HERE -->
+
+                    </ul>
+                </div>
+
+                <div class="products-list-footer-sorting">
+                    <div class="products-list page-menu">
+                        <button onclick="topFunction()"
+                                id="scrollToTopBtn"
+                                title="Go to top">Scroll to Top<i class="fas fa-chevron-up"></i></button>
+                    </div>
+
+                    <nav class="header-sorting-page-navigation" aria-label="...">
+                        <ul class="pagination">
+                            <li class="page-item active">
+                                <a class="page-link" href="#">1</a>
+                            </li>
+
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link" href="#">3</a>
+                            </li>
+
+                            <li class="page-item" aria-current="page">
+                                <a class="page-link" href="#">4</a>
+                            </li>
+
+                            <li class="page-item">
+                                <a class="page-link" href="#">5</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+</html>

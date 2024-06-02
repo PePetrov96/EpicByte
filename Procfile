@@ -1,0 +1,1 @@
+web: java -jar target/EpicByte-1.0.0-SNAPSHOT.jar

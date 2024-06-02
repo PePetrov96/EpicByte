@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="login-container">
+            <div class="login-form">
+                <h1>Login</h1>
+
+                <form class="login-form-input needs-validation">
+
+                    <div class="form-floating mb-3">
+                        <input type="text"
+                               class="form-control"
+                               id="floatingUsername"
+                               placeholder="Username">
+                        <label for="floatingUsername">Username</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password"
+                               class="form-control"
+                               id="floatingPassword"
+                               placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                </form>
+
+                <div class="col-12">
+                    <button class="btn btn-primary login-button" type="submit">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+
+</html>

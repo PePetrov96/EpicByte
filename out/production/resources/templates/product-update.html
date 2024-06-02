@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+<header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+<div class="page-container">
+    <div class="product-update-container">
+        <div class="product-update-form">
+            <form class="product-update-form-input needs-validation">
+
+                <div class="form-group">
+                    <label for="imageURL">Image URL</label>
+
+                    <input id="imageURL"
+                           name="imageURL"
+                           type="text"
+                           class="form-control"
+                           placeholder="URL of the image">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookTitle">Book Title</label>
+
+                    <input id="bookTitle"
+                           name="bookTitle"
+                           type="text"
+                           class="form-control"
+                           placeholder="Title of the book">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="authorName">Author name</label>
+
+                    <input id="authorName"
+                           name="authorName"
+                           type="text"
+                           class="form-control"
+                           placeholder="Name of the author">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="publisher">Publisher</label>
+
+                    <input id="publisher"
+                           name="publisher"
+                           type="text"
+                           class="form-control"
+                           placeholder="Name of the publisher">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookDate">Book Publication Date</label>
+
+                    <input id="bookDate"
+                           name="bookDate"
+                           type="date"
+                           class="form-control">
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="language">Language</label>
+
+                    <input id="language"
+                           name="language"
+                           type="text"
+                           class="form-control"
+                           placeholder="Language of the book">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookLength">Print Length</label>
+
+                    <input id="bookLength"
+                           name="bookLength"
+                           type="number"
+                           class="form-control"
+                           placeholder="Number of book pages">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookDimensions">Dimensions</label>
+
+                    <input id="bookDimensions"
+                           name="bookDimensions"
+                           type="text"
+                           class="form-control"
+                           placeholder="Height x Width x Thickness">
+
+                    <p class="errors alert alert-danger">
+                        error message
+                    </p>
+                </div>
+            </form>
+
+            <div class="col-12">
+                <button class="btn btn-primary register-button" type="submit">Update product</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+</html>

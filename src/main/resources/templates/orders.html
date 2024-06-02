@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/commons :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="orders-page-container">
+            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+
+            <h1 class="order-name" th:text="${ordersType}"></h1>
+            <span class="order-name-underline"></span>
+
+            <div class="orders-container">
+                <div class="order-container">
+                    <div class="order-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>Order number</th>
+                                <td>000001</td>
+                            </tr>
+                            <tr>
+                                <th>Order date</th>
+                                <td>01-01-2001</td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td>$ 10.00</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>Ordered</td>
+                            </tr>
+                            <tr th:if="${ordersType} == 'All orders'">
+                                <th>User</th>
+                                <td>User Names</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="order-button-container">
+                        <a href="/order/details">View order</a>
+                    </div>
+                </div>
+
+                <div class="order-container">
+                    <div class="order-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>Order number</th>
+                                <td>000001</td>
+                            </tr>
+                            <tr>
+                                <th>Order date</th>
+                                <td>01-01-2001</td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td>$ 10.00</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>Ordered</td>
+                            </tr>
+                            <tr th:if="${ordersType} == 'All orders'">
+                                <th>User</th>
+                                <td>User Names</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="order-button-container">
+                        <a href="/order/details">View order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+</html>

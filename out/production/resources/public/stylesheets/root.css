@@ -1,0 +1,51 @@
+:root {
+    --purple-color: rgba(170,131,254,255);
+    --black-dark-color-for-header: rgba(17,17,17,255);
+    --black-dark-color: rgba(17,17,17,255);
+    --black-light-color-for-header: rgba(46,44,52,255);
+    --white-color: rgba(254,255,254,255);
+    --gray-color: rgba(236,243,245,255);
+
+    --blue: #1d3557;
+    --lighter-blue: #457b9d;
+    --lightest-blue: #a8dadc;
+    --white-blue: #f1faee;
+    --red: #e63946;
+    --red-hover: rgba(230, 57, 70, 0.8);
+
+    --border-color: var(--lightest-blue);
+
+    --1920px-font: 20px;
+    --1440px-font: 18px;
+    --1366px-font: 16px;
+    --991px-font: 14px;
+    --767px-font: 12px;
+    --479px-font: 12px;
+    --320px-font: 12px;
+
+    --max-width: 1400px;
+    --page-font: var(--1920px-font);
+
+    --page-padding: 30px;
+
+    --logo-width: 250px;
+
+    --product-item-width: 260px;
+    --product-item-height: 555px;
+    --product-item-image-width: 240px;
+    --product-item-image-height: 360px;
+    --product-item-padding: 10px;
+    --product-item-gap: 10px;
+}
+
+html {
+    font-size: var(--page-font);
+}
+
+.dropdown-item {
+    --bs-dropdown-link-hover-bg: none;
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: none;
+}
