@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/components :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="newsletter-container">
+            <div style="display: flex; align-items: center; text-align: center" class="newsletter">
+                <h1>Error 404</h1>
+
+                <h1>This is not the Page you were looking for</h1>
+
+                <div class="return-home-button-container">
+                    <a class="return-home-button" href="/">Return home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
+
+</html>

@@ -1,8 +1,5 @@
 package com.project.EpicByte.web;
 
-import com.project.EpicByte.model.entity.User;
-import com.project.EpicByte.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +24,6 @@ public class PageDisplayController {
         return "auth-login";
     }
 
-    // START (to be migrated into 1 class, by passing product Main type)
     @GetMapping("/products/books")
     public String displayBooksPage(Model model) {
         addProductBreadcrumb(model, null, "Books");
@@ -64,7 +60,6 @@ public class PageDisplayController {
         model.addAttribute("productType", "Games and Toys");
         return "products-all";
     }
-    // END
 
     @GetMapping("/product/details")
     public String displayProductDetailsPage(Model model) {
