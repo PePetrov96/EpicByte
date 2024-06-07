@@ -14,16 +14,6 @@ public class PageDisplayController {
         return "index";
     }
 
-    @GetMapping("/user/register")
-    public String displayRegisterPage() {
-        return "auth-register";
-    }
-
-    @GetMapping("/user/login")
-    public String displayLoginPage() {
-        return "auth-login";
-    }
-
     @GetMapping("/products/books")
     public String displayBooksPage(Model model) {
         addProductBreadcrumb(model, null, "Books");
@@ -38,7 +28,6 @@ public class PageDisplayController {
         return "products-all";
     }
 
-
     @GetMapping("/products/music")
     public String displayMusicPage(Model model) {
         addProductBreadcrumb(model, null, "Music");
@@ -52,7 +41,6 @@ public class PageDisplayController {
         model.addAttribute("productType", "Movies");
         return "products-all";
     }
-
 
     @GetMapping("/products/games-and-toys")
     public String displayGamesAndToysPage(Model model) {
@@ -83,9 +71,9 @@ public class PageDisplayController {
         return "cart";
     }
 
-    @GetMapping("/tandc")
+    @GetMapping("/terms-and-conditions")
     public String displayTermsAndConditionsPage(Model model) {
-        addProductBreadcrumb(model, "/tandc", "Terms and Conditions");
+        addProductBreadcrumb(model, "/terms-and-conditions", "Terms and Conditions");
         model.addAttribute("pageType", "Terms and Conditions");
         return "display-text";
     }
@@ -104,9 +92,9 @@ public class PageDisplayController {
         return "display-text";
     }
 
-    @GetMapping("/user/orders")
+    @GetMapping("/users/orders")
     public String displayUserOrdersPage(Model model) {
-        addProductBreadcrumb(model, "/user/orders", "My orders");
+        addProductBreadcrumb(model, "/users/orders", "My orders");
         model.addAttribute("ordersType", "My orders");
         return "orders";
     }
@@ -118,11 +106,11 @@ public class PageDisplayController {
         return "orders";
     }
 
-    @GetMapping("/user/profile")
-    public String displayUserProfilePage(Model model) {
-        addProductBreadcrumb(model, "/user/profile", "User Profile");
-        return "user-profile";
-    }
+//    @GetMapping("/users/profile")
+//    public String displayUserProfilePage(Model model) {
+//        addProductBreadcrumb(model, "/users/profile", "User Profile");
+//        return "user-profile";
+//    }
 
     private void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
         Map<String, String> breadcrumbs = new LinkedHashMap<>();

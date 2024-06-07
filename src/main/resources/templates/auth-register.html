@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 
 <head th:replace="~{fragments/components :: site-head}"></head>
 
@@ -11,63 +12,127 @@
             <div class="register-form">
                 <h1>Register</h1>
 
-                <form class="register-form-input needs-validation">
+                <form th:method="POST"
+                      th:action="@{/users/register}"
+                      th:object="${userRegisterDTO}"
+                      class="register-form-input needs-validation">
 
                     <div class="form-floating mb-3">
-                        <input type="text"
+                        <input th:name="firstName"
+                               th:field="*{firstName}"
+                               th:errorclass="is-invalid"
+                               type="text"
                                class="form-control"
-                               id="floatingFullName"
-                               placeholder="FullName">
-                        <label for="floatingFullName">First and Last name</label>
+                               id="floatingFirstName"
+                               placeholder="FirstName">
+
+                        <label for="floatingFirstName">First name</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('firstName')}"
+                               th:errors="*{firstName}">First Name error message</small>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text"
+                        <input th:name="lastName"
+                               th:field="*{lastName}"
+                               th:errorclass="is-invalid"
+                               type="text"
+                               class="form-control"
+                               id="floatingLastName"
+                               placeholder="LastName">
+
+                        <label for="floatingLastName">Last name</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('lastName')}"
+                               th:errors="*{lastName}">Last Name error message</small>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input th:name="username"
+                               th:field="*{username}"
+                               th:errorclass="is-invalid"
+                               type="text"
                                class="form-control"
                                id="floatingUsername"
                                placeholder="Username">
+
                         <label for="floatingUsername">Username</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('username')}"
+                               th:errors="*{username}">Username error message</small>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="email"
+                        <input th:name="email"
+                               th:field="*{email}"
+                               th:errorclass="is-invalid"
+                               type="text"
                                class="form-control"
                                id="floatingInput"
                                placeholder="name@example.com">
+
                         <label for="floatingInput">Email address</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('email')}"
+                               th:errors="*{email}">Email error message</small>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="password"
+                        <input th:name="password"
+                               th:field="*{password}"
+                               th:errorclass="is-invalid"
+                               type="password"
                                class="form-control"
                                id="floatingPassword"
                                placeholder="Password">
+
                         <label for="floatingPassword">Password</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('password')}"
+                               th:errors="*{password}">Password error message</small>
                     </div>
 
                     <div class="form-floating">
-                        <input type="password"
+                        <input th:name="repeatPassword"
+                               th:field="*{repeatPassword}"
+                               th:errorclass="is-invalid"
+                               type="password"
                                class="form-control"
                                id="floatingRepeatPassword"
                                placeholder="RepeatPassword">
                         <label for="floatingRepeatPassword">Repeat password</label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('repeatPassword')}"
+                               th:errors="*{repeatPassword}">Password error message</small>
+                    </div>
+
+                    <div class="form-check form-switch terms-and-conditions">
+                        <input th:name="termsAndConditionsAgreed"
+                               th:field="*{termsAndConditionsAgreed}"
+                               class="form-check-input"
+                               type="checkbox"
+                               role="switch"
+                               id="flexSwitchCheckDefault">
+
+                        <label class="form-check-label"
+                               for="flexSwitchCheckDefault">
+                            I agree with the <a href="/terms-and-conditions">terms and conditions</a></label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('termsAndConditionsAgreed')}"
+                               th:errors="*{termsAndConditionsAgreed}">Terms and Conditions error message</small>
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary register-button" value="Register">Register</button>
                     </div>
                 </form>
-
-                <div class="form-check form-switch terms-and-conditions">
-                    <input class="form-check-input"
-                           type="checkbox"
-                           role="switch"
-                           id="flexSwitchCheckDefault">
-
-                    <label class="form-check-label"
-                           for="flexSwitchCheckDefault">
-                        I agree with the <a href="#">terms and conditions</a></label>
-                </div>
-
-                <div class="col-12">
-                    <button class="btn btn-primary register-button" type="submit">Register</button>
-                </div>
             </div>
         </div>
     </div>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
 
     <div class="page-container">
         <div class="orders-page-container">
-            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+            <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <h1 class="order-name" th:text="${ordersType}"></h1>
             <span class="order-name-underline"></span>
@@ -81,5 +81,5 @@
     </div>
 
 </body>
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 </html>

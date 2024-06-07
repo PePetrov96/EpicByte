@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragments/components :: site-head}"></head>
 
@@ -10,9 +9,9 @@
     <div class="page-container">
         <div class="newsletter-container">
             <div style="display: flex; align-items: center; text-align: center" class="newsletter">
-                <h1 th:text="${errorType}">Error 404</h1>
+                <h1>Error 404</h1>
 
-                <h2 th:text="${errorText}">This is not the Page you were looking for!</h2>
+                <h1>This is not the Page you were looking for</h1>
 
                 <div class="return-home-button-container">
                     <a class="return-home-button" href="/">Return home</a>

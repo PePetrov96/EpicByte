@@ -1,11 +1,3 @@
-#spring.datasource.url=jdbc:mysql://root:uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn@vmtpkx.stackhero-network.com/root?useSSL=true&requireSSL=true
-#spring.datasource.username=root
-#spring.datasource.password=uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn
-#
-#spring.jpa.hibernate.ddl-auto=update
-#
-#server.port=${PORT:5000}
-
 spring:
   jpa:
     properties:
@@ -21,10 +13,29 @@ spring:
         enabled: 'true'
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://root:MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8@lk5ax5.stackhero-network.com/root?useSSL=true&requireSSL=true
     username: root
-    password: uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn
-    url: jdbc:mysql://root:uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn@vmtpkx.stackhero-network.com/root?useSSL=true&requireSSL=true
-#    url: jdbc:mysql://localhost:3306/planner?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    password: MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8
+#    url: jdbc:mysql://localhost:3306/EpicByte_Database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+#    username: root
+#    password:
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor: TRACE
+        SQL: DEBUG
+      nodeValue: WARN
+      springframework:
+        security: DEBUG
 
 server:
   port: ${PORT:5000}
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: 'TRUE'
+    hibernate:
+      ddl-auto: update
+    open-in-view: 'false'
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: 'true'
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://root:uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn@vmtpkx.stackhero-network.com/root?useSSL=true&requireSSL=true
+#    username: root
+#    password: uj42w6biN2WEjsMDlzyuHHVRpLO2mfTn
+    url: jdbc:mysql://localhost:3306/planner?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password:
+
+server:
+  port: ${PORT:5000}

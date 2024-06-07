@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 
 <head th:fragment="site-head">
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>EpicByte</title>
 
-    <link rel="icon" href="/img/Site-Tab-Logo-2.png" type="image/png">
+    <link rel="icon" href="/images/Site-Tab-Logo-2.png" type="image/png">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -13,12 +14,12 @@
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/root.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/footer-styles.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/header-styles.css"/>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/root.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/footer-styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/header-styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/responsive.css"/>
 
     <script src="/js/main.js"></script>
 
@@ -37,7 +38,7 @@
                     <!-- LOGO IMAGE -->
                     <div class="header-left">
                         <a href="/">
-                            <img src="/img/Site-Logo-Full-2.png" type="image/png" alt="Site logo">
+                            <img src="/images/Site-Logo-Full-2.png" type="image/png" alt="Site logo">
                         </a>
                     </div>
                     <!-- EO: LOGO IMAGE -->
@@ -75,16 +76,26 @@
 
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <div>
-                                    <li><a class="dropdown-item" href="/user/register">Register</a></li>
-                                    <li><a class="dropdown-item" href="/user/login">Login</a></li>
-                                    <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                                    <li><a class="dropdown-item" href="/user/orders">Orders</a></li>
+                                    <li><a sec:authorize="isAnonymous()" class="dropdown-item" href="/users/register">Register</a></li>
+                                    <li><a sec:authorize="isAnonymous()" class="dropdown-item" href="/users/login">Login</a></li>
+
+                                    <li><a sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/profile">Profile</a></li>
+                                    <li><a sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/orders">Orders</a></li>
+
+                                    <form sec:authorize="isAuthenticated()"
+                                          th:method="POST"
+                                          th:action="@{/users/logout}">
+                                        <input type="submit" class="dropdown-item" value="Logout">
+                                    </form>
                                 </div>
+
+                                <!-- ADMIN SETTINGS -->
                                 <div>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="/admin/product/add">Add Product</a></li>
                                     <li><a class="dropdown-item" href="/admin/orders">View Orders</a></li>
                                 </div>
+                                <!-- EO: ADMIN SETTINGS -->
                             </ul>
                         </div>
                         <!-- EO: USER MENU BUTTON -->
@@ -160,7 +171,7 @@
         </div>
 
         <p class="footer-container-privacy">
-            <a href="/privacy">Privacy</a> — <a href="/tandc">Terms & Conditions</a> — © 2024 EpicByte All rights reserved
+            <a href="/privacy">Privacy</a> — <a href="/terms-and-conditions">Terms & Conditions</a> — © 2024 EpicByte All rights reserved
         </p>
 
     </div>

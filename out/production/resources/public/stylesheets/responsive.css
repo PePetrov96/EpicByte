@@ -186,7 +186,7 @@
     }
 }
 
-@media (max-width: 320px) { /* Small Mobile */
+@media (max-width: 420px) { /* Small Mobile */
     :root {
         --max-width: 320px;
         --logo-width: 100px;
@@ -268,4 +268,12 @@
         justify-self: flex-end;
     }
 
+}
+
+@media (max-width: 450px) { /* Small Mobile */
+    .products-list-header-sorting, .products-list-footer-sorting {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--page-padding);
+    }
 }

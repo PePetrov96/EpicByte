@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
 
     <div class="page-container">
         <div class="register-container">
@@ -68,11 +68,13 @@
                 <div class="col-12">
                     <button class="btn btn-primary register-button" type="submit">Register</button>
                 </div>
+
+
             </div>
         </div>
     </div>
 </body>
 
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 
 </html>
