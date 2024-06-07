@@ -3,6 +3,7 @@ package com.project.EpicByte.web;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
 import com.project.EpicByte.model.dto.UserUpdateDTO;
 import com.project.EpicByte.service.UserService;
+import com.project.EpicByte.validation.UsernameAlreadyExistsException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
     private final UserService userService;
 
     @Autowired
@@ -53,14 +52,6 @@ public class UserController {
 
         this.userService.registerUser(userRegisterDTO);
         return "redirect:/users/login";
-
-//        try {
-//            this.userService.registerUser(userRegisterDTO);
-//            return "redirect:/users/login";
-//        } catch (UsernameAlreadyExistsException e) {
-//            bindingResult.rejectValue("username", "error.userRegisterDTO", e.getMessage());
-//            return "auth-register";
-//        }
     }
 
     // USER PROFILE
@@ -88,37 +79,21 @@ public class UserController {
                                     Model model, RedirectAttributes redirectAttributes) {
 
 
-        // check for errors and ask the user to try again
         if (bindingResult.hasErrors()) {
             addProductBreadcrumb(model, "/users/profile", "User Profile");
             return "user-profile";
         }
 
-        // save information, set the "true" for the success message and redirect with updated values
-        this.userService.updateUser(userUpdateDTO);
-        redirectAttributes.addFlashAttribute("operationSuccess", true);
-        return "redirect:/users/profile";
+        try {
+            this.userService.updateUser(userUpdateDTO);
+            redirectAttributes.addFlashAttribute("operationSuccess", true);
+            return "redirect:/users/profile";
+        } catch (UsernameAlreadyExistsException e) {
+            bindingResult.rejectValue("username", "user.userUpdateDTO", e.getMessage());
+            addProductBreadcrumb(model, "/users/profile", "User Profile");
+            return "user-profile";
+        }
     }
-
-    // USER ORDERS
 
     // SUPPORT METHOD
-    private void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
-        Map<String, String> breadcrumbs = new LinkedHashMap<>();
-        breadcrumbs.put("Home", "/");
-
-        if (pageUrl == null) {
-            for (int i = 0; i < pageNames.length; i++) {
-                if (i == 0) {
-                    breadcrumbs.put(pageNames[i], "/products/" + pageNames[i].replace(" ", "").toLowerCase());
-                } else {
-                    breadcrumbs.put(pageNames[i], "/" + pageNames[i].replace(" ", "").toLowerCase());
-                }
-            }
-        } else {
-            breadcrumbs.put(pageNames[0], pageUrl);
-        }
-
-        model.addAttribute("breadcrumbs", breadcrumbs);
-    }
 }

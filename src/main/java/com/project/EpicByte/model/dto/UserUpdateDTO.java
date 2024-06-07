@@ -1,6 +1,5 @@
 package com.project.EpicByte.model.dto;
 
-import com.project.EpicByte.validation.UniqueUsername;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -19,7 +18,6 @@ public class UserUpdateDTO {
     private String lastName;
 
     @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters.")
-    @UniqueUsername
     private String username;
 
     @NotEmpty(message = "Email cannot be empty")

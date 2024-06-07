@@ -83,9 +83,6 @@ public class SecurityConfiguration {
                                         .tokenValiditySeconds(60 * 60 * 24)
                 );
 
-//                .exceptionHandling(
-//                        (exception)-> exception.accessDeniedPage(USERS_UNAUTHORIZED_URL));
-
 
         return httpSecurity.build();
     }

@@ -4,11 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Controller
-public class PageDisplayController {
+public class PageDisplayController extends BaseController {
     @GetMapping("/")
     public String displayHomePage() {
         return "index";
@@ -104,30 +101,5 @@ public class PageDisplayController {
         addProductBreadcrumb(model, "/admin/orders", "All orders");
         model.addAttribute("ordersType", "All orders");
         return "orders";
-    }
-
-//    @GetMapping("/users/profile")
-//    public String displayUserProfilePage(Model model) {
-//        addProductBreadcrumb(model, "/users/profile", "User Profile");
-//        return "user-profile";
-//    }
-
-    private void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
-        Map<String, String> breadcrumbs = new LinkedHashMap<>();
-        breadcrumbs.put("Home", "/");
-
-        if (pageUrl == null) {
-            for (int i = 0; i < pageNames.length; i++) {
-                if (i == 0) {
-                    breadcrumbs.put(pageNames[i], "/products/" + pageNames[i].replace(" ", "").toLowerCase());
-                } else {
-                    breadcrumbs.put(pageNames[i], "/" + pageNames[i].replace(" ", "").toLowerCase());
-                }
-            }
-        } else {
-            breadcrumbs.put(pageNames[0], pageUrl);
-        }
-
-        model.addAttribute("breadcrumbs", breadcrumbs);
     }
 }

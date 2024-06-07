@@ -13,12 +13,12 @@ spring:
         enabled: 'true'
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://root:MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8@lk5ax5.stackhero-network.com/root?useSSL=true&requireSSL=true
-    username: root
-    password: MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8
-#    url: jdbc:mysql://localhost:3306/EpicByte_Database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+#    url: jdbc:mysql://root:MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8@lk5ax5.stackhero-network.com/root?useSSL=true&requireSSL=true
 #    username: root
-#    password:
+#    password: MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8
+    url: jdbc:mysql://localhost:3306/EpicByte_Database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: root
+    password:
 
 logging:
   level:

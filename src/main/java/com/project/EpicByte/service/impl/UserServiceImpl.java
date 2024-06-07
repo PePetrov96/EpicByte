@@ -8,6 +8,7 @@ import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.UserService;
+import com.project.EpicByte.validation.UsernameAlreadyExistsException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,6 +52,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(UserUpdateDTO userUpdateDTO) {
+        UserEntity existingUser = this.userRepository.findUserEntityByUsername(userUpdateDTO.getUsername());
+
+        if (existingUser != null && !existingUser.getId().equals(userUpdateDTO.getId())) {
+            throw new UsernameAlreadyExistsException("Username already exists");
+        }
+
         UserEntity userEntity = this.userRepository.findUserEntityById(userUpdateDTO.getId());
 
         userEntity.setFirstName(userUpdateDTO.getFirstName());
