@@ -15,7 +15,7 @@ body {
     width: 100%;
     align-items: center;
 
-    background-image: url("/img/Background-Blue-wash.png");
+    background-image: url("/images/Background-Blue-wash.png");
     background-size: cover; /* Optional: this will make sure your image cover the whole container */
     background-position: center 20%; /* Optional: this will center your image in the container. */
     background-repeat: no-repeat; /* Optional: This will avoid repeating the background image. */
@@ -99,9 +99,13 @@ body {
     align-items: flex-start;
 }
 
-.terms-and-conditions {
+.terms-and-conditions,
+.remember-me {
     padding-top: 1em;
     padding-bottom: 1em;
+    display: flex;
+    gap: calc(var(--page-padding) / 2);
+    align-items: center;
 }
 
 .register-button,
@@ -742,6 +746,11 @@ body {
 
 .update-user-button-container {
     padding: var(--page-padding) 0;
+}
+
+/* USER PROFILE */
+.successful-profile-update {
+    padding-bottom: var(--page-padding);
 }
 
 /* TEXT COLORS */

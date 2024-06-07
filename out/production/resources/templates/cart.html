@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
 
     <div class="page-container">
         <div class="product-details-container">
-            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+            <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <div class="product-container cart-container">
 
@@ -25,7 +26,7 @@
                     <div class="cart-row cart-item">
                         <div class="cart-cell1">
                             <div class="cart-row-image-container">
-                                <img src="/img/Book-image-1.jpg" alt="Karamazov">
+                                <img src="/images/Book-image-1.jpg" alt="Karamazov">
                             </div>
                             <div class="cart-row-name">
                                 Brothers Karamazov
@@ -55,7 +56,7 @@
                     <div class="cart-row cart-item">
                         <div class="cart-cell1">
                             <div class="cart-row-image-container">
-                                <img src="/img/Book-image-2.jpg" alt="Karamazov">
+                                <img src="/images/Book-image-2.jpg" alt="Karamazov">
                             </div>
                             <div class="cart-row-name">
                                 My Grandmother Asked Me To Tell You She's Sorry
@@ -115,6 +116,6 @@
     </div>
 </body>
 
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 
 </html>

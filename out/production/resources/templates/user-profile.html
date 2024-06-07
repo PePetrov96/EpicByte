@@ -1,47 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+<head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
 
     <div class="page-container">
         <div class="user-profile-container">
-            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+            <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <h1 class="order-name">My Profile</h1>
             <span class="order-name-underline"></span>
 
-            <div class="user-profile">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>First and Last Name</th>
-                            <td>
-                                <input value="Peter Petrov">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Username</th>
-                            <td>
-                                <input value="PePetrov96">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Email Address</th>
-                            <td>
-                                <input value="PePetrov96@gmail.com">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <form th:method="POST"
+                 th:action="@{/users/profile}"
+                 th:object="${userUpdateDTO}"
+                 class="user-profile">
 
-                <div class="col-12 update-user-button-container">
-                    <button class="btn btn-primary update-user-button" type="submit">Confirm Changes</button>
+                <input type="hidden" th:field="*{id}"/>
+
+
+                <div class="form-floating mb-3">
+
+                    <input th:value="${userUpdateDTO.firstName}"
+                           th:name="firstName"
+                           th:field="*{firstName}"
+                           th:errorclass="is-invalid"
+                           id="firstName"
+                           name="firstName"
+                           type="text"
+                           class="form-control">
+
+                    <label for="firstName">Username</label>
+
+                    <small th:class="text-danger"
+                           th:if="${#fields.hasErrors('firstName')}"
+                           th:errors="*{firstName}">First Name error message</small>
                 </div>
-            </div>
+
+                <div class="form-floating mb-3">
+
+                    <input th:value="${userUpdateDTO.lastName}"
+                           th:name="lastName"
+                           th:field="*{lastName}"
+                           th:errorclass="is-invalid"
+                           id="lastName"
+                           name="lastName"
+                           type="text"
+                           class="form-control">
+
+                    <label for="lastName">Username</label>
+
+                    <small th:class="text-danger"
+                           th:if="${#fields.hasErrors('lastName')}"
+                           th:errors="*{lastName}">Last Name error message</small>
+                </div>
+
+                <div class="form-floating mb-3">
+
+                    <input th:value="${userUpdateDTO.username}"
+                           th:name="username"
+                           th:field="*{username}"
+                           th:errorclass="is-invalid"
+                           id="username"
+                           name="username"
+                           type="text"
+                           class="form-control">
+
+                    <label for="username">Username</label>
+
+                    <small th:class="text-danger"
+                           th:if="${#fields.hasErrors('username')}"
+                           th:errors="*{username}">Username error message</small>
+                </div>
+
+                <div class="form-floating mb-3">
+
+                    <input th:value="${userUpdateDTO.email}"
+                           th:name="email"
+                           th:field="*{email}"
+                           th:errorclass="is-invalid"
+                           id="email"
+                           name="email"
+                           type="text"
+                           class="form-control">
+
+                    <label for="email">email</label>
+
+                    <small th:class="text-danger"
+                           th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}">Email error message</small>
+                </div>
+
+                <div class="successful-profile-update">
+                    <small th:class="text-success"
+                           th:if="${operationSuccess}">Successfully saved changes!</small>
+                </div>
+
+                <div class="col-12">
+                    <input type="submit" class="btn btn-primary update-user-button" value="Save Changes">
+                </div>
+            </form>
         </div>
     </div>
 </body>
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 </html>

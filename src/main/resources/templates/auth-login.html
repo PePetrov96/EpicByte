@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
 
 <head th:replace="~{fragments/components :: site-head}"></head>
 
@@ -11,28 +12,52 @@
             <div class="login-form">
                 <h1>Login</h1>
 
-                <form class="login-form-input needs-validation">
+                <form th:method="POST"
+                      th:action="@{/users/login}"
+                      class="login-form-input needs-validation">
 
                     <div class="form-floating mb-3">
-                        <input type="text"
+                        <input id="username"
+                               name="username"
+                               type="text"
                                class="form-control"
-                               id="floatingUsername"
-                               placeholder="Username">
-                        <label for="floatingUsername">Username</label>
+                               placeholder="username">
+
+                        <label for="username">Username</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="password"
+                        <input id="password"
+                               name="password"
+                               type="password"
                                class="form-control"
-                               id="floatingPassword"
                                placeholder="Password">
-                        <label for="floatingPassword">Password</label>
+
+                        <label for="password">Password</label>
+                    </div>
+
+                    <small th:if="${loginError}" class="text-danger">
+                        Invalid username or password.
+                    </small>
+
+                    <div class="remember-me form-check form-switch">
+                        <input id="remember-me"
+                               name="remember-me"
+                               type="checkbox"
+                               class="form-check-input"
+                               role="switch">
+
+                        <label class="form-check-label"
+                               for="remember-me">Remember me</label>
+                    </div>
+
+<!--                    <div class="col-12">-->
+<!--                        <button class="btn btn-primary login-button" type="submit">Login</button>-->
+<!--                    </div>-->
+                    <div class="col-12">
+                        <input type="submit" class="btn btn-primary login-button" value="Login">
                     </div>
                 </form>
-
-                <div class="col-12">
-                    <button class="btn btn-primary login-button" type="submit">Login</button>
-                </div>
             </div>
         </div>
     </div>

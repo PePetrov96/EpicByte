@@ -1,0 +1,5 @@
+package com.project.EpicByte.model.entity.enums;
+
+public enum UserRolesEnum {
+    USER, ADMIN
+}

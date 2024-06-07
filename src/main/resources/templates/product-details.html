@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
 <head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
@@ -15,7 +17,7 @@
             <div class="product-container">
                 <div class="product-main-details-container">
                     <div class="product-details-image-container">
-                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                     </div>
 
                     <div class="product-main-details">

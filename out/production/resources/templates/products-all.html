@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+<head th:replace="~{fragments/components :: site-head}"></head>
 
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
 
     <div class="page-container">
         <div class="products-container">
             <!--        <i class="fas fa-cart-plus"></i> &lt;!&ndash; add cart -->
             <!--        <i class="far fa-heart"></i> &lt;!&ndash; empty heart -->
             <!--        <i class="fas fa-heart"></i> &lt;!&ndash; full heart -->
-            <div th:replace="~{fragments/commons :: breadcrumbs}"></div>
+            <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <div class="products-list-container">
                 <div class="products-list header">
@@ -59,7 +61,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="/product/details">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -99,7 +101,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -136,7 +138,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -171,7 +173,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -208,7 +210,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -243,7 +245,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -280,7 +282,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -315,7 +317,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -352,7 +354,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -387,7 +389,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -424,7 +426,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-1.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-1.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -459,7 +461,7 @@
                             <div class="product-item info-container">
                                 <a class="product-item info" href="#">
                                     <div class="product-item-image">
-                                        <img src="/img/Book-image-2.jpg" alt="bookImage">
+                                        <img src="/images/Book-image-2.jpg" alt="bookImage">
                                     </div>
 
                                     <div class="product-item details">
@@ -534,5 +536,5 @@
     </div>
 
 </body>
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 </html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/commons :: site-head}"></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec='http://www.thymeleaf.org/extras/spring-security'>
+
+<head th:replace="~{fragments/components :: site-head}"></head>
 <body>
-    <header th:replace="~{fragments/commons :: site-navigation}"></header>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
     <div class="page-container">
         <div class="display-text-container">
-            <div th:unless="${pageType} == 'Checkout'" th:replace="~{fragments/commons :: breadcrumbs}"></div>
+            <div th:unless="${pageType} == 'Checkout'" th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <div th:unless="${pageType} == 'Checkout'">
                 <h1 th:text="${pageType}">Terms & Conditions or Privacy</h1>
@@ -30,5 +32,5 @@
     </div>
 </body>
 
-<footer th:replace="~{fragments/commons :: site-footer}"></footer>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
 </html>
