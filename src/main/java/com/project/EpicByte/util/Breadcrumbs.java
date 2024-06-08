@@ -1,12 +1,11 @@
-package com.project.EpicByte.web;
+package com.project.EpicByte.util;
 
 import org.springframework.ui.Model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BaseController {
-
+public class Breadcrumbs {
     protected void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
         Map<String, String> breadcrumbs = new LinkedHashMap<>();
         breadcrumbs.put("Home", "/");

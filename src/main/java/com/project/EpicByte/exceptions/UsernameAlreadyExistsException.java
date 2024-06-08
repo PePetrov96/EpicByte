@@ -1,4 +1,4 @@
-package com.project.EpicByte.validation;
+package com.project.EpicByte.exceptions;
 
 public class UsernameAlreadyExistsException extends RuntimeException {
     public UsernameAlreadyExistsException() {

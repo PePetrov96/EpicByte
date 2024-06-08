@@ -1,11 +1,12 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.util.Breadcrumbs;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PageDisplayController extends BaseController {
+public class PageDisplayController extends Breadcrumbs {
     @GetMapping("/")
     public String displayHomePage() {
         return "index";
@@ -52,7 +53,7 @@ public class PageDisplayController extends BaseController {
         return "product-details";
     }
 
-    @GetMapping("/product/update")
+    @GetMapping("/admin/product/update")
     public String displayProductUpdatePage(Model model) {
         return "product-update";
     }
@@ -62,9 +63,9 @@ public class PageDisplayController extends BaseController {
         return "product-add";
     }
 
-    @GetMapping("/cart")
+    @GetMapping("/users/cart")
     public String displayCartPage(Model model) {
-        addProductBreadcrumb(model, "/cart", "Cart");
+        addProductBreadcrumb(model, "/users/cart", "Cart");
         return "cart";
     }
 
@@ -82,7 +83,7 @@ public class PageDisplayController extends BaseController {
         return "display-text";
     }
 
-    @GetMapping("/cart/checkout/confirm")
+    @GetMapping("/users/cart/checkout/confirm")
     public String displayConfirmCheckoutPage(Model model) {
         addProductBreadcrumb(model, null, "Cart", "Checkout", "Confirm Checkout");
         model.addAttribute("pageType", "Checkout");
