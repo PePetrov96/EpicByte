@@ -2,8 +2,8 @@ package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.model.dto.UserRegisterDTO;
 import com.project.EpicByte.model.dto.UserUpdateDTO;
-import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.userEntities.UserEntity;
+import com.project.EpicByte.model.entity.userEntities.UserRoleEntity;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;

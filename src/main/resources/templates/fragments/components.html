@@ -90,9 +90,14 @@
                                 </div>
 
                                 <!-- ADMIN SETTINGS -->
-                                <div>
+                                <div sec:authorize="hasRole('ADMIN')">
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add">Add Product</a></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add/book">Add Book</a></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add/textbook">Add Textbook</a></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add/music">Add Music</a></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add/movie">Add Movie</a></li>
+                                    <li><a class="dropdown-item" href="/admin/product/add/toy">Add Toy</a></li>
+
                                     <li><a class="dropdown-item" href="/admin/orders">View Orders</a></li>
                                 </div>
                                 <!-- EO: ADMIN SETTINGS -->
@@ -116,7 +121,7 @@
                             <li><a class="dropdown-item" href="/products/textbooks">Textbooks</a></li>
                             <li><a class="dropdown-item" href="/products/music">Music</a></li>
                             <li><a class="dropdown-item" href="/products/movies">Movies</a></li>
-                            <li><a class="dropdown-item" href="/products/games-and-toys">Games and Toys</a></li>
+                            <li><a class="dropdown-item" href="/products/toys">Toys</a></li>
                             <div style="display: none">
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="/products/add-product">Add Products</a></li>

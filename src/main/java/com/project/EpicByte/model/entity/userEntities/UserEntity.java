@@ -1,5 +1,6 @@
-package com.project.EpicByte.model.entity;
+package com.project.EpicByte.model.entity.userEntities;
 
+import com.project.EpicByte.model.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @Getter @Setter @NoArgsConstructor
-public class UserEntity extends BaseEntity {
+public class  UserEntity extends BaseEntity {
     @Column(name = "username")
     private String username;
 

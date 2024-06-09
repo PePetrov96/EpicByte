@@ -1,6 +1,6 @@
 package com.project.EpicByte.repository;
 
-import com.project.EpicByte.model.entity.UserEntity;
+import com.project.EpicByte.model.entity.userEntities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

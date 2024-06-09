@@ -1,9 +1,16 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.model.dto.BookAddDTO;
+import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.util.Breadcrumbs;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PageDisplayController extends Breadcrumbs {
@@ -40,10 +47,10 @@ public class PageDisplayController extends Breadcrumbs {
         return "products-all";
     }
 
-    @GetMapping("/products/games-and-toys")
-    public String displayGamesAndToysPage(Model model) {
-        addProductBreadcrumb(model, null, "Games and Toys");
-        model.addAttribute("productType", "Games and Toys");
+    @GetMapping("/products/toys")
+    public String displayToysPage(Model model) {
+        addProductBreadcrumb(model, null, "Toys");
+        model.addAttribute("productType", "Toys");
         return "products-all";
     }
 
@@ -58,10 +65,26 @@ public class PageDisplayController extends Breadcrumbs {
         return "product-update";
     }
 
-    @GetMapping("/admin/product/add")
-    public String displayProductAddPage(Model model) {
-        return "product-add";
-    }
+
+//    @GetMapping("/admin/product/add/textbook")
+//    public String displayProductAddTextbookPage(Model model) {
+//        return "product-add";
+//    }
+//
+//    @GetMapping("/admin/product/add/music")
+//    public String displayProductAddMusicPage(Model model) {
+//        return "product-add";
+//    }
+//
+//    @GetMapping("/admin/product/add/movie")
+//    public String displayProductAddMoviePage(Model model) {
+//        return "product-add";
+//    }
+//
+//    @GetMapping("/admin/product/add/toy")
+//    public String displayProductAddToyPage(Model model) {
+//        return "product-add";
+//    }
 
     @GetMapping("/users/cart")
     public String displayCartPage(Model model) {
@@ -86,7 +109,8 @@ public class PageDisplayController extends Breadcrumbs {
     @GetMapping("/users/cart/checkout/confirm")
     public String displayConfirmCheckoutPage(Model model) {
         addProductBreadcrumb(model, null, "Cart", "Checkout", "Confirm Checkout");
-        model.addAttribute("pageType", "Checkout");
+        model.addAttribute("pageType", "Completed Successfully");
+        model.addAttribute("pageText", "Your order has been received!");
         return "display-text";
     }
 

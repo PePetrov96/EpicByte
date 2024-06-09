@@ -1,6 +1,6 @@
 package com.project.EpicByte.init;
 
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.userEntities.UserRoleEntity;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

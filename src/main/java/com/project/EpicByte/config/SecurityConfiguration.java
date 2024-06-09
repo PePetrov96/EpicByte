@@ -36,9 +36,9 @@ public class SecurityConfiguration {
                                 .requestMatchers(USERS_LOGIN_URL, USERS_LOGOUT_URL, USERS_REGISTER_URL).permitAll()
                                 // Login error page, Unauthorized page are available to everyone
                                 .requestMatchers(USERS_LOGIN_ERROR_URL, USERS_UNAUTHORIZED_URL).permitAll()
-                                // Books, Textbooks, Music, Movies, Games & Toys pages are available to everyone
+                                // Books, Textbooks, Music, Movies, Toys pages are available to everyone
                                 .requestMatchers(PRODUCTS_BOOKS_URL, PRODUCTS_TEXTBOOKS_URL,
-                                        PRODUCTS_MUSIC_URL, PRODUCTS_MOVIES_URL, PRODUCTS_GAMES_AND_TOYS_URL).permitAll()
+                                        PRODUCTS_MUSIC_URL, PRODUCTS_MOVIES_URL, PRODUCTS_TOYS_URL).permitAll()
                                 // Product details page is available to everyone
                                 .requestMatchers(PRODUCT_DETAILS_URL).permitAll()
                                 // Terms and Conditions page, Privacy page ara available to everyone
@@ -47,11 +47,12 @@ public class SecurityConfiguration {
                                 // are available to logged-in users only
                                 .requestMatchers(USERS_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL,
                                         USERS_ORDERS_URL).authenticated()
-                                // Update product, delete product, add product and view
-                                // all orders are available to Admins only
-                                .requestMatchers(ADMIN_PRODUCT_UPDATE_URL, ADMIN_PRODUCT_DELETE_URL,
-                                        ADMIN_PRODUCT_ADD_URL, ADMIN_ORDERS_URL)
-                                .hasAnyRole(UserRolesEnum.ADMIN.name())
+                                // Update product, delete product, view all orders are available to Admins only
+                                .requestMatchers(ADMIN_PRODUCT_UPDATE_URL, ADMIN_PRODUCT_DELETE_URL, ADMIN_ORDERS_URL).hasRole(UserRolesEnum.ADMIN.name())
+                                // Add Book, Textbook, Movie, Music, Toy pages are available to Admins only
+                                .requestMatchers(ADMIN_PRODUCT_ADD_BOOK_URL, ADMIN_PRODUCT_ADD_TEXTBOOK_URL,
+                                        ADMIN_PRODUCT_ADD_MOVIE_URL, ADMIN_PRODUCT_ADD_MUSIC_URL,
+                                        ADMIN_PRODUCT_ADD_TOY_URL ).hasRole(UserRolesEnum.ADMIN.name())
                                 // All other requests are authenticated.
                                 .anyRequest().authenticated()
                 // LOGIN logic

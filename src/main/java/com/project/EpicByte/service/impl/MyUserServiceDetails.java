@@ -1,7 +1,7 @@
 package com.project.EpicByte.service.impl;
 
-import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.userEntities.UserEntity;
+import com.project.EpicByte.model.entity.userEntities.UserRoleEntity;
 import com.project.EpicByte.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,6 +1,7 @@
 package com.project.EpicByte.util;
 
 public class Constants {
+    public static final String INDEX_HTML = "index";
     public static final String AUTH_LOGIN_HTML = "auth-login";
     public static final String AUTH_REGISTER_HTML = "auth-register";
     public static final String USER_PROFILE_HTML = "user-profile";
@@ -24,11 +25,17 @@ public class Constants {
     public static final String PRODUCTS_TEXTBOOKS_URL = "/products/textbooks";
     public static final String PRODUCTS_MUSIC_URL = "/products/music";
     public static final String PRODUCTS_MOVIES_URL = "/products/movies";
-    public static final String PRODUCTS_GAMES_AND_TOYS_URL = "/products/games-and-toys";
+    public static final String PRODUCTS_TOYS_URL = "/products/toys";
     public static final String PRODUCT_DETAILS_URL = "/product/details";
     public static final String ADMIN_PRODUCT_UPDATE_URL = "/admin/product/update";
     public static final String ADMIN_PRODUCT_DELETE_URL = "/admin/product/delete";
-    public static final String ADMIN_PRODUCT_ADD_URL = "/admin/product/add";
+
+    public static final String ADMIN_PRODUCT_ADD_BOOK_URL = "/admin/product/add/book";
+    public static final String ADMIN_PRODUCT_ADD_TEXTBOOK_URL = "/admin/product/add/textbook";
+    public static final String ADMIN_PRODUCT_ADD_MOVIE_URL = "/admin/product/add/movie";
+    public static final String ADMIN_PRODUCT_ADD_MUSIC_URL = "/admin/product/add/music";
+    public static final String ADMIN_PRODUCT_ADD_TOY_URL = "/admin/product/add/toy";
+
     public static final String USERS_CART_URL = "/users/cart";
     public static final String TERMS_AND_CONDITIONS_URL = "/terms-and-conditions";
     public static final String PRIVACY_URL = "/privacy";

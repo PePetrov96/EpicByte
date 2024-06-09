@@ -5,6 +5,10 @@ import org.springframework.ui.Model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * A utility class responsible for adding breadcrumb data to a Model object, by layering links and map elements.
+ */
+
 public class Breadcrumbs {
     protected void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
         Map<String, String> breadcrumbs = new LinkedHashMap<>();

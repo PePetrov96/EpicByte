@@ -1,5 +1,6 @@
-package com.project.EpicByte.model.entity;
+package com.project.EpicByte.model.entity.userEntities;
 
+import com.project.EpicByte.model.entity.BaseEntity;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
