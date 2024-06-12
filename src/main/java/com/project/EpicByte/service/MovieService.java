@@ -7,4 +7,7 @@ import org.springframework.validation.BindingResult;
 public interface MovieService {
     String displayProductAddMoviePage(Model model);
     String handleProductAddMovie(MovieAddDTO movieAddDTO, BindingResult bindingResult, Model model);
+    String displayAllMoviesPage(Model model, String string);
+    String displayDetailedViewMoviePage(Long id, Model model);
+
 }

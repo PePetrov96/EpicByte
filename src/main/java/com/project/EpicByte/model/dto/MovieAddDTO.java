@@ -7,9 +7,12 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
 public class MovieAddDTO extends BaseAddDTO {
-    @NotEmpty(message = "Please enter a genre!")
+    @NotEmpty(message = "{product.genre.empty.error.message}")
     private String genre;
 
-    @NotEmpty(message = "Please select a language!")
+    @NotEmpty(message = "{product.language.empty.error.message}")
     private String language;
+
+    @NotEmpty(message = "{product.carrier.empty.error.message}")
+    private String carrier;
 }

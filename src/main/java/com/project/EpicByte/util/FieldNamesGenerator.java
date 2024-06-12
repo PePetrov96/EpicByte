@@ -10,10 +10,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A utility class that extracts several values for each of the products in the store, to help utilize a single html
@@ -40,17 +46,22 @@ public class FieldNamesGenerator {
         String fieldType;
     }
 
+    @Autowired
+    private MessageSource messageSource;
+    private LocaleContextHolder localeContextHolder;
+
     protected List<FieldEntity> getFieldNames(String type) {
         List<FieldEntity> fields = new ArrayList<>();
+        Locale locale = LocaleContextHolder.getLocale();
 
         for (Field field : BaseProduct.class.getDeclaredFields()) {
-            if (field.getType() == ProductTypeEnum.class) {
+            if (field.getType() == ProductTypeEnum.class || field.getType() == LocalDate.class) {
                 continue;
             }
 
             fields.add(new FieldEntity(
                     field.getName(),
-                    getPrettyName(field.getName()),
+                    getPrettyName(field.getName(), locale),
                     field.getType().getSimpleName()
             ));
         }
@@ -77,34 +88,41 @@ public class FieldNamesGenerator {
 
             fields.add(new FieldEntity(
                     field.getName(),
-                    getPrettyName(field.getName()),
+                    getPrettyName(field.getName(), locale),
                     fieldType));
         }
 
         return fields;
     }
 
-    private String getPrettyName(String variableName) {
-        String withSpaces = variableName.replaceAll("([A-Z])", " $1").trim();
-        return convertToSentenceCase(withSpaces);
+    private String getPrettyName(String variableName, Locale locale) {
+        String name = variableName + ".text";
+        try {
+            return messageSource.getMessage(name, null, locale);
+        } catch (NoSuchMessageException e) {
+            return "Unresolved key: " + name;
+        }
+//        return "{" + name + "}"; // return {productImageUrl.text}
+//        String withSpaces = variableName.replaceAll("([A-Z])", " $1").trim();
+//        return convertToSentenceCase(withSpaces);
     }
-
-    public static String convertToSentenceCase(String text) {
-        if (text == null || text.isEmpty()) {
-            return text;
-        }
-
-        StringBuilder result = new StringBuilder(text.length());
-        String[] words = text.split("\\s", 2);
-        result.append(Character.toUpperCase(words[0].charAt(0)));
-        if (words[0].length() > 1) {
-            result.append(words[0].substring(1).toLowerCase());
-        }
-        if(words.length > 1) {
-            result.append(" ")
-                    .append(words[1].toLowerCase());
-        }
-
-        return result.toString();
-    }
+//
+//    public static String convertToSentenceCase(String text) {
+//        if (text == null || text.isEmpty()) {
+//            return text;
+//        }
+//
+//        StringBuilder result = new StringBuilder(text.length());
+//        String[] words = text.split("\\s", 2);
+//        result.append(Character.toUpperCase(words[0].charAt(0)));
+//        if (words[0].length() > 1) {
+//            result.append(words[0].substring(1).toLowerCase());
+//        }
+//        if(words.length > 1) {
+//            result.append(" ")
+//                    .append(words[1].toLowerCase());
+//        }
+//
+//        return result.toString();
+//    }
 }

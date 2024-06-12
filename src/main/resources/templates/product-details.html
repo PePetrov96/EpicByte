@@ -15,41 +15,34 @@
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
             <div class="product-container">
-                <div class="product-main-details-container">
+                <div th:method="POST"
+                     th:action="@{/product/details/{id}(id=${product.id})}"
+                     th:object="${product}"
+                     class="product-main-details-container">
+
                     <div class="product-details-image-container">
-                        <img src="/images/Book-image-1.jpg" alt="bookImage">
+                        <img th:src="${product.productImageUrl}" th:action="${product.productName} + ' image'">
                     </div>
 
                     <div class="product-main-details">
                         <div class="product-main-details-specs">
                             <table>
                                 <tbody>
-                                    <tr>
-                                        <th>Publisher</th>
-                                        <td>some publisher sitting right here on two rows i guess</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Publication date</th>
-                                        <td>01-01-2001</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Language</th>
-                                        <td>English</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Print Length</th>
-                                        <td>720 pages</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dimensions</th>
-                                        <td>19.7 x 12.9 x 4.27 cm</td>
+                                    <tr th:each="detail : ${productDetails}">
+                                        <th th:text="${detail.key}"></th>
+                                        <td th:text="${detail.value}"></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="product-item details-additional details-page">
-                            <span class="product-price product-price-details-page">250<span class="product-price-precision details-page">,00</span>
+<!--                            <span class="product-price product-price-details-page">250<span class="product-price-precision details-page">,00</span>-->
+<!--                                <span class="product-price-currency"> €</span>-->
+<!--                            </span>-->
+                            <span class="product-price-wrapper">
+                                <span class="product-price product-price-details-page" th:text="${#strings.substring(product.productPrice.toString(), 0, product.productPrice.toString().indexOf('.'))}"></span>
+                                <span class="product-price-precision details-page" th:text="',' + ${#strings.contains(product.productPrice.toString(), '.') ? #strings.substring(product.productPrice.toString(), product.productPrice.toString().indexOf('.') + 1) : '00'}">Decimal Part</span>
                                 <span class="product-price-currency"> €</span>
                             </span>
 
@@ -70,18 +63,7 @@
                 <div class="product-additional-details-container">
                     <div class="product-main-details-resume">
                         <h1>Description</h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                            ut labore et dolore magna aliqua. Quisque sagittis purus sit amet volutpat. Nibh venenatis
-                            cras sed felis eget velit aliquet sagittis. Nullam eget felis eget nunc lobortis.
-                            Diam volutpat commodo sed egestas egestas. Ac odio tempor orci dapibus ultrices in iaculis.
-                            Non diam phasellus vestibulum lorem sed risus ultricies tristique nulla. Cras pulvinar
-                            mattis nunc sed. Est ullamcorper eget nulla facilisi etiam dignissim diam quis. Ultricies
-                            mi quis hendrerit dolor. In pellentesque massa placerat duis. Molestie nunc non blandit
-                            massa enim nec dui nunc. Tempor commodo ullamcorper a lacus vestibulum sed arcu non.
-                            Tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum. Turpis
-                            tincidunt id aliquet risus feugiat.
-                        </p>
+                        <p th:text="${product.description}"></p>
                     </div>
                 </div>
             </div>

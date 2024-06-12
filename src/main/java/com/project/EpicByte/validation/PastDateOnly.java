@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PastDateValidator.class)
 public @interface PastDateOnly {
-    String message() default "Publication date must be in the past!";
+    String message() default "{product.publicationDate.empty.error.message}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

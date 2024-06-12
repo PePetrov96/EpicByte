@@ -10,26 +10,26 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 @PasswordMatches
 public class UserRegisterDTO {
-    @NotEmpty(message = "Please enter a name")
+    @NotEmpty(message = "{name.empty.error.text}")
     private String firstName;
 
-    @NotEmpty(message = "Please enter a name")
+    @NotEmpty(message = "{name.empty.error.text}")
     private String lastName;
 
-    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters.")
+    @Size(min = 3, max = 20, message = "{username.invalid.length.error.text}")
     @UniqueUsername
     private String username;
 
-    @NotEmpty(message = "Email cannot be empty")
-    @Email(message = "Invalid email address")
+    @NotEmpty(message = "{empty.email.error.text}")
+    @Email(message = "{invalid.email.error.text}")
     private String email;
 
     @NotNull
-    @Size(min = 3, message = "Password length must be minimum 3 characters.")
+    @Size(min = 3, message = "{password.invalid.length.error.text}")
     private String password;
 
     private String repeatPassword;
 
-    @AssertTrue(message = "You must agree to the terms and conditions!")
+    @AssertTrue(message = "{terms.and.conditions.agreement.error.text}")
     private boolean termsAndConditionsAgreed;
 }

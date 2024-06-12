@@ -7,4 +7,7 @@ import org.springframework.validation.BindingResult;
 public interface ToyService {
     String displayProductAddToyPage(Model model);
     String handleProductAddToy(ToyAddDTO toyAddDTO, BindingResult bindingResult, Model model);
+    String displayAllToysPage(Model model, String string);
+    String displayDetailedViewToyPage(Long id, Model model);
+
 }

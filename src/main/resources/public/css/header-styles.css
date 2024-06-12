@@ -164,6 +164,11 @@ header {
     padding: 0.2em var(--page-padding);
 }
 
+.ml-auto {
+    display: flex;
+    flex-direction: column;
+}
+
 /* TEXT COLORS */
 .categories-button,
 .search-icon i,

@@ -10,7 +10,7 @@
     <div class="page-container">
         <div class="login-container">
             <div class="login-form">
-                <h1>Login</h1>
+                <h1 th:text="#{login.text}"></h1>
 
                 <form th:method="POST"
                       th:action="@{/users/login}"
@@ -23,7 +23,7 @@
                                class="form-control"
                                placeholder="username">
 
-                        <label for="username">Username</label>
+                        <label th:text="#{username.text}" for="username"></label>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -33,11 +33,10 @@
                                class="form-control"
                                placeholder="Password">
 
-                        <label for="password">Password</label>
+                        <label th:text="#{password.text}" for="password"></label>
                     </div>
 
-                    <small th:if="${loginError}" class="text-danger">
-                        Invalid username or password.
+                    <small th:text="#{invalid.credentials.error.message}" th:if="${loginError}" class="text-danger">
                     </small>
 
                     <div class="remember-me form-check form-switch">
@@ -47,15 +46,15 @@
                                class="form-check-input"
                                role="switch">
 
-                        <label class="form-check-label"
-                               for="remember-me">Remember me</label>
+                        <label th:text="#{remember.me.text}" class="form-check-label"
+                               for="remember-me"></label>
                     </div>
 
 <!--                    <div class="col-12">-->
 <!--                        <button class="btn btn-primary login-button" type="submit">Login</button>-->
 <!--                    </div>-->
                     <div class="col-12">
-                        <input type="submit" class="btn btn-primary login-button" value="Login">
+                        <input type="submit" class="btn btn-primary login-button" th:value="#{login.text}">
                     </div>
                 </form>
             </div>

@@ -7,6 +7,6 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
 public class ToyAddDTO extends BaseAddDTO {
-    @NotEmpty(message = "Please enter a brand name!")
+    @NotEmpty(message = "{product.brand.empty.error.message}")
     private String brand;
 }

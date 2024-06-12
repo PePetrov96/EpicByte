@@ -9,16 +9,16 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
 public abstract class BaseAddDTO {
-    @NotEmpty(message = "Please enter product image URL!")
+    @NotEmpty(message = "{product.imageUrl.empty.error.message}")
     private String productImageUrl;
 
-    @NotEmpty(message = "Please enter product name!")
+    @NotEmpty(message = "{product.name.empty.error.message}")
     private String productName;
 
-    @NotNull(message = "Please enter a price!")
-    @Positive(message = "Please enter a positive price!")
+    @NotNull(message = "{product.price.empty.error.message}")
+    @Positive(message = "{product.price.negative.number.error.message}")
     private Double productPrice;
 
-    @NotEmpty(message = "Please enter a description!")
+    @NotEmpty(message = "{product.description.empty.error.message}")
     private String description;
 }

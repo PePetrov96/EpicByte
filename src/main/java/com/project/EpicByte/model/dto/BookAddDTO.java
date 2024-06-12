@@ -12,22 +12,22 @@ import java.time.LocalDate;
 
 @Getter @Setter @NoArgsConstructor
 public class BookAddDTO extends BaseAddDTO {
-    @NotEmpty(message = "Please enter an author name!")
+    @NotEmpty(message = "{product.authorName.empty.error.message}")
     private String authorName;
 
-    @NotEmpty(message = "Please enter a publisher name!")
+    @NotEmpty(message = "{product.publisher.empty.error.message}")
     private String publisher;
 
     @PastDateOnly
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
 
-    @NotEmpty(message = "Please select a language!")
+    @NotEmpty(message = "{product.language.empty.error.message}")
     private String language;
 
-    @NotNull(message = "Please enter number of book pages!")
+    @NotNull(message = "{product.printLength.empty.error.message}")
     private Integer printLength;
 
-    @NotEmpty(message = "Please set dimensions in format 'length x width x height'!")
+    @NotEmpty(message = "{product.dimensions.empty.error.message}")
     private String dimensions;
 }

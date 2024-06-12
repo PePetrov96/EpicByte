@@ -11,16 +11,16 @@ import lombok.Setter;
 public class UserUpdateDTO {
     private Long id;
 
-    @NotEmpty(message = "Please enter a name")
+    @NotEmpty(message = "{name.empty.error.text}")
     private String firstName;
 
-    @NotEmpty(message = "Please enter a name")
+    @NotEmpty(message = "{name.empty.error.text}")
     private String lastName;
 
-    @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters.")
+    @Size(min = 3, max = 20, message = "{username.invalid.length.error.text}")
     private String username;
 
-    @NotEmpty(message = "Email cannot be empty")
-    @Email(message = "Invalid email address")
+    @NotEmpty(message = "{empty.email.error.text}")
+    @Email(message = "{invalid.email.error.text}")
     private String email;
 }

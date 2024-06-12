@@ -7,4 +7,7 @@ import org.springframework.validation.BindingResult;
 public interface TextbookService {
     String displayProductAddTextbookPage(Model model);
     String handleProductAddTextbook(TextbookAddDTO textbookAddDTO, BindingResult bindingResult, Model model);
+    String displayAllTextbooksPage(Model model, String string);
+    String displayDetailedViewTextbookPage(Long id, Model model);
+
 }

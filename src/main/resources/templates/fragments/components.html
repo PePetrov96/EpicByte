@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="/css/responsive.css"/>
 
     <script src="/js/main.js"></script>
+    <script src="/js/changeLanguage.js"></script>
 
     <!--    <script src="/js/jquery-3.5.1.slim.min.js"></script>-->
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -76,34 +77,39 @@
 
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <div>
-                                    <li><a sec:authorize="isAnonymous()" class="dropdown-item" href="/users/register">Register</a></li>
-                                    <li><a sec:authorize="isAnonymous()" class="dropdown-item" href="/users/login">Login</a></li>
+                                    <li><a th:text="#{register.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/users/register"></a></li>
+                                    <li><a th:text="#{login.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/users/login"></a></li>
 
-                                    <li><a sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/profile">Profile</a></li>
-                                    <li><a sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/orders">Orders</a></li>
+                                    <li><a th:text="#{profile.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/profile">Profile</a></li>
+                                    <li><a th:text="#{orders.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/orders">Orders</a></li>
 
                                     <form sec:authorize="isAuthenticated()"
                                           th:method="POST"
                                           th:action="@{/users/logout}">
-                                        <input type="submit" class="dropdown-item" value="Logout">
+                                        <input type="submit" class="dropdown-item" th:value="#{logout.text}">
                                     </form>
                                 </div>
 
                                 <!-- ADMIN SETTINGS -->
                                 <div sec:authorize="hasRole('ADMIN')">
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add/book">Add Book</a></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add/textbook">Add Textbook</a></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add/music">Add Music</a></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add/movie">Add Movie</a></li>
-                                    <li><a class="dropdown-item" href="/admin/product/add/toy">Add Toy</a></li>
+                                    <li><a th:text="#{add.book.text}" class="dropdown-item" href="/admin/product/add/book">Add Book</a></li>
+                                    <li><a th:text="#{add.textbook.text}" class="dropdown-item" href="/admin/product/add/textbook">Add Textbook</a></li>
+                                    <li><a th:text="#{add.music.text}" class="dropdown-item" href="/admin/product/add/music">Add Music</a></li>
+                                    <li><a th:text="#{add.movie.text}" class="dropdown-item" href="/admin/product/add/movie">Add Movie</a></li>
+                                    <li><a th:text="#{add.toy.text}" class="dropdown-item" href="/admin/product/add/toy">Add Toy</a></li>
 
-                                    <li><a class="dropdown-item" href="/admin/orders">View Orders</a></li>
+                                    <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/admin/orders">View Orders</a></li>
                                 </div>
                                 <!-- EO: ADMIN SETTINGS -->
                             </ul>
                         </div>
                         <!-- EO: USER MENU BUTTON -->
+
+                        <div class="ml-auto mr-0">
+                            <img src="/images/Flag-UK-pretty.svg" style="cursor: pointer;" width="20" height="20" onclick="changeLanguage('en')">
+                            <img src="/images/Flag-BG-pretty.svg" style="cursor: pointer;" width="20" height="20" onclick="changeLanguage('bg')">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,19 +119,19 @@
                     <div class="btn-group categories-dropdown">
                         <!-- CATEGORIES MENU BUTTON -->
                         <button type="button" class="categories-button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-bars"></i> Categories
+                            <i class="fas fa-bars"></i> <span th:text="#{categories.text}">Categories</span>
                         </button>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/products/books">Books</a></li>
-                            <li><a class="dropdown-item" href="/products/textbooks">Textbooks</a></li>
-                            <li><a class="dropdown-item" href="/products/music">Music</a></li>
-                            <li><a class="dropdown-item" href="/products/movies">Movies</a></li>
-                            <li><a class="dropdown-item" href="/products/toys">Toys</a></li>
+                            <li><a th:text="#{books.text}" class="dropdown-item" href="/products/books">Books</a></li>
+                            <li><a th:text="#{textbooks.text}" class="dropdown-item" href="/products/textbooks">Textbooks</a></li>
+                            <li><a th:text="#{music.text}" class="dropdown-item" href="/products/music">Music</a></li>
+                            <li><a th:text="#{movies.text}" class="dropdown-item" href="/products/movies">Movies</a></li>
+                            <li><a  th:text="#{toys.text}" class="dropdown-item" href="/products/toys">Toys</a></li>
                             <div style="display: none">
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/products/add-product">Add Products</a></li>
-                                <li><a class="dropdown-item" href="#">View Open Orders</a></li>
+                                <li><a th:text="#{add.product.text}" class="dropdown-item" href="/products/add-product">Add Products</a></li>
+                                <li><a th:text="#{view.open.orders.text}" class="dropdown-item" href="#">View Open Orders</a></li>
                             </div>
                         </ul>
                         <!-- EO: CATEGORIES MENU BUTTON -->

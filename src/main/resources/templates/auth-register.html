@@ -10,7 +10,7 @@
     <div class="page-container">
         <div class="register-container">
             <div class="register-form">
-                <h1>Register</h1>
+                <h1 th:text="#{register.text}"></h1>
 
                 <form th:method="POST"
                       th:action="@{/users/register}"
@@ -26,11 +26,11 @@
                                id="firstName"
                                placeholder="FirstName">
 
-                        <label for="firstName">First name</label>
+                        <label th:text="#{firstName.text}" for="firstName"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('firstName')}"
-                               th:errors="*{firstName}">First Name error message</small>
+                               th:errors="*{firstName}"></small>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -42,11 +42,11 @@
                                id="lastName"
                                placeholder="lastName">
 
-                        <label for="lastName">Last name</label>
+                        <label th:text="#{lastName.text}" for="lastName"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('lastName')}"
-                               th:errors="*{lastName}">Last Name error message</small>
+                               th:errors="*{lastName}"></small>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -58,11 +58,11 @@
                                id="username"
                                placeholder="Username">
 
-                        <label for="username">Username</label>
+                        <label th:text="#{username.text}" for="username"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('username')}"
-                               th:errors="*{username}">Username error message</small>
+                               th:errors="*{username}"></small>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -74,11 +74,11 @@
                                id="email"
                                placeholder="name@example.com">
 
-                        <label for="email">Email address</label>
+                        <label th:text="#{emailAddress.text}" for="email"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('email')}"
-                               th:errors="*{email}">Email error message</small>
+                               th:errors="*{email}"></small>
                     </div>
 
                     <div class="form-floating mb-3">
@@ -90,11 +90,11 @@
                                id="password"
                                placeholder="Password">
 
-                        <label for="password">Password</label>
+                        <label th:text="#{password.text}" for="password"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('password')}"
-                               th:errors="*{password}">Password error message</small>
+                               th:errors="*{password}"></small>
                     </div>
 
                     <div class="form-floating">
@@ -106,11 +106,11 @@
                                id="repeatPassword"
                                placeholder="repeatPassword">
 
-                        <label for="repeatPassword">Repeat password</label>
+                        <label th:text="#{repeatPassword.text}" for="repeatPassword"></label>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('repeatPassword')}"
-                               th:errors="*{repeatPassword}">Password error message</small>
+                               th:errors="*{repeatPassword}"></small>
                     </div>
 
                     <div class="form-check form-switch terms-and-conditions">
@@ -121,17 +121,17 @@
                                role="switch"
                                id="flexSwitchCheckDefault">
 
-                        <label class="form-check-label"
+                        <label th:text="#{iAgreeWithThe.text}" class="form-check-label"
                                for="flexSwitchCheckDefault">
-                            I agree with the <a href="/terms-and-conditions">terms and conditions</a></label>
+                            </label><a th:text="#{termsAndConditions.lowercase.text}" href="/terms-and-conditions"></a>
 
                         <small th:class="text-danger"
                                th:if="${#fields.hasErrors('termsAndConditionsAgreed')}"
-                               th:errors="*{termsAndConditionsAgreed}">Terms and Conditions error message</small>
+                               th:errors="*{termsAndConditionsAgreed}"></small>
                     </div>
 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary register-button" value="Register">Register</button>
+                        <button type="submit" class="btn btn-primary register-button" th:text="#{register.text}"></button>
                     </div>
                 </form>
             </div>

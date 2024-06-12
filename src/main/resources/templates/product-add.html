@@ -8,14 +8,15 @@
 <header th:replace="~{fragments/components :: site-navigation}"></header>
 
 <div class="page-container">
+
     <div class="product-update-container" style="padding: var(--page-padding)">
         <div class="product-update-form">
             <form th:method="post"
-                  th:action="@{'/admin/product/add/' + ${productType}}"
+                  th:action="@{'/admin/product/add/' + ${linkType}}"
                   th:object="${product}"
                   class="product-update-form-input needs-validation">
 
-                <h1 th:text="'Add new ' + ${productType}"></h1>
+                <h1 th:text="#{add.new.text} + ' ' + ${productType}"></h1>
 
                 <div class="form-group" th:each="entry : ${fieldsMap}">
                     <!-- STRING input field -->
@@ -39,6 +40,13 @@
                         <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
                     </th:block>
 
+                    <!-- BIGDECIMAL input field -->
+                    <th:block th:if="${entry.fieldType == 'BigDecimal'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="number" step="0.01" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control" />
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
+
                     <!-- DATE input field -->
                     <th:block th:if="${entry.fieldType == 'LocalDate'}" th:with="dynamicField=${entry.fieldName}">
                         <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
@@ -51,7 +59,7 @@
                         <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
 
                         <select th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control">
-                            <option th:text="'Select ' + ${entry.prettyFieldName}" value="">Select option</option>
+                            <option th:text="#{select.text} + ' ' + ${entry.prettyFieldName}" value="">Select option</option>
                             <th:block th:each="enum : ${enumsList}">
                                 <option name="language"
                                         th:value="${enum}"
@@ -65,7 +73,7 @@
                 </div>
 
                 <div class="col-12">
-                    <input class="btn btn-primary register-button" type="submit" th:value="'Add ' + ${productType}">
+                    <input class="btn btn-primary register-button" type="submit" th:value="#{add.text} + ' ' + ${productType}">
                 </div>
             </form>
         </div>

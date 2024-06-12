@@ -19,6 +19,12 @@ spring:
     url: jdbc:mysql://localhost:3306/EpicByte_Database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password:
+  mail:
+    epic-byte: ${EMAIL:epicbyte52@gmail.com}
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL:epicbyte52@gmail.com}
+    password: ${EMAIL_PASSWORD:wadsASDW!@#123}
 
 logging:
   level:
@@ -30,7 +36,6 @@ logging:
       nodeValue: WARN
       springframework:
         security: DEBUG
-
 server:
   port: ${PORT:5000}
 

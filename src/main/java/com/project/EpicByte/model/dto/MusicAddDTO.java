@@ -11,19 +11,19 @@ import java.time.LocalDate;
 
 @Getter @Setter @NoArgsConstructor
 public class MusicAddDTO extends BaseAddDTO {
-    @NotEmpty(message = "Please enter an artist name!")
+    @NotEmpty(message = "{product.artistName.empty.error.message}")
     private String artistName;
 
-    @NotEmpty(message = "Please enter a publisher name!")
+    @NotEmpty(message = "{product.publisher.empty.error.message}")
     private String publisher;
 
     @PastDateOnly
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
 
-    @NotEmpty(message = "Please select a carrier!")
+    @NotEmpty(message = "{product.carrier.empty.error.message}")
     private String carrier;
 
-    @NotEmpty(message = "Please enter a genre!")
+    @NotEmpty(message = "{product.genre.empty.error.message}")
     private String genre;
 }
