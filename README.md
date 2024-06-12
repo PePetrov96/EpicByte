@@ -1,4 +1,10 @@
-# EpicByte website
+# EpicByte website store
+
+<div align="center">
+   <h2>EpicByte</h2>
+    <p>Hosted here: <a href="https://epicbyte-XXXX.herokuapp.com/">EpicByte.com</a></p>
+</div>
+
 <br />
 <details>
   <summary>Table of Contents</summary>
@@ -6,7 +12,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#perequisites">Prerequisites</a>
+        <li><a href="#prerequisites">Prerequisites</a>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
@@ -29,7 +35,7 @@
     <li><a href="#rest-test">REST Test</a></li>
   </ol>
 </details>
-<br />
+
 
 ## Getting Started
 
@@ -108,7 +114,6 @@ _The project incorporates Aspect-Oriented Programming (AOP) to modularize cross-
 
 1. Handled through Spring security with a web cookie.
 - [x] *Expiration*: The token expires after 24 hours.
-- 
 ---
 
 * **Exception Handling**
@@ -120,7 +125,7 @@ _The project incorporates Aspect-Oriented Programming (AOP) to modularize cross-
 1. **`Junit`**
 2. **`Mockito`**
 
---
+---
 
 ## Usage
 **`TBC`**

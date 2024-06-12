@@ -1,7 +1,6 @@
 package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.model.dto.ToyAddDTO;
-import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.service.ToyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
