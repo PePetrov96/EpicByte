@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
-import com.project.EpicByte.model.dto.ToyAddDTO;
-import com.project.EpicByte.service.ToyService;
+import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
+import com.project.EpicByte.service.productServices.ToyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.EpicByte.util.Constants.ADMIN_PRODUCT_ADD_TOY_URL;
-import static com.project.EpicByte.util.Constants.PRODUCT_DETAILS_URL;
+import java.util.UUID;
+
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class ToyController {
@@ -22,12 +23,12 @@ public class ToyController {
     }
 
     // Display detailed single Music entity page
-    @GetMapping(PRODUCT_DETAILS_URL + "/toys/" + "{id}")
-    public String viewToyProductDetails(@PathVariable Long id, Model model) {
+    @GetMapping("/toy" + PRODUCT_DETAILS_URL + "/{id}")
+    public String viewToyProductDetails(@PathVariable UUID id, Model model) {
         return this.toyService.displayDetailedViewToyPage(id,model);
     }
 
-    @GetMapping("/products/toys")
+    @GetMapping(ALL_TOYS_URL)
     public String displayToysPage(Model model, @RequestParam(name = "sort", required = false) String sort) {
         return this.toyService.displayAllToysPage(model, sort);
     }

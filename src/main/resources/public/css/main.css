@@ -248,6 +248,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 560px;
+    position: relative;
 }
 
 .products-item:hover {
@@ -760,6 +761,18 @@ body {
 /* USER PROFILE */
 .successful-profile-update {
     padding-bottom: var(--page-padding);
+}
+
+.new-item-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.new-item-tag p {
+    background: var(--red);
+    color: var(--white-color);
+    padding: 2px 10px;
 }
 
 /* TEXT COLORS */

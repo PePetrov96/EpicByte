@@ -1,8 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
-import com.project.EpicByte.model.dto.TextbookAddDTO;
-import com.project.EpicByte.model.entity.productEntities.Textbook;
-import com.project.EpicByte.service.TextbookService;
+import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
+import com.project.EpicByte.service.productServices.TextbookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.EpicByte.util.Constants.ADMIN_PRODUCT_ADD_TEXTBOOK_URL;
-import static com.project.EpicByte.util.Constants.PRODUCT_DETAILS_URL;
+import java.util.UUID;
+
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class TextbookController {
@@ -23,13 +23,13 @@ public class TextbookController {
     }
 
     // Display detailed single Textbook entity page
-    @GetMapping(PRODUCT_DETAILS_URL + "/textbooks/" + "{id}")
-    public String viewTextbookProductDetails(@PathVariable Long id, Model model) {
+    @GetMapping("/textbook" + PRODUCT_DETAILS_URL + "/{id}")
+    public String viewTextbookProductDetails(@PathVariable UUID id, Model model) {
         return textbookService.displayDetailedViewTextbookPage(id, model);
     }
 
     // Display all Textbooks page
-    @GetMapping("/products/textbooks")
+    @GetMapping(ALL_TEXTBOOKS_URL)
     public String displayTextbooksPage(Model model, @RequestParam(name = "sort", required = false) String sort) {
         return this.textbookService.displayAllTextbooksPage(model, sort);
     }

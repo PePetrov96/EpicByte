@@ -23,6 +23,8 @@
 
     <script src="/js/main.js"></script>
     <script src="/js/changeLanguage.js"></script>
+    <script src="/js/addToCart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!--    <script src="/js/jquery-3.5.1.slim.min.js"></script>-->
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -61,7 +63,7 @@
                             <div class="shopping-cart-count">
                                 <p>0</p>
                             </div>
-                            <a type="button" class="shopping-cart-button" aria-expanded="false" href="/users/cart">
+                            <a type="button" class="shopping-cart-button" aria-expanded="false" href="/user/cart">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
                         </div>
@@ -77,15 +79,15 @@
 
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <div>
-                                    <li><a th:text="#{register.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/users/register"></a></li>
-                                    <li><a th:text="#{login.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/users/login"></a></li>
+                                    <li><a th:text="#{register.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/register"></a></li>
+                                    <li><a th:text="#{login.text}" sec:authorize="isAnonymous()" class="dropdown-item" href="/login"></a></li>
 
-                                    <li><a th:text="#{profile.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/profile">Profile</a></li>
-                                    <li><a th:text="#{orders.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/users/orders">Orders</a></li>
+                                    <li><a th:text="#{profile.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/user/profile"></a></li>
+                                    <li><a th:text="#{orders.text}" sec:authorize="isAuthenticated()" class="dropdown-item" href="/user/orders"></a></li>
 
                                     <form sec:authorize="isAuthenticated()"
                                           th:method="POST"
-                                          th:action="@{/users/logout}">
+                                          th:action="@{/logout}">
                                         <input type="submit" class="dropdown-item" th:value="#{logout.text}">
                                     </form>
                                 </div>
@@ -93,13 +95,13 @@
                                 <!-- ADMIN SETTINGS -->
                                 <div sec:authorize="hasRole('ADMIN')">
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a th:text="#{add.book.text}" class="dropdown-item" href="/admin/product/add/book">Add Book</a></li>
-                                    <li><a th:text="#{add.textbook.text}" class="dropdown-item" href="/admin/product/add/textbook">Add Textbook</a></li>
-                                    <li><a th:text="#{add.music.text}" class="dropdown-item" href="/admin/product/add/music">Add Music</a></li>
-                                    <li><a th:text="#{add.movie.text}" class="dropdown-item" href="/admin/product/add/movie">Add Movie</a></li>
-                                    <li><a th:text="#{add.toy.text}" class="dropdown-item" href="/admin/product/add/toy">Add Toy</a></li>
+                                    <li><a th:text="#{add.book.text}" class="dropdown-item" href="/admin/product/add/book"></a></li>
+                                    <li><a th:text="#{add.textbook.text}" class="dropdown-item" href="/admin/product/add/textbook"></a></li>
+                                    <li><a th:text="#{add.music.text}" class="dropdown-item" href="/admin/product/add/music">A</a></li>
+                                    <li><a th:text="#{add.movie.text}" class="dropdown-item" href="/admin/product/add/movie"></a></li>
+                                    <li><a th:text="#{add.toy.text}" class="dropdown-item" href="/admin/product/add/toy"></a></li>
 
-                                    <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/admin/orders">View Orders</a></li>
+                                    <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/admin/orders"></a></li>
                                 </div>
                                 <!-- EO: ADMIN SETTINGS -->
                             </ul>
@@ -119,19 +121,19 @@
                     <div class="btn-group categories-dropdown">
                         <!-- CATEGORIES MENU BUTTON -->
                         <button type="button" class="categories-button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-bars"></i> <span th:text="#{categories.text}">Categories</span>
+                            <i class="fas fa-bars"></i> <span th:text="#{categories.text}"></span>
                         </button>
 
                         <ul class="dropdown-menu">
-                            <li><a th:text="#{books.text}" class="dropdown-item" href="/products/books">Books</a></li>
-                            <li><a th:text="#{textbooks.text}" class="dropdown-item" href="/products/textbooks">Textbooks</a></li>
-                            <li><a th:text="#{music.text}" class="dropdown-item" href="/products/music">Music</a></li>
-                            <li><a th:text="#{movies.text}" class="dropdown-item" href="/products/movies">Movies</a></li>
-                            <li><a  th:text="#{toys.text}" class="dropdown-item" href="/products/toys">Toys</a></li>
+                            <li><a th:text="#{books.text}" class="dropdown-item" href="/books"></a></li>
+                            <li><a th:text="#{textbooks.text}" class="dropdown-item" href="/textbooks"></a></li>
+                            <li><a th:text="#{music.text}" class="dropdown-item" href="/music"></a></li>
+                            <li><a th:text="#{movies.text}" class="dropdown-item" href="/movies"></a></li>
+                            <li><a  th:text="#{toys.text}" class="dropdown-item" href="/toys"></a></li>
                             <div style="display: none">
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a th:text="#{add.product.text}" class="dropdown-item" href="/products/add-product">Add Products</a></li>
-                                <li><a th:text="#{view.open.orders.text}" class="dropdown-item" href="#">View Open Orders</a></li>
+                                <li><a th:text="#{add.product.text}" class="dropdown-item" href="/products/add-product"></a></li>
+                                <li><a th:text="#{view.open.orders.text}" class="dropdown-item" href="#"></a></li>
                             </div>
                         </ul>
                         <!-- EO: CATEGORIES MENU BUTTON -->
@@ -162,11 +164,9 @@
 <footer th:fragment="site-footer">
     <div class="footer-container">
         <div class="footer-container-text">
-            <h1>EPICBYTE</h1>
+            <h1 th:text="#{epicbyte.all.capitals.text}"></h1>
 
-            <p>EpicByte brings professionals together to connect, learn from each other, find opportunities, and
-                find talent. We started as a meetup and have grown to be Alberta’s largest Product Management community.
-            </p>
+            <p th:text="#{footer.text}"></p>
         </div>
 
         <div class="footer-container-socials">
@@ -182,7 +182,7 @@
         </div>
 
         <p class="footer-container-privacy">
-            <a href="/privacy">Privacy</a> — <a href="/terms-and-conditions">Terms & Conditions</a> — © 2024 EpicByte All rights reserved
+            <a href="/privacy" th:text="#{privacy.text}"></a> — <a href="/terms-and-conditions" th:text="#{terms.and.conditions.text}"></a> — © 2024 <span th:text="#{all.rights.reserved.text}"></span>
         </p>
 
     </div>

@@ -50,20 +50,22 @@ public class FieldNamesGenerator {
     private MessageSource messageSource;
     private LocaleContextHolder localeContextHolder;
 
-    protected List<FieldEntity> getFieldNames(String type) {
+    protected List<FieldEntity> getFieldNames(String type, boolean isSimple) {
         List<FieldEntity> fields = new ArrayList<>();
         Locale locale = LocaleContextHolder.getLocale();
 
-        for (Field field : BaseProduct.class.getDeclaredFields()) {
-            if (field.getType() == ProductTypeEnum.class || field.getType() == LocalDate.class) {
-                continue;
-            }
+        if (!isSimple) {
+            for (Field field : BaseProduct.class.getDeclaredFields()) {
+                if (field.getType() == ProductTypeEnum.class || field.getType() == LocalDate.class) {
+                    continue;
+                }
 
-            fields.add(new FieldEntity(
-                    field.getName(),
-                    getPrettyName(field.getName(), locale),
-                    field.getType().getSimpleName()
-            ));
+                fields.add(new FieldEntity(
+                        field.getName(),
+                        getPrettyName(field.getName(), locale),
+                        field.getType().getSimpleName()
+                ));
+            }
         }
 
         Field[] fieldArray = switch (type) {
@@ -102,27 +104,6 @@ public class FieldNamesGenerator {
         } catch (NoSuchMessageException e) {
             return "Unresolved key: " + name;
         }
-//        return "{" + name + "}"; // return {productImageUrl.text}
-//        String withSpaces = variableName.replaceAll("([A-Z])", " $1").trim();
-//        return convertToSentenceCase(withSpaces);
     }
-//
-//    public static String convertToSentenceCase(String text) {
-//        if (text == null || text.isEmpty()) {
-//            return text;
-//        }
-//
-//        StringBuilder result = new StringBuilder(text.length());
-//        String[] words = text.split("\\s", 2);
-//        result.append(Character.toUpperCase(words[0].charAt(0)));
-//        if (words[0].length() > 1) {
-//            result.append(words[0].substring(1).toLowerCase());
-//        }
-//        if(words.length > 1) {
-//            result.append(" ")
-//                    .append(words[1].toLowerCase());
-//        }
-//
-//        return result.toString();
-//    }
+
 }

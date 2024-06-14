@@ -7,9 +7,7 @@
     <header th:replace="~{fragments/components :: site-navigation}"></header>
     <div class="page-container">
         <div class="display-text-container">
-            <div th:unless="${pageType} == 'Checkout'" th:replace="~{fragments/components :: breadcrumbs}"></div>
-
-            <div th:unless="${pageType} == 'Checkout'">
+            <div th:unless="${pageType} == 'Completed Successfully'">
                 <h1 th:text="${pageType}">Terms & Conditions or Privacy</h1>
 
                 <div>
@@ -21,11 +19,11 @@
                 </div>
             </div>
 
-            <div th:if="${pageType} == 'Checkout'">
-                <h1>Your order has been received!</h1>
+            <div th:if="${pageType} == 'Completed Successfully'">
+                <h1 th:text="${pageText}"></h1>
 
                 <div class="return-home-button-container">
-                    <a class="return-home-button" href="/">Return home</a>
+                    <a th:text="#{return.home.text}" class="return-home-button" href="/">Return home</a>
                 </div>
             </div>
         </div>

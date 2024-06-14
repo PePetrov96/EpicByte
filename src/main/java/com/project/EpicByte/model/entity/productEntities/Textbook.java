@@ -10,6 +10,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
+@DiscriminatorValue("Textbook")
 @Table(name = "products_textbooks")
 @Getter @Setter @NoArgsConstructor
 public class Textbook extends BaseProduct {

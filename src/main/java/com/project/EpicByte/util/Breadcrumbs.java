@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.ui.Model;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -21,17 +22,12 @@ public class Breadcrumbs extends FieldNamesGenerator {
         Map<String, String> breadcrumbs = new LinkedHashMap<>();
         breadcrumbs.put(getPageText("Home"), "/");
 
-        if (pageUrl == null) {
-            int length = pageNames.length;
-            if(length > 1){
-                // For category like "Book"
-                breadcrumbs.put(getPageText(pageNames[length - 2]), "/products/" + pageNames[length - 2].toLowerCase());
+        for (int i = 0; i < pageNames.length; i++) {
+            if (i == 0) {
+                breadcrumbs.put(getPageText(pageNames[i]), pageUrl);
+            } else {
+                breadcrumbs.put(pageNames[i], "");
             }
-            // For product name, no link as it's the active page
-            breadcrumbs.put(pageNames[length - 1], "");
-
-        } else {
-            breadcrumbs.put(pageNames[0], pageUrl);
         }
 
         model.addAttribute("breadcrumbs", breadcrumbs);
@@ -39,6 +35,7 @@ public class Breadcrumbs extends FieldNamesGenerator {
 
     private String getPageText(String pageName) {
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(pageName.toLowerCase() + ".text", null, locale);
+        String pageNameText = pageName.toLowerCase().replace("/", "").replaceAll(" ", ".");
+        return messageSource.getMessage(pageNameText + ".text", null, locale);
     }
 }

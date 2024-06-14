@@ -1,8 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
-import com.project.EpicByte.model.dto.MusicAddDTO;
-import com.project.EpicByte.model.entity.productEntities.Music;
-import com.project.EpicByte.service.MusicService;
+import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
+import com.project.EpicByte.service.productServices.MusicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.EpicByte.util.Constants.ADMIN_PRODUCT_ADD_MUSIC_URL;
-import static com.project.EpicByte.util.Constants.PRODUCT_DETAILS_URL;
+import java.util.UUID;
+
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class MusicController {
@@ -23,13 +23,13 @@ public class MusicController {
     }
 
     // Display detailed single Music entity page
-    @GetMapping(PRODUCT_DETAILS_URL + "/music/" + "{id}")
-    public String viewMusicProductDetails(@PathVariable Long id, Model model) {
+    @GetMapping("/music" + PRODUCT_DETAILS_URL + "/{id}")
+    public String viewMusicProductDetails(@PathVariable UUID id, Model model) {
         return musicService.displayDetailedViewMusicPage(id, model);
     }
 
     // Display all Music page
-    @GetMapping("/products/music")
+    @GetMapping(ALL_MUSIC_URL)
     public String displayMusicPage(Model model, @RequestParam(name = "sort", required = false) String sort) {
         return this.musicService.displayAllMusicPage(model, sort);
     }

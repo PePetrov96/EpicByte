@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
-import com.project.EpicByte.model.dto.BookAddDTO;
-import com.project.EpicByte.service.BookService;
+import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
+import com.project.EpicByte.service.productServices.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.EpicByte.util.Constants.ADMIN_PRODUCT_ADD_BOOK_URL;
-import static com.project.EpicByte.util.Constants.PRODUCT_DETAILS_URL;
+import java.util.UUID;
+
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class BookController extends Breadcrumbs {
@@ -23,13 +24,13 @@ public class BookController extends Breadcrumbs {
     }
 
     // Display detailed single Book entity page
-    @GetMapping(PRODUCT_DETAILS_URL + "/books/" + "{id}")
-    public String viewBookProductDetails(@PathVariable Long id, Model model) {
+    @GetMapping("/book" + PRODUCT_DETAILS_URL + "/{id}")
+    public String viewBookProductDetails(@PathVariable UUID id, Model model) {
         return this.bookService.displayDetailedViewBookPage(id, model);
     }
 
     // Display all Books page
-    @GetMapping("/products/books")
+    @GetMapping(ALL_BOOKS_URL)
     public String displayBooksPage(Model model, @RequestParam(name = "sort", required = false) String sort) {
         return this.bookService.displayAllBooksPage(model, sort);
     }

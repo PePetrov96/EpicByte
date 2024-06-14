@@ -21,14 +21,14 @@
 
                     <div class="products-list-header-sorting">
                         <form th:method="GET"
-                              th:action="@{'/products/' + ${linkType}}"
+                              th:action="@{'/' + ${linkType}}"
                               class="header-sorting-sorting-options">
                             <label th:text="#{sort.by.menu.text} + ' '"></label>
                             <select name="sort" class="form-select" aria-label="Default select example" onchange="this.form.submit()">
-                                <option th:text="#{select.order.text}" value=""></option>
-                                <option th:text="#{alphabetical.text}" value="alphabetical"></option>
-                                <option th:text="#{lowest.price.text}" value="lowest"></option>
-                                <option th:text="#{highest.price.text}" value="highest"></option>
+                                <option th:text="#{latest.text}" value="default" th:selected="${selectedSortingOption == 'default'}"></option>
+                                <option th:text="#{alphabetical.text}" value="alphabetical" th:selected="${selectedSortingOption == 'alphabetical'}"></option>
+                                <option th:text="#{lowest.price.text}" value="lowest" th:selected="${selectedSortingOption == 'lowest'}"></option>
+                                <option th:text="#{highest.price.text}" value="highest" th:selected="${selectedSortingOption == 'highest'}"></option>
                             </select>
                         </form>
 
@@ -64,8 +64,10 @@
                         <li th:each="product : ${productList}" class="products-item">
                             <div class="product-item info-container">
 <!--                                <a class="product-item info" th:href="@{/product/details/{id}(id=${product.id})}">-->
-                                <a class="product-item info" th:href="@{/product/details/{linkType}/{id}(linkType=${linkType}, id=${product.id})}">
-
+                                <a class="product-item info" th:href="@{/{linkType}/details/{id}(linkType=${productLinkType}, id=${product.id})}">
+                                    <div th:if="${product.isNewProduct}" class="new-item-tag">
+                                        <p th:text="#{new.text}"></p>
+                                    </div>
                                     <div class="product-item-image">
                                         <img th:src="${product.productImageUrl}" alt="bookImage">
                                     </div>
@@ -85,9 +87,15 @@
                                             </span>
 
                                             <div class="product-item buttons">
-                                                <form th:method="GET" th:action="@{/users/cart}">
-                                                    <input type="hidden" th:value="${product.id}" name="productId">
-                                                    <button class="item-add-to-cart-button" type="submit"><i class="fas fa-cart-plus"></i></button>
+                                                <form th:method="POST"
+                                                      th:action="@{/product/add-to-cart}">
+
+                                                    <input type="hidden" name="productId" th:value="${product.id}">
+                                                    <input type="hidden" name="productType" th:value="${product.productType}">
+
+                                                    <button class="item-add-to-cart-button" type="submit">
+                                                        <i class="fas fa-cart-plus"></i>
+                                                    </button>
                                                 </form>
                                             </div>
                                         </div>

@@ -1,4 +1,4 @@
-# EpicByte website store
+# EpicByte website store (UNDER DEVELOPMENT)
 
 <div align="center">
    <h2>EpicByte</h2>
@@ -90,12 +90,12 @@ _Thymeleaf View Engine utilized in this project for rendering dynamic HTML conte
 
 ### Back End
 
-_The project incorporates Aspect-Oriented Programming (AOP) to modularize cross-cutting concerns._
+_The project incorporates some Aspect-Oriented Programming (AOP) to modularize cross-cutting concerns._
 
 * **Scheduled Task** :
 
-1. **`Removing "New" status from products`**: Products who have a status of newly added, that were added in the store more than 7 days ago, receive normal status.
-2. **`Removing Users without activation`**: Users who haven't confirmed their registration through the activation email within 7 days are considered inactive and are automatically removed from the database.
+1. **`Removing "New" status from products`**: Products who have a status of newly added, appear with a special classification. Any product added in the store more than 7 days ago, receives normal status.
+
 ---
 
 * **Internalization/i18n** :
@@ -122,8 +122,7 @@ _The project incorporates Aspect-Oriented Programming (AOP) to modularize cross-
 ---
 
 * **Testing**
-1. **`Junit`**
-2. **`Mockito`**
+**`TBC`**
 
 ---
 

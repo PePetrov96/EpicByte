@@ -34,48 +34,39 @@ public class SecurityConfiguration {
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Index page is available to everyone
                                 .requestMatchers(INDEX_URL).permitAll()
+                                // User cart page, user cart checkout confirmation page, user orders list  page are available to logged-in users only
+                                .requestMatchers(USER_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL, USER_ORDERS_URL).authenticated()
                                 // Login page, Register page, Logout page are available to everyone
-                                .requestMatchers(USERS_LOGIN_URL, USERS_LOGOUT_URL, USERS_REGISTER_URL).permitAll()
+                                .requestMatchers(LOGIN_URL, LOGOUT_URL, REGISTER_URL).permitAll()
                                 // Login error page, Unauthorized page are available to everyone
-                                .requestMatchers(USERS_LOGIN_ERROR_URL, USERS_UNAUTHORIZED_URL).permitAll()
+                                .requestMatchers(LOGIN_ERROR_URL, USER_UNAUTHORIZED_URL).permitAll()
                                 // Books, Textbooks, Music, Movies, Toys pages are available to everyone
-                                .requestMatchers(PRODUCTS_BOOKS_URL, PRODUCTS_TEXTBOOKS_URL,
-                                        PRODUCTS_MUSIC_URL, PRODUCTS_MOVIES_URL, PRODUCTS_TOYS_URL).permitAll()
-                                // Product details page is available to everyone
-                                .requestMatchers(PRODUCT_DETAILS_URL).permitAll()
+                                .requestMatchers(ALL_BOOKS_URL, ALL_TEXTBOOKS_URL, ALL_MUSIC_URL, ALL_MOVIES_URL, ALL_TOYS_URL).permitAll()
                                 // Terms and Conditions page, Privacy page ara available to everyone
                                 .requestMatchers(TERMS_AND_CONDITIONS_URL, PRIVACY_URL).permitAll()
-                                // User cart page, user cart checkout confirmation page, user orders list  page
-                                // are available to logged-in users only
-                                .requestMatchers(USERS_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL,
-                                        USERS_ORDERS_URL).authenticated()
-                                // Update product, delete product, view all orders are available to Admins only
-                                .requestMatchers(ADMIN_PRODUCT_UPDATE_URL, ADMIN_PRODUCT_DELETE_URL, ADMIN_ORDERS_URL).hasRole(UserRolesEnum.ADMIN.name())
-                                // Add Book, Textbook, Movie, Music, Toy pages are available to Admins only
-                                .requestMatchers(ADMIN_PRODUCT_ADD_BOOK_URL, ADMIN_PRODUCT_ADD_TEXTBOOK_URL,
-                                        ADMIN_PRODUCT_ADD_MOVIE_URL, ADMIN_PRODUCT_ADD_MUSIC_URL,
-                                        ADMIN_PRODUCT_ADD_TOY_URL ).hasRole(UserRolesEnum.ADMIN.name())
-                                // All other requests are authenticated.
-                                .anyRequest().authenticated()
+                                // All /admin links ara available to MODERATOR and ADMIN
+                                .requestMatchers("/admin/**").hasAnyRole(UserRolesEnum.MODERATOR.name(), UserRolesEnum.ADMIN.name())
+                                // All other requests are permited
+                                .anyRequest().permitAll()
                 // LOGIN logic
                 ).formLogin(
                         formLogin -> {
                             formLogin
                                     // Redirect to user login page when access is requested
-                                    .loginPage(USERS_LOGIN_URL)
+                                    .loginPage(LOGIN_URL)
                                     // names of the input fields in the login form
                                     .usernameParameter(USERNAME_FIELD)
                                     .passwordParameter(PASSWORD_FIELD)
                                     // Redirect to successful and un-successful logins
                                     .defaultSuccessUrl(INDEX_URL, true)
-                                    .failureForwardUrl(USERS_LOGIN_ERROR_URL);
+                                    .failureForwardUrl(LOGIN_ERROR_URL);
                         }
                 // LOGOUT logic
                 ).logout(
                         logout -> {
                             logout
                                     // logout URL
-                                    .logoutUrl(USERS_LOGOUT_URL)
+                                    .logoutUrl(LOGOUT_URL)
                                     // Redirect after logout
                                     .logoutSuccessUrl(INDEX_URL)
                                     // Invalidate the user from the session
@@ -102,7 +93,7 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         // Translation between the project Users and Roles to representation which Spring security understands
-        return new MyUserServiceDetails(userRepository);
+        return new MyUserServiceDetails(userRepository, passwordEncoder());
     }
 
     @Bean

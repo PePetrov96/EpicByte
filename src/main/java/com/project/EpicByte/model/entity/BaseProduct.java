@@ -1,10 +1,7 @@
 package com.project.EpicByte.model.entity;
 
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +9,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(name = "product_discriminator", discriminatorType = DiscriminatorType.STRING)
 @Getter @Setter @NoArgsConstructor
 public abstract class BaseProduct extends BaseEntity {
     @Column(name = "date_created")
@@ -22,7 +21,7 @@ public abstract class BaseProduct extends BaseEntity {
     private boolean isNewProduct;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "productType")
+    @Column(name = "product_type")
     private ProductTypeEnum productType;
 
     @Column(name = "product_image_url")
@@ -36,4 +35,5 @@ public abstract class BaseProduct extends BaseEntity {
 
     @Column(name = "description", columnDefinition = "LONGTEXT")
     private String description;
+
 }

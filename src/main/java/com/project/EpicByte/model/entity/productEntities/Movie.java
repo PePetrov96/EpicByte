@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@DiscriminatorValue("Movie")
 @Table(name = "products_movies")
 @Getter @Setter @NoArgsConstructor
 public class Movie extends BaseProduct {

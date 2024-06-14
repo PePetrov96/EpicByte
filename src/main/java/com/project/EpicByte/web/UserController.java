@@ -13,8 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
+import static com.project.EpicByte.util.Constants.*;
+
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -24,35 +25,47 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    // LOGIN page display
+    @GetMapping(LOGIN_URL)
     public String showLoginPage() {
         return userService.showLoginPage();
     }
 
-    @PostMapping("/login-error")
+    // LOGIN-ERROR page display
+    @PostMapping(LOGIN_ERROR_URL)
     public String handleLoginError(Model model) {
         return userService.handleLoginError(model);
     }
 
-    @GetMapping("/register")
+    // REGISTER page display
+    @GetMapping(REGISTER_URL)
     public String showRegisterPage(Model model) {
         return userService.showRegisterPage(model);
     }
 
-    @PostMapping("/register")
+    // REGISTER page handle update
+    @PostMapping(REGISTER_URL)
     public String registerUser(@Valid @ModelAttribute("userRegisterDTO") UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
                                Model model) {
         return userService.registerUser(userRegisterDTO, model, bindingResult);
     }
 
-    @GetMapping("/profile")
+    // USER PROFILE page display
+    @GetMapping(USER_PROFILE_URL)
     public String showProfilePage(Model model, Principal principal) {
         return userService.showProfilePage(model, principal);
     }
 
-    @PostMapping("/profile")
+    // USER PROFILE page handle update
+    @PostMapping(USER_PROFILE_URL)
     public String updateProfilePage(@ModelAttribute("userUpdateDTO") @Valid UserUpdateDTO userUpdateDTO,
                                     Model model, RedirectAttributes redirectAttributes, Principal principal) {
         return userService.updateProfilePage(userUpdateDTO, model, redirectAttributes, principal);
+    }
+
+    // USER ORDERS page display
+    @GetMapping(USER_ORDERS_URL)
+    public String showUserOrdersPage(Model model, Principal principal) {
+        return userService.displayUserOrdersPage(model, principal);
     }
 }

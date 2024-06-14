@@ -1,5 +1,6 @@
 package com.project.EpicByte.model.dto;
 
+import com.project.EpicByte.validation.NotAdminUsername;
 import com.project.EpicByte.validation.PasswordMatches;
 import com.project.EpicByte.validation.UniqueUsername;
 import jakarta.validation.constraints.*;
@@ -18,6 +19,7 @@ public class UserRegisterDTO {
 
     @Size(min = 3, max = 20, message = "{username.invalid.length.error.text}")
     @UniqueUsername
+    @NotAdminUsername
     private String username;
 
     @NotEmpty(message = "{empty.email.error.text}")

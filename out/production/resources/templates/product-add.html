@@ -8,124 +8,74 @@
 <header th:replace="~{fragments/components :: site-navigation}"></header>
 
 <div class="page-container">
-    <div class="product-update-container">
+
+    <div class="product-update-container" style="padding: var(--page-padding)">
         <div class="product-update-form">
-            <form class="product-update-form-input needs-validation">
+            <form th:method="post"
+                  th:action="@{'/admin/product/add/' + ${linkType}}"
+                  th:object="${product}"
+                  class="product-update-form-input needs-validation">
 
-                <div class="form-group">
-                    <label for="imageURL">Image URL</label>
+                <h1 th:text="#{add.new.text} + ' ' + ${productType}"></h1>
 
-                    <input id="imageURL"
-                           name="imageURL"
-                           type="text"
-                           class="form-control"
-                           placeholder="URL of the image">
+                <div class="form-group" th:each="entry : ${fieldsMap}">
+                    <!-- STRING input field -->
+                    <th:block th:if="${entry.fieldType == 'String'}"th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="text" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control" />
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
 
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
+                    <!-- INTEGER input field -->
+                    <th:block th:if="${entry.fieldType == 'Integer'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="number" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control"/>
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
+
+                    <!-- DOUBLE input field -->
+                    <th:block th:if="${entry.fieldType == 'Double'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="number" step="0.01" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control" />
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
+
+                    <!-- BIGDECIMAL input field -->
+                    <th:block th:if="${entry.fieldType == 'BigDecimal'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="number" step="0.01" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control" />
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
+
+                    <!-- DATE input field -->
+                    <th:block th:if="${entry.fieldType == 'LocalDate'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+                        <input type="date" th:id="${entry.fieldName}" th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control" />
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
+
+                    <!-- ENUM drop-down field -->
+                    <th:block th:if="${entry.fieldType == 'Enum'}" th:with="dynamicField=${entry.fieldName}">
+                        <label th:for="${entry.fieldName}" th:text="${entry.prettyFieldName}"></label>
+
+                        <select th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control">
+                            <option th:text="#{select.text} + ' ' + ${entry.prettyFieldName}" value="">Select option</option>
+                            <th:block th:each="enum : ${enumsList}">
+                                <option name="language"
+                                        th:value="${enum}"
+                                        th:text="${enum}"
+                                ></option>
+                            </th:block>
+                        </select>
+
+                        <small th:if="${#fields.hasErrors(entry.fieldName)}" th:errors="*{__${dynamicField}__}" th:class="text-danger"></small>
+                    </th:block>
                 </div>
 
-                <div class="form-group">
-                    <label for="bookTitle">Book Title</label>
-
-                    <input id="bookTitle"
-                           name="bookTitle"
-                           type="text"
-                           class="form-control"
-                           placeholder="Title of the book">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="authorName">Author name</label>
-
-                    <input id="authorName"
-                           name="authorName"
-                           type="text"
-                           class="form-control"
-                           placeholder="Name of the author">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="publisher">Publisher</label>
-
-                    <input id="publisher"
-                           name="publisher"
-                           type="text"
-                           class="form-control"
-                           placeholder="Name of the publisher">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="bookDate">Book Publication Date</label>
-
-                    <input id="bookDate"
-                           name="bookDate"
-                           type="date"
-                           class="form-control">
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="language">Language</label>
-
-                    <input id="language"
-                           name="language"
-                           type="text"
-                           class="form-control"
-                           placeholder="Language of the book">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="bookLength">Print Length</label>
-
-                    <input id="bookLength"
-                           name="bookLength"
-                           type="number"
-                           class="form-control"
-                           placeholder="Number of book pages">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
-                </div>
-
-                <div class="form-group">
-                    <label for="bookDimensions">Dimensions</label>
-
-                    <input id="bookDimensions"
-                           name="bookDimensions"
-                           type="text"
-                           class="form-control"
-                           placeholder="Height x Width x Thickness">
-
-                    <p class="errors alert alert-danger">
-                        error message
-                    </p>
+                <div class="col-12">
+                    <input class="btn btn-primary register-button" type="submit" th:value="#{add.text} + ' ' + ${productType}">
                 </div>
             </form>
-
-            <div class="col-12">
-                <button class="btn btn-primary register-button" type="submit">Add product</button>
-            </div>
         </div>
     </div>
 </div>
