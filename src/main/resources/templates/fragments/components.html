@@ -4,15 +4,18 @@
 
 <head th:fragment="site-head">
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
-    <title>EpicByte</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <link rel="icon" href="/images/Site-Tab-Logo-2.png" type="image/png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/changeLanguage.js"></script>
+    <script src="/js/addToCart.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!--    <link rel="stylesheet" href="/css/bootstrap.min.css"/>-->
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-
+    <link rel="icon" href="/images/Site-Tab-Logo-2.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
     <link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
     <link rel="stylesheet" type="text/css" href="/css/root.css"/>
@@ -21,16 +24,7 @@
     <link rel="stylesheet" type="text/css" href="/css/header-styles.css"/>
     <link rel="stylesheet" type="text/css" href="/css/responsive.css"/>
 
-    <script src="/js/main.js"></script>
-    <script src="/js/changeLanguage.js"></script>
-    <script src="/js/addToCart.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!--    <script src="/js/jquery-3.5.1.slim.min.js"></script>-->
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-
-    <!--    <script src="/js/bootstrap.min.js"></script>-->
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <title>EpicByte</title>
 </head>
 
 <body>
@@ -60,9 +54,9 @@
                     <div class="header-right">
                         <!-- SHOPPING CART BUTTON -->
                         <div class="shopping-cart">
-                            <div class="shopping-cart-count">
-                                <p>0</p>
-                            </div>
+<!--                            <div class="shopping-cart-count">-->
+<!--                                <p class="cart-item-count">0</p>-->
+<!--                            </div>-->
                             <a type="button" class="shopping-cart-button" aria-expanded="false" href="/user/cart">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>
@@ -92,7 +86,7 @@
                                     </form>
                                 </div>
 
-                                <!-- ADMIN SETTINGS -->
+                                <!-- USER MENU BUTTON - ADMIN SETTINGS -->
                                 <div sec:authorize="hasRole('ADMIN')">
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a th:text="#{add.book.text}" class="dropdown-item" href="/admin/product/add/book"></a></li>
@@ -103,7 +97,7 @@
 
                                     <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/admin/orders"></a></li>
                                 </div>
-                                <!-- EO: ADMIN SETTINGS -->
+                                <!-- EO: USER MENU BUTTON - ADMIN SETTINGS -->
                             </ul>
                         </div>
                         <!-- EO: USER MENU BUTTON -->
@@ -142,7 +136,7 @@
             </div>
         </div>
     </header>
-
+    <!-- EO: BREADCRUMBS -->
     <div class="breadcrumb-container" th:fragment="breadcrumbs">
         <nav class="breadcrumb-row" aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -159,6 +153,7 @@
             </ol>
         </nav>
     </div>
+    <!-- EO: BREADCRUMBS -->
 </body>
 
 <footer th:fragment="site-footer">

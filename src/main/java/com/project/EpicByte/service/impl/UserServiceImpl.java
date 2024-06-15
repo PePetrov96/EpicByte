@@ -95,9 +95,8 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     }
 
     @Override
-    public String updateProfilePage(UserUpdateDTO userUpdateDTO, Model model, RedirectAttributes redirectAttributes, Principal principal) {
-        BindingResult bindingResult = new BeanPropertyBindingResult(userUpdateDTO, "userUpdateDTO");
-
+    public String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult, Model model,
+                                    RedirectAttributes redirectAttributes, Principal principal) {
         if (bindingResult.hasErrors()) {
             addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;

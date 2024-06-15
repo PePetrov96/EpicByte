@@ -42,29 +42,17 @@
                                 <span class="product-price-currency"> €</span>
                             </span>
 
-<!--                            <form th:method="POST"-->
-<!--                                  th:action="@{/product/add-to-cart}"-->
-<!--                                  class="product-item buttons">-->
-
-<!--                                <input type="hidden" name="productId" th:value="${product.id}">-->
-<!--                                <input type="hidden" name="productType" th:value="${product.productType}">-->
-
-<!--                                <button type="submit" -->
-<!--                                        class="item-add-to-cart-button details-page" -->
-<!--                                        th:text="#{add.to.cart.text}">-->
-<!--                                    -->
-<!--                                </button>-->
-<!--                            </form>-->
-
                             <div class="product-item buttons">
-                                <button class="item-add-to-cart-button"
-                                        data-product-id="${product.id}"
-                                        data-product-type="${product.productType}"
-                                        th:text="#{add.to.cart.text}">
+                                <button type="button"
+                                        class="item-add-to-cart-button details-page"
+                                        id="item-add-to-cart-button"
+                                        th:text="#{add.to.cart.text}"
+                                        th:data-product-id="${product.id}"
+                                        th:data-product-type="${product.productType}"
+                                        th:data-success-message="#{added.to.cart.success}"
+                                        th:data-fail-message="#{added.to.cart.fail}">
                                 </button>
                             </div>
-
-
 
                         </div>
 
@@ -84,8 +72,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 

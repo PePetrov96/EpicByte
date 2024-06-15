@@ -107,6 +107,10 @@
         --page-font: var(--479px-font);
     }
 
+    .cart-container-sidebar-wrapper {
+        width: 100%;
+    }
+
     .product-item.details-names.book-name,
     .product-item.details-names.author-name {
         font-size: 1rem;
@@ -198,6 +202,10 @@
     .top-header-container {
         height: auto;
         padding-bottom: 10px;
+    }
+
+    .cart-container-sidebar-wrapper {
+        width: 100%;
     }
 
     .top-header {

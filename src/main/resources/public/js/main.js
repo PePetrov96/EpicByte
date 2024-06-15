@@ -55,3 +55,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 }, false);
+
+// // Add SockJS and Stomp logic to end of your existing JavaScript
+// document.addEventListener("DOMContentLoaded", function() {
+//     // Connect to WebSocket and subscribe to "/cart/size"
+//     var socket = new SockJS("/ws");
+//     var stompClient = Stomp.over(socket);
+//     stompClient.connect({}, function(frame) {
+//         stompClient.subscribe("/cart/size", function(size) {
+//             var cartSize = JSON.parse(size.body);
+//
+//             $(".cart-item-count").text(cartSize);
+//         });
+//     });
+// });

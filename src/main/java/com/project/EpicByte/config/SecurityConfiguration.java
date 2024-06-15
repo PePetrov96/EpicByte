@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -27,6 +28,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+//                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         //Define which URLs are visible by which users
                         authorizeRequest -> authorizeRequest
@@ -36,8 +38,12 @@ public class SecurityConfiguration {
                                 .requestMatchers(INDEX_URL).permitAll()
                                 // User cart page, user cart checkout confirmation page, user orders list  page are available to logged-in users only
                                 .requestMatchers(USER_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL, USER_ORDERS_URL).authenticated()
-                                // Login page, Register page, Logout page are available to everyone
-                                .requestMatchers(LOGIN_URL, LOGOUT_URL, REGISTER_URL).permitAll()
+                                // test
+                                .requestMatchers(PRODUCT_ADD_TO_CART_URL).authenticated()
+                                // Not-logged in users can access Register and Login pages
+                                .requestMatchers(LOGIN_URL, REGISTER_URL).anonymous()
+                                // Logged-in users can access logout page
+                                .requestMatchers(LOGOUT_URL).authenticated()
                                 // Login error page, Unauthorized page are available to everyone
                                 .requestMatchers(LOGIN_ERROR_URL, USER_UNAUTHORIZED_URL).permitAll()
                                 // Books, Textbooks, Music, Movies, Toys pages are available to everyone

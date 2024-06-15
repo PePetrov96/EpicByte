@@ -11,7 +11,9 @@
         <div class="product-details-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <div class="product-container cart-container">
+            <h1 th:if="${emptyCart}" th:text="#{cart.is.empty.text}"></h1>
+
+            <div th:unless="${emptyCart}" class="product-container cart-container">
 
                 <div class="cart-container-items-container">
                     <div class="cart-row cart-header">
@@ -70,7 +72,7 @@
                     </div>
 
                     <div class="cart-checkout-button-wrapper">
-                        <button class="checkout-button" type="submit" th:text="#{checkout.text}">Checkout</button>
+                        <a href="/user/cart/checkout" class="checkout-button" type="submit" th:text="#{checkout.text}">Checkout</a>
                     </div>
                 </div>
             </div>

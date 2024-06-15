@@ -11,8 +11,10 @@ public class Constants {
     public static final String PRODUCT_UPDATE_HTML = "product-update";
     public static final String PRODUCT_ADD_HTML = "product-add";
     public static final String CART_HTML = "cart";
+    public static final String CART_CHECKOUT_HTML = "cart-checkout";
     public static final String DISPLAY_TEXT_HTML = "display-text";
     public static final String ORDERS_HTML = "orders";
+
 
     public static final String INDEX_URL = "/";
     public static final String LOGIN_URL = "/login"; // UPDATED
@@ -21,8 +23,10 @@ public class Constants {
     public static final String LOGIN_ERROR_URL = "/login-error"; // UPDATED
     public static final String USER_PROFILE_URL = "/user/profile"; // UPDATED
     public static final String USER_ORDERS_URL = "/user/orders"; // UPDATED
-    public static final String USER_CART_URL = "/user/cart"; // UPDATED
     public static final String USER_UNAUTHORIZED_URL = "/users/unauthorized"; // UPDATED
+    public static final String USER_CART_URL = "/user/cart";
+    public static final String USER_CART_DELETE_URL = "/user/cart/delete/{id}";
+    public static final String PRODUCT_ADD_TO_CART_URL = "/product/add-to-cart";
 
     public static final String ALL_BOOKS_URL = "/books"; // UPDATED
     public static final String ALL_TEXTBOOKS_URL = "/textbooks"; // UPDATED
@@ -41,6 +45,7 @@ public class Constants {
 
     public static final String TERMS_AND_CONDITIONS_URL = "/terms-and-conditions";
     public static final String PRIVACY_URL = "/privacy";
+    public static final String USERS_CART_CHECKOUT_URL = "/user/cart/checkout";
     public static final String USERS_CART_CHECKOUT_CONFIRM_URL = "/user/cart/checkout/confirm";
     public static final String ADMIN_ORDERS_URL = "/admin/orders";
 
