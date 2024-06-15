@@ -1,7 +1,7 @@
-package com.project.EpicByte.web.productControllers;
+package com.project.EpicByte.web;
 
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
-import com.project.EpicByte.service.productServices.BookService;
+import com.project.EpicByte.service.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

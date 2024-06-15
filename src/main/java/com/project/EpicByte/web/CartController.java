@@ -38,7 +38,7 @@ public class CartController {
         return this.cartService.deleteItemFromUserCart(id, principal.getName(), model);
     }
 
-    // Add product to cart (no redirects)
+    // Add product to cart (no redirects. through AJAX request)
     @PostMapping(value = PRODUCT_ADD_TO_CART_URL, consumes = "application/json")
     public @ResponseBody ResponseEntity<?> addItemToUserCart(@RequestBody Map<String, Object> payload,  Principal principal) {
         return this.cartService.addProductToCart(payload, principal);

@@ -14,26 +14,26 @@ public class Constants {
     public static final String CART_CHECKOUT_HTML = "cart-checkout";
     public static final String DISPLAY_TEXT_HTML = "display-text";
     public static final String ORDERS_HTML = "orders";
-
+    public static final String ORDER_DETAILS_HTML = "order-details";
 
     public static final String INDEX_URL = "/";
-    public static final String LOGIN_URL = "/login"; // UPDATED
-    public static final String LOGOUT_URL = "/logout"; // UPDATED
-    public static final String REGISTER_URL = "/register"; // UPDATED
-    public static final String LOGIN_ERROR_URL = "/login-error"; // UPDATED
-    public static final String USER_PROFILE_URL = "/user/profile"; // UPDATED
-    public static final String USER_ORDERS_URL = "/user/orders"; // UPDATED
-    public static final String USER_UNAUTHORIZED_URL = "/users/unauthorized"; // UPDATED
+    public static final String LOGIN_URL = "/login";
+    public static final String LOGOUT_URL = "/logout";
+    public static final String REGISTER_URL = "/register";
+    public static final String LOGIN_ERROR_URL = "/login-error";
+    public static final String USER_PROFILE_URL = "/user/profile";
+    public static final String USER_ORDERS_URL = "/user/orders";
+    public static final String USER_UNAUTHORIZED_URL = "/users/unauthorized";
     public static final String USER_CART_URL = "/user/cart";
     public static final String USER_CART_DELETE_URL = "/user/cart/delete/{id}";
     public static final String PRODUCT_ADD_TO_CART_URL = "/product/add-to-cart";
 
-    public static final String ALL_BOOKS_URL = "/books"; // UPDATED
-    public static final String ALL_TEXTBOOKS_URL = "/textbooks"; // UPDATED
-    public static final String ALL_MUSIC_URL = "/music"; // UPDATED
-    public static final String ALL_MOVIES_URL = "/movies"; // UPDATED
-    public static final String ALL_TOYS_URL = "/toys"; // UPDATED
-    public static final String PRODUCT_DETAILS_URL = "/details"; //UPDATED
+    public static final String ALL_BOOKS_URL = "/books";
+    public static final String ALL_TEXTBOOKS_URL = "/textbooks";
+    public static final String ALL_MUSIC_URL = "/music";
+    public static final String ALL_MOVIES_URL = "/movies";
+    public static final String ALL_TOYS_URL = "/toys";
+    public static final String PRODUCT_DETAILS_URL = "/details";
     public static final String ADMIN_PRODUCT_UPDATE_URL = "/admin/product/update";
     public static final String ADMIN_PRODUCT_DELETE_URL = "/admin/product/delete";
 

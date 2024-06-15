@@ -11,72 +11,50 @@
         <div class="orders-page-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <h1 class="order-name" th:text="${ordersType}"></h1>
-            <span class="order-name-underline"></span>
-
             <div class="orders-container">
-                <div class="order-container">
+                <div th:each="orderItem : ${userOrders}" class="order-container">
                     <div class="order-text">
                         <table>
                             <tbody>
                             <tr>
-                                <th>Order number</th>
-                                <td>000001</td>
+                                <th th:text="#{order.number.text}"></th>
+                                <td th:text="${orderItem.id}"></td>
                             </tr>
                             <tr>
-                                <th>Order date</th>
-                                <td>01-01-2001</td>
+                                <th th:text="#{order.date.text}"></th>
+                                <td th:text="${orderItem.orderDate}"></td>
                             </tr>
                             <tr>
-                                <th>Price</th>
-                                <td>$ 10.00</td>
+                                <th th:text="#{order.price.text}"></th>
+                                <td th:text="${orderItem.totalCost} + ' €'"></td>
+                            </tr>
+                            <tr th:if="${orderItem.isComplete}">
+                                <th th:text="#{order.status.text}"></th>
+                                <td th:text="#{order.is.complete.text}"></td>
+                            </tr>
+                            <tr th:unless="${orderItem.isComplete}">
+                                <th th:text="#{order.status.text}"></th>
+                                <td th:text="#{order.is.pending.text}"></td>
                             </tr>
                             <tr>
-                                <th>Status</th>
-                                <td>Ordered</td>
-                            </tr>
-                            <tr th:if="${ordersType} == 'All orders'">
-                                <th>User</th>
-                                <td>User Names</td>
+                                <th th:text="#{order.address.text}"></th>
+                                <td th:text="${orderItem.city} + ', ' + ${orderItem.neighborhood} + ', ' + ${orderItem.address}"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="order-button-container">
-                        <a href="/order/details">View order</a>
-                    </div>
-                </div>
-
-                <div class="order-container">
-                    <div class="order-text">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th>Order number</th>
-                                <td>000001</td>
-                            </tr>
-                            <tr>
-                                <th>Order date</th>
-                                <td>01-01-2001</td>
-                            </tr>
-                            <tr>
-                                <th>Price</th>
-                                <td>$ 10.00</td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>Ordered</td>
-                            </tr>
-                            <tr th:if="${ordersType} == 'All orders'">
-                                <th>User</th>
-                                <td>User Names</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="order-button-container">
-                        <a href="/order/details">View order</a>
-                    </div>
+                    <form sec:authorize="hasRole('ADMIN')"
+                          th:method="POST"
+                          th:action="@{/admin/order/complete/{id}(id=${orderItem.id})}"
+                          th:unless="${orderItem.isComplete}"
+                          class="order-button-container">
+                        <input type="submit" value="Complete Order">
+                    </form>
+                    <form th:method="GET"
+                          th:action="@{/order/details/{id}(id=${orderItem.id})}"
+                          class="order-button-container">
+                        <input type="submit" value="View Order">
+                    </form>
                 </div>
             </div>
         </div>

@@ -60,7 +60,7 @@
 
                         <select th:name="${entry.fieldName}" th:errorclass="is-invalid" class="form-control">
                             <option th:text="#{select.text} + ' ' + ${entry.prettyFieldName}" value="">Select option</option>
-                            <th:block th:each="enum : ${enumsList}">
+                            <th:block th:each="enum : ${enumList}">
                                 <option name="language"
                                         th:value="${enum}"
                                         th:text="${enum}"

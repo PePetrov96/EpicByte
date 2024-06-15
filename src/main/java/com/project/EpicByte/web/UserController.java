@@ -62,10 +62,4 @@ public class UserController {
                                     Model model, RedirectAttributes redirectAttributes, Principal principal) {
         return userService.updateProfilePage(userUpdateDTO, bindingResult, model, redirectAttributes, principal);
     }
-
-    // USER ORDERS page display
-    @GetMapping(USER_ORDERS_URL)
-    public String showUserOrdersPage(Model model, Principal principal) {
-        return userService.displayUserOrdersPage(model, principal);
-    }
 }

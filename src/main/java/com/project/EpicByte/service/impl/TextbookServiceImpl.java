@@ -1,11 +1,11 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
-import com.project.EpicByte.repository.productRepositories.TextbookRepository;
-import com.project.EpicByte.service.productServices.TextbookService;
+import com.project.EpicByte.repository.TextbookRepository;
+import com.project.EpicByte.service.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
         model.addAttribute("productType", getLocalizedText("textbook.text"));
         model.addAttribute("product", new TextbookAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("textbook", false));
-        model.addAttribute("enumsList", LanguageEnum.values());
+        model.addAttribute("enumList", LanguageEnum.values());
         return PRODUCT_ADD_HTML;
     }
 
@@ -51,7 +51,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("textbook", false));
-            model.addAttribute("enumsList", LanguageEnum.values());
+            model.addAttribute("enumList", LanguageEnum.values());
             return PRODUCT_ADD_HTML;
         }
 

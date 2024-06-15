@@ -2,21 +2,21 @@ package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.exceptions.CartItemNotFoundException;
 import com.project.EpicByte.exceptions.EmptyCartException;
-import com.project.EpicByte.model.dto.productDTOs.CartItemDTO;
+import com.project.EpicByte.model.bindingModel.CartItemBindingModel;
 import com.project.EpicByte.model.dto.productDTOs.OrderAddressDTO;
-import com.project.EpicByte.model.dto.productDTOs.UserCartDTO;
+import com.project.EpicByte.model.bindingModel.UserCartBindingModel;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.Order;
 import com.project.EpicByte.model.entity.UserEntity;
 import com.project.EpicByte.model.entity.productEntities.*;
-import com.project.EpicByte.repository.CartRepository;
-import com.project.EpicByte.repository.UserRepository;
-import com.project.EpicByte.repository.productRepositories.*;
+import com.project.EpicByte.repository.*;
 import com.project.EpicByte.service.CartService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +27,7 @@ import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,31 +36,33 @@ import static com.project.EpicByte.util.Constants.*;
 @Transactional
 @Service
 public class CartServiceImpl extends Breadcrumbs implements CartService {
-    private final BookRepository bookRepository;
-    private final TextbookRepository textbookRepository;
-    private final MovieRepository movieRepository;
-    private final MusicRepository musicRepository;
-    private final ToyRepository toyRepository;
-    private final OrderRepository orderRepository;
-
+    private final Map<String, JpaRepository<? extends BaseProduct, UUID>> productRepositories;
+    private final MessageSource messageSource;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
-    private final MessageSource messageSource;
-
-
-    public CartServiceImpl(BookRepository bookRepository, TextbookRepository textbookRepository,
-                           MovieRepository movieRepository, MusicRepository musicRepository,
-                           ToyRepository toyRepository, OrderRepository orderRepository, CartRepository cartRepository, UserRepository userRepository, MessageSource messageSource) {
-        this.bookRepository = bookRepository;
-        this.textbookRepository = textbookRepository;
-        this.movieRepository = movieRepository;
-        this.musicRepository = musicRepository;
-        this.toyRepository = toyRepository;
-        this.orderRepository = orderRepository;
+    @Autowired
+    public CartServiceImpl(BookRepository bookRepository,
+                           TextbookRepository textbookRepository,
+                           MovieRepository movieRepository,
+                           MusicRepository musicRepository,
+                           ToyRepository toyRepository,
+                           OrderRepository orderRepository,
+                           CartRepository cartRepository,
+                           UserRepository userRepository,
+                           MessageSource messageSource){
+        this.messageSource = messageSource;
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
-        this.messageSource = messageSource;
+        this.orderRepository = orderRepository;
+        productRepositories = Map.of(
+                "BOOK", bookRepository,
+                "TEXTBOOK", textbookRepository,
+                "MOVIE", movieRepository,
+                "MUSIC", musicRepository,
+                "TOY", toyRepository
+        );
     }
 
     @Override
@@ -132,138 +135,179 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         }
     }
 
+    // SUPPORT METHODS
+
+    // Create order and save it to the database for the "confirmCheckout" method.
     private void createOrder(String username, OrderAddressDTO orderAddressDTO) {
         UserEntity userEntity = getUserEntityByUsername(username);
+        Order order = initializeOrder(userEntity, orderAddressDTO);
 
-        Order order = new Order();
-        order.setUser(userEntity);
-
-        order.setCity(orderAddressDTO.getCity());
-        order.setNeighborhood(orderAddressDTO.getNeighborhood());
-        order.setAddress(orderAddressDTO.getAddress());
-
-        order.setComplete(false);
-
-        List<BaseProduct> products = this.cartRepository
-                .findAllByUserId(userEntity.getId())
-                .stream()
-                .map(CartItem::getProduct)
-                .toList();
+        List<BaseProduct> products = fetchUserCartProducts(userEntity);
 
         if (products.isEmpty()) {
             throw new EmptyCartException();
         }
 
-        List<OrderItem> orderItems = products.stream().map(baseProduct -> {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setProduct(baseProduct);
-            return orderItem;
-        }).collect(Collectors.toList());
+        // Calculate total cost
+        BigDecimal totalCost = products.stream()
+                .map(BaseProduct::getProductPrice)
+                .reduce(order.getTotalCost(), BigDecimal::add);
+        order.setTotalCost(totalCost);
 
+        List<OrderItem> orderItems = createOrderItems(order, products);
         order.setOrderItems(orderItems);
+        finalizeOrderCreation(order, userEntity);
+    }
 
+    private Order initializeOrder(UserEntity userEntity, OrderAddressDTO orderAddressDTO) {
+        Order order = new Order();
+        order.setUser(userEntity);
+        order.setCity(orderAddressDTO.getCity());
+        order.setNeighborhood(orderAddressDTO.getNeighborhood());
+        order.setAddress(orderAddressDTO.getAddress());
+        order.setComplete(false);  // default orders are "not shipped"
+        order.setOrderDate(LocalDate.now());
+        order.setTotalCost(new BigDecimal("4.99"));
+        return order;
+    }
+
+//    private List<OrderItem> createOrderItems(Order order, List<BaseProduct> products) {
+//        return products.stream().map(baseProduct -> {
+//            OrderItem orderItem = new OrderItem();
+//            orderItem.setOrder(order);
+//            orderItem.setProduct(baseProduct);
+//            return orderItem;
+//        }).collect(Collectors.toList());
+//    }
+    private List<OrderItem> createOrderItems(Order order, List<BaseProduct> products) {
+        Map<BaseProduct, Integer> productCountMap = new HashMap<>();
+
+        for (BaseProduct product : products) {
+            productCountMap.put(product, productCountMap.getOrDefault(product, 0) + 1);
+        }
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (BaseProduct product : productCountMap.keySet()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(product);
+            int quantity = productCountMap.get(product);
+            orderItem.setQuantity(quantity);
+            orderItem.setTotalProductPrice(product.getProductPrice().multiply(new BigDecimal(quantity)));
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+        }
+
+        return orderItems;
+    }
+
+    private void finalizeOrderCreation(Order order, UserEntity userEntity) {
         orderRepository.save(order);
-
         userEntity.getOrders().add(order);
         userEntity.getCartItems().clear();
-
         userRepository.save(userEntity);
     }
 
-    //Support methods
+    // Add cart item, to the database, linking it to a user, for the "addProductToCart" method.
     public void addCartItemToDatabase(UUID productId, String productType, Principal principal) {
         CartItem cartItem = new CartItem();
-
         if (principal == null) {
             throw new UsernameNotFoundException("Username not found.");
         }
 
         UserEntity userEntity = getUserEntityByUsername(principal.getName());
-
         cartItem.setUser(userEntity);
 
-        switch (productType) {
-            case "BOOK": cartItem.setProduct(getBookById(productId)); break;
-            case "TEXTBOOK": cartItem.setProduct(getTextbookById(productId)); break;
-            case "MOVIE": cartItem.setProduct(getMovieById(productId)); break;
-            case "MUSIC": cartItem.setProduct(getMusicById(productId)); break;
-            case "TOY": cartItem.setProduct(getToyById(productId)); break;
+        JpaRepository<? extends BaseProduct, UUID> productRepository = this.productRepositories.get(productType);
+        if (productRepository == null) {
+            throw new IllegalArgumentException("Invalid product type.");
+        }
+
+        Optional<? extends BaseProduct> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            cartItem.setProduct(product.get());
+        } else {
+            throw new NoSuchElementException("No product found with the provided id.");
         }
 
         this.cartRepository.saveAndFlush(cartItem);
     }
 
+    // Create a User cart entity, that contains the items, in a unique list, counting the number of occurances
+    //
     private void setModelAttributeOfUserCart(UserEntity userEntity, Model model) {
-        List<BaseProduct> products = this.cartRepository
-                .findAllByUserId(userEntity.getId())
-                .stream()
-                .map(CartItem::getProduct)
-                .toList();
+        List<BaseProduct> products = fetchUserCartProducts(userEntity);
 
-
-        if (products.isEmpty()) {
+        if (isUserCartEmpty(products)) {
             model.addAttribute("emptyCart", true);
             return;
         }
 
-        UserCartDTO userCartDTO = new UserCartDTO();
+        Map<BaseProduct, Integer> productCountMap = calculateProductCounts(products);
+        UserCartBindingModel userCartBindingModel = populateUserCartDto(productCountMap);
+        model.addAttribute("cartItemList", userCartBindingModel);
+        model.addAttribute("emptyCart", false);
+    }
 
+    private List<BaseProduct> fetchUserCartProducts(UserEntity userEntity) {
+        return this.cartRepository
+                .findAllByUserId(userEntity.getId())
+                .stream()
+                .map(CartItem::getProduct)
+                .toList();
+    }
+
+    private boolean isUserCartEmpty(List<BaseProduct> products) {
+        return products.isEmpty();
+    }
+
+    private LinkedHashMap<BaseProduct, Integer> calculateProductCounts(List<BaseProduct> products) {
         LinkedHashMap<BaseProduct, Integer> productCountMap = new LinkedHashMap<>();
         for (BaseProduct product : products) {
             productCountMap.put(product, productCountMap.getOrDefault(product, 0) + 1);
         }
+        return productCountMap;
+    }
+
+    private UserCartBindingModel populateUserCartDto(Map<BaseProduct, Integer> productCountMap) {
+        UserCartBindingModel userCartBindingModel = new UserCartBindingModel();
 
         for (BaseProduct product : productCountMap.keySet()) {
-            CartItemDTO cartItemDTO = new CartItemDTO();
-            int quantity = productCountMap.get(product);
-            BigDecimal productPrice = product.getProductPrice();
-
-            cartItemDTO.setId(product.getId());
-            cartItemDTO.setProductType(product.getProductType().toString().toLowerCase());
-            cartItemDTO.setProductImageUrl(product.getProductImageUrl());
-            cartItemDTO.setProductName(product.getProductName());
-            cartItemDTO.setProductPrice(product.getProductPrice());
-            cartItemDTO.setQuantity(quantity);
-            cartItemDTO.setTotalPriceOfProduct(productPrice.multiply(BigDecimal.valueOf(quantity)));
-
-            userCartDTO.getCartItems().add(cartItemDTO);
+            CartItemBindingModel cartItemBindingModel = createCartItemDto(productCountMap, product);
+            userCartBindingModel.getCartItems().add(cartItemBindingModel);
         }
 
-        BigDecimal totalPrice = userCartDTO.getCartItems().stream()
-                .map(CartItemDTO::getTotalPriceOfProduct)
+        userCartBindingModel.setTotalPrice(calculateTotalPrice(userCartBindingModel));
+
+        return userCartBindingModel;
+    }
+
+    private CartItemBindingModel createCartItemDto(Map<BaseProduct, Integer> productCountMap, BaseProduct product) {
+        int quantity = productCountMap.get(product);
+        BigDecimal productPrice = product.getProductPrice();
+
+        CartItemBindingModel cartItemBindingModel = new CartItemBindingModel();
+        cartItemBindingModel.setId(product.getId());
+        cartItemBindingModel.setProductType(product.getProductType().toString().toLowerCase());
+        cartItemBindingModel.setProductImageUrl(product.getProductImageUrl());
+        cartItemBindingModel.setProductName(product.getProductName());
+        cartItemBindingModel.setProductPrice(productPrice);
+        cartItemBindingModel.setQuantity(quantity);
+        cartItemBindingModel.setTotalPriceOfProduct(productPrice.multiply(BigDecimal.valueOf(quantity)));
+
+        return cartItemBindingModel;
+    }
+
+    private BigDecimal calculateTotalPrice(UserCartBindingModel userCartBindingModel) {
+        return userCartBindingModel.getCartItems().stream()
+                .map(CartItemBindingModel::getTotalPriceOfProduct)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
-
-        userCartDTO.setTotalPrice(totalPrice);
-
-        model.addAttribute("cartItemList", userCartDTO);
-        model.addAttribute("emptyCart", false);
     }
 
     private String getLocalizedText(String text) {
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(text, null, locale);
-    }
-
-    private Book getBookById(UUID productId) {
-        return this.bookRepository.findBookById(productId);
-    }
-
-    private Textbook getTextbookById(UUID productId) {
-        return this.textbookRepository.findTextbookById(productId);
-    }
-
-    private Movie getMovieById(UUID productId) {
-        return this.movieRepository.findMovieById(productId);
-    }
-
-    private Music getMusicById(UUID productId) {
-        return this.musicRepository.findMusicById(productId);
-    }
-
-    private Toy getToyById(UUID productId) {
-        return this.toyRepository.findToyById(productId);
     }
 
     @Transactional

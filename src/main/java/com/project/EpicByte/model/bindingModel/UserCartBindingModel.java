@@ -1,4 +1,4 @@
-package com.project.EpicByte.model.dto.productDTOs;
+package com.project.EpicByte.model.bindingModel;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @NoArgsConstructor
-public class UserCartDTO {
-    private List<CartItemDTO> cartItems = new ArrayList<>();
+public class UserCartBindingModel {
+    private List<CartItemBindingModel> cartItems = new ArrayList<>();
     private BigDecimal totalPrice;
 }

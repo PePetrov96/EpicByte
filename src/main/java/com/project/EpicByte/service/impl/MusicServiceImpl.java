@@ -1,11 +1,12 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
+import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.MusicCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Music;
-import com.project.EpicByte.repository.productRepositories.MusicRepository;
-import com.project.EpicByte.service.productServices.MusicService;
+import com.project.EpicByte.repository.MusicRepository;
+import com.project.EpicByte.service.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
         model.addAttribute("productType", getLocalizedText("music.text"));
         model.addAttribute("product", new MusicAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("music", false));
-        model.addAttribute("enumsList", MusicCarrierEnum.values());
+        model.addAttribute("enumList", MusicCarrierEnum.values());
         return PRODUCT_ADD_HTML;
     }
 
@@ -51,7 +52,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("music", false));
-            model.addAttribute("enumsList", MusicCarrierEnum.values());
+            model.addAttribute("enumList", MusicCarrierEnum.values());
             return PRODUCT_ADD_HTML;
         }
 
