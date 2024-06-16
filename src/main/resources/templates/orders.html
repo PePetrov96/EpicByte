@@ -11,52 +11,72 @@
         <div class="orders-page-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <h1 th:if="${noOrders}" th:text="#{no.orders.text}"></h1>
+            <h1 class="order-name" th:text="${ordersType}"></h1>
+            <span class="order-name-underline"></span>
 
-            <div th:unless="${noOrders}" class="orders-container">
-                <div th:each="orderItem : ${userOrders}" class="order-container">
+            <div class="orders-container">
+                <div class="order-container">
                     <div class="order-text">
                         <table>
                             <tbody>
                             <tr>
-                                <th th:text="#{order.number.text}"></th>
-                                <td th:text="${orderItem.id}"></td>
+                                <th>Order number</th>
+                                <td>000001</td>
                             </tr>
                             <tr>
-                                <th th:text="#{order.date.text}"></th>
-                                <td th:text="${orderItem.orderDate}"></td>
+                                <th>Order date</th>
+                                <td>01-01-2001</td>
                             </tr>
                             <tr>
-                                <th th:text="#{order.price.text}"></th>
-                                <td th:text="${orderItem.totalCost} + ' €'"></td>
-                            </tr>
-                            <tr th:if="${orderItem.isComplete}">
-                                <th th:text="#{order.status.text}"></th>
-                                <td th:text="#{order.is.complete.text}"></td>
-                            </tr>
-                            <tr th:unless="${orderItem.isComplete}">
-                                <th th:text="#{order.status.text}"></th>
-                                <td th:text="#{order.is.pending.text}"></td>
+                                <th>Price</th>
+                                <td>$ 10.00</td>
                             </tr>
                             <tr>
-                                <th th:text="#{order.address.text}"></th>
-                                <td th:text="${orderItem.city} + ', ' + ${orderItem.neighborhood} + ', ' + ${orderItem.address}"></td>
+                                <th>Status</th>
+                                <td>Ordered</td>
+                            </tr>
+                            <tr th:if="${ordersType} == 'All orders'">
+                                <th>User</th>
+                                <td>User Names</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-                    <form sec:authorize="hasRole('ADMIN')"
-                          th:method="POST"
-                          th:action="@{/admin/order/complete/{id}(id=${orderItem.id})}"
-                          th:unless="${orderItem.isComplete}"
-                          class="order-button-container">
-                        <input type="submit" th:value="#{complete.order.text}">
-                    </form>
-                    <form th:method="GET"
-                          th:action="@{/order/details/{id}(id=${orderItem.id})}"
-                          class="order-button-container">
-                        <input type="submit" th:value="#{view.order.text}">
-                    </form>
+                    <div class="order-button-container">
+                        <a href="/order/details">View order</a>
+                    </div>
+                </div>
+
+                <div class="order-container">
+                    <div class="order-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>Order number</th>
+                                <td>000001</td>
+                            </tr>
+                            <tr>
+                                <th>Order date</th>
+                                <td>01-01-2001</td>
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td>$ 10.00</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>Ordered</td>
+                            </tr>
+                            <tr th:if="${ordersType} == 'All orders'">
+                                <th>User</th>
+                                <td>User Names</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="order-button-container">
+                        <a href="/order/details">View order</a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -42,17 +42,20 @@
                                 <span class="product-price-currency"> €</span>
                             </span>
 
-                            <div class="product-item buttons">
-                                <button type="button"
+                            <form th:method="POST"
+                                  th:action="@{/product/add-to-cart}"
+                                  class="product-item buttons">
+
+                                <input type="hidden" name="productId" th:value="${product.id}">
+                                <input type="hidden" name="productType" th:value="${product.productType}">
+
+                                <button type="submit"
                                         class="item-add-to-cart-button details-page"
-                                        id="item-add-to-cart-button"
-                                        th:text="#{add.to.cart.text}"
-                                        th:data-product-id="${product.id}"
-                                        th:data-product-type="${product.productType}"
-                                        th:data-success-message="#{added.to.cart.success}"
-                                        th:data-fail-message="#{added.to.cart.fail}">
+                                        th:text="#{add.to.cart.text}">
+
                                 </button>
-                            </div>
+                            </form>
+
                         </div>
 
                         <form class="product-details-admin-items" sec:authorize="hasRole('ADMIN')">
@@ -71,6 +74,8 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 

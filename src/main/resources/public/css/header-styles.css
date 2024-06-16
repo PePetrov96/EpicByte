@@ -10,7 +10,6 @@ header {
     position: fixed;
     top: 0;
     z-index: 1000;
-    height: var(--header-height);
 }
 
 .header-container {
@@ -101,7 +100,7 @@ header {
 }
 
 .shopping-cart {
-    align-self: center;
+    align-self: end;
 }
 
 .shopping-cart-count {

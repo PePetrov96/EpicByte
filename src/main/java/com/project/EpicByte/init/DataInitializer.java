@@ -29,6 +29,7 @@ public class DataInitializer implements CommandLineRunner {
             userRoleEntityMODERATOR.setRole(UserRolesEnum.MODERATOR);
             this.userRoleRepository.save(userRoleEntityMODERATOR);
 
+
             //SAVE ADMIN ROLE
             UserRoleEntity userRoleEntityADMIN = new UserRoleEntity();
             userRoleEntityADMIN.setRole(UserRolesEnum.ADMIN);

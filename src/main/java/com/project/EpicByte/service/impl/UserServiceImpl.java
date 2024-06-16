@@ -79,7 +79,9 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
             UserUpdateDTO userUpdateDTO = this.getUserUpdateDTOByUsername(principal.getName());
             model.addAttribute(USER_UPDATE_DTO, userUpdateDTO);
         } catch (UsernameNotFoundException e) {
-            return returnErrorPage(model);
+            model.addAttribute("errorType", "Oops...");
+            model.addAttribute("errorText", "Something went wrong!");
+            return ERROR_PAGE_HTML;
         }
 
         // check if it is a redirect with previously successful operation or a new request
@@ -93,8 +95,9 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     }
 
     @Override
-    public String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult, Model model,
-                                    RedirectAttributes redirectAttributes, Principal principal) {
+    public String updateProfilePage(UserUpdateDTO userUpdateDTO, Model model, RedirectAttributes redirectAttributes, Principal principal) {
+        BindingResult bindingResult = new BeanPropertyBindingResult(userUpdateDTO, "userUpdateDTO");
+
         if (bindingResult.hasErrors()) {
             addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
@@ -111,15 +114,25 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
         }
     }
 
-    //Support methods
+    @Override
+    public String displayUserOrdersPage(Model model, Principal principal) {
+        addProductBreadcrumb(model, USER_ORDERS_URL, "My orders");
+        model.addAttribute("ordersType", "My orders");
 
-    // Return error page
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
+        try {
+            UserEntity userEntity = getByUsername(principal.getName());
+//            List<OrderDTO> orderDTOList = userEntity.getOrdersByUser(userEntity);
+//            model.addAttribute("list of orders", orderDTOList);
+        } catch (UsernameNotFoundException e) {
+            model.addAttribute("errorType", "Oops...");
+            model.addAttribute("errorText", "Something went wrong!");
+            return ERROR_PAGE_HTML;
+        }
+
+        return ORDERS_HTML;
     }
 
+    //Support methods
     private UserEntity getByUsername(String username) {
         UserEntity user = this.userRepository
                 .findUserEntityByUsername(username);

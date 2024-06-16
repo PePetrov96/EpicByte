@@ -56,9 +56,7 @@ public class FieldNamesGenerator {
 
         if (!isSimple) {
             for (Field field : BaseProduct.class.getDeclaredFields()) {
-                if (field.getType() == ProductTypeEnum.class
-                        || field.getType() == LocalDate.class
-                        || field.getType() == boolean.class) {
+                if (field.getType() == ProductTypeEnum.class || field.getType() == LocalDate.class) {
                     continue;
                 }
 
@@ -107,4 +105,5 @@ public class FieldNamesGenerator {
             return "Unresolved key: " + name;
         }
     }
+
 }

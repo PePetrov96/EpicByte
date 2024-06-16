@@ -1,7 +1,6 @@
 package com.project.EpicByte.model.entity;
 
 import com.project.EpicByte.model.entity.productEntities.CartItem;
-import com.project.EpicByte.model.entity.productEntities.OrderItem;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +44,4 @@ public class UserEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders = new HashSet<>();
 }
