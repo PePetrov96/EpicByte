@@ -17,10 +17,6 @@ public class Movie extends BaseProduct {
     private String genre;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "language")
-    private LanguageEnum language;
-
-    @Enumerated(EnumType.STRING)
     @Column(name = "carrier")
     private MovieCarrierEnum carrier;
 }

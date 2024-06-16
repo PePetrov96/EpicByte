@@ -35,13 +35,13 @@ public class MovieController {
     }
 
     // Display Add Movie page
-    @GetMapping(ADMIN_PRODUCT_ADD_MOVIE_URL)
+    @GetMapping(MODERATOR_PRODUCT_ADD_MOVIE_URL)
     public String displayProductAddMoviePage(Model model) {
         return movieService.displayProductAddMoviePage(model);
     }
 
     // Process Add new Movie
-    @PostMapping(ADMIN_PRODUCT_ADD_MOVIE_URL)
+    @PostMapping(MODERATOR_PRODUCT_ADD_MOVIE_URL)
     public String handleProductAddMoviePage(@Valid @ModelAttribute("product") MovieAddDTO musicAddDTO, BindingResult bindingResult, Model model) {
         return movieService.handleProductAddMovie(musicAddDTO, bindingResult, model);
     }

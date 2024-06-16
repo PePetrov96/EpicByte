@@ -34,13 +34,13 @@ public class ToyController {
     }
 
     // Display Add Toy page
-    @GetMapping(ADMIN_PRODUCT_ADD_TOY_URL)
+    @GetMapping(MODERATOR_PRODUCT_ADD_TOY_URL)
     protected String displayProductAddToyPage(Model model) {
         return toyService.displayProductAddToyPage(model);
     }
 
     // Process Add new Toy
-    @PostMapping(ADMIN_PRODUCT_ADD_TOY_URL)
+    @PostMapping(MODERATOR_PRODUCT_ADD_TOY_URL)
     public String handleProductAddToyPage(@Valid @ModelAttribute("product") ToyAddDTO toyAddDTO, BindingResult bindingResult, Model model) {
         return toyService.handleProductAddToy(toyAddDTO, bindingResult, model);
     }

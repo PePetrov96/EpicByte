@@ -4,7 +4,7 @@ import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
-import com.project.EpicByte.repository.productRepositories.BookRepository;
+import com.project.EpicByte.repository.BookRepository;
 import com.project.EpicByte.service.productServices.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;

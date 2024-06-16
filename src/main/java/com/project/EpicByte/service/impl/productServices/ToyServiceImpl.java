@@ -3,7 +3,7 @@ package com.project.EpicByte.service.impl.productServices;
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Toy;
-import com.project.EpicByte.repository.productRepositories.ToyRepository;
+import com.project.EpicByte.repository.ToyRepository;
 import com.project.EpicByte.service.productServices.ToyService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;

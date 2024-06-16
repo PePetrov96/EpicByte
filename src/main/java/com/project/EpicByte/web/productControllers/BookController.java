@@ -36,13 +36,13 @@ public class BookController extends Breadcrumbs {
     }
 
     // Display Add Book page
-    @GetMapping(ADMIN_PRODUCT_ADD_BOOK_URL)
+    @GetMapping(MODERATOR_PRODUCT_ADD_BOOK_URL)
     public String displayProductAddBookPage(Model model) {
         return bookService.displayProductAddBookPage(model);
     }
 
     // Process Add new Book
-    @PostMapping(ADMIN_PRODUCT_ADD_BOOK_URL)
+    @PostMapping(MODERATOR_PRODUCT_ADD_BOOK_URL)
     public String handleProductAddBookPage(@Valid @ModelAttribute("product") BookAddDTO product, BindingResult bindingResult, Model model) {
         return bookService.handleProductAddBook(product, bindingResult, model);
     }

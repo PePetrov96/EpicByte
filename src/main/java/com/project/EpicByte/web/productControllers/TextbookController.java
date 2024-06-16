@@ -35,13 +35,13 @@ public class TextbookController {
     }
 
     // Display Add Textbook page
-    @GetMapping(ADMIN_PRODUCT_ADD_TEXTBOOK_URL)
+    @GetMapping(MODERATOR_PRODUCT_ADD_TEXTBOOK_URL)
     public String displayProductAddTextbookPage(Model model) {
         return textbookService.displayProductAddTextbookPage(model);
     }
 
     // Process Add new Textbook
-    @PostMapping(ADMIN_PRODUCT_ADD_TEXTBOOK_URL)
+    @PostMapping(MODERATOR_PRODUCT_ADD_TEXTBOOK_URL)
     public String handleProductAddTextbookPage(@Valid @ModelAttribute("product") TextbookAddDTO textbookAddDTODTO,
                                                BindingResult bindingResult, Model model) {
         return textbookService.handleProductAddTextbook(textbookAddDTODTO, bindingResult, model);

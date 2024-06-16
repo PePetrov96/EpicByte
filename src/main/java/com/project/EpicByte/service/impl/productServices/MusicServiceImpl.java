@@ -4,7 +4,7 @@ import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.enums.MusicCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Music;
-import com.project.EpicByte.repository.productRepositories.MusicRepository;
+import com.project.EpicByte.repository.MusicRepository;
 import com.project.EpicByte.service.productServices.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;

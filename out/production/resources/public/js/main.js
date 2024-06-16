@@ -1,12 +1,13 @@
 'use strict'
 
-function adjustBodyPadding() {
-    const headerHeight = document.querySelector("header").offsetHeight;
-    document.body.style.paddingTop = headerHeight + "px";
-}
-
-document.addEventListener("DOMContentLoaded", adjustBodyPadding);
-window.addEventListener("resize", adjustBodyPadding);
+// OLD PAGE PADDING ADDING LOGIC
+// document.addEventListener("DOMContentLoaded", adjustBodyPadding);
+// window.addEventListener("resize", adjustBodyPadding);
+//
+// function adjustBodyPadding() {
+//     const headerHeight = document.querySelector("header").offsetHeight;
+//     document.body.style.paddingTop = headerHeight + "px";
+// }
 
 // Fetch all the forms we want to apply custom Bootstrap validation styles to
 const forms = document.querySelectorAll('.needs-validation')

@@ -2,9 +2,10 @@ package com.project.EpicByte.service.impl.productServices;
 
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
+import com.project.EpicByte.model.entity.enums.MovieCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Movie;
-import com.project.EpicByte.repository.productRepositories.MovieRepository;
+import com.project.EpicByte.repository.MovieRepository;
 import com.project.EpicByte.service.productServices.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -40,7 +41,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         model.addAttribute("productType", getLocalizedText("movie.text"));
         model.addAttribute("product", new MovieAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("movie", false));
-        model.addAttribute("enumsList", LanguageEnum.values());
+        model.addAttribute("enumsList", MovieCarrierEnum.values());
         return PRODUCT_ADD_HTML;
     }
 
@@ -51,7 +52,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("movie", false));
-            model.addAttribute("enumsList", LanguageEnum.values());
+            model.addAttribute("enumsList", MovieCarrierEnum.values());
             return PRODUCT_ADD_HTML;
         }
 
@@ -96,7 +97,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
         addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
         model.addAttribute("product", movie);
-        model.addAttribute("productDetails", getDetailFields(movie)); //TODO: add details
+        model.addAttribute("productDetails", getDetailFields(movie));
 
         return PRODUCT_DETAILS_HTML;
     }
@@ -106,7 +107,6 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
         fieldsMap.put(getLocalizedText("genre.text"), movie.getGenre());
-        fieldsMap.put(getLocalizedText("language.text"), movie.getLanguage().toString());
         fieldsMap.put(getLocalizedText("carrier.text"), movie.getCarrier().toString());
 
         return fieldsMap;
