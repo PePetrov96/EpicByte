@@ -12,7 +12,7 @@
     <div class="product-update-container" style="padding: var(--page-padding)">
         <div class="product-update-form">
             <form th:method="post"
-                  th:action="@{'/admin/product/add/' + ${linkType}}"
+                  th:action="@{'/moderator/product/add/' + ${linkType}}"
                   th:object="${product}"
                   class="product-update-form-input needs-validation">
 

@@ -37,26 +37,18 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
         try {
             UserEntity user = getUserEntityByUsername(principal.getName());
             List<Order> orderList = user.getOrders();
-            model.addAttribute("userOrders", orderList);
-            addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
-            return ORDERS_HTML;
+            return returnModelPage(orderList, model);
         } catch (NullPointerException | UsernameNotFoundException exception) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            return returnErrorPage(model);
         }
     }
     @Override
     public String displayAdminAllOrders(Model model) {
         try {
             List<Order> orderList = orderRepository.findAll();
-            model.addAttribute("userOrders", orderList);
-            addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
-            return ORDERS_HTML;
+            return returnModelPage(orderList, model);
         } catch (NullPointerException | UsernameNotFoundException exception) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            return returnErrorPage(model);
         }
     }
 
@@ -71,7 +63,7 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
             orderRepository.save(actualOrder);
         }
 
-        return "redirect:" + ADMIN_ORDERS_URL;
+        return "redirect:" + MODERATOR_ORDERS_URL;
     }
 
     @Override
@@ -94,6 +86,27 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
     }
 
     // Support methods
+
+    // Set page model attributes
+    private String returnModelPage(List<Order> orderList, Model model) {
+        addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
+
+        if (orderList.isEmpty()) {
+            model.addAttribute("noOrders", true);
+        } else {
+            model.addAttribute("noOrders", false);
+            model.addAttribute("userOrders", orderList);
+        }
+
+        return ORDERS_HTML;
+    }
+
+    // Return error page
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
 
     // Get user. Transactional, since the collections are prone to errors
     @Transactional

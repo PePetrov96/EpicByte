@@ -22,7 +22,8 @@ body {
     background-attachment: fixed; /* added the property here */
 }
 .product-details-container,
-.products-container {
+.products-container,
+.orders-page-container { /* CAUTION DELETE */
     min-height: 60vh;
 }
 
@@ -73,7 +74,8 @@ body {
 .product-details-container,
 .product-update-container,
 .orders-page-container,
-.user-profile-container {
+.user-profile-container,
+.orders-page-container { /* CAUTION DELETE */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -873,7 +875,8 @@ body {
 .product-update-container,
 .display-text-container,
 .orders-page-container,
-.user-profile-container {
+.user-profile-container,
+.orders-page-container { /* CAUTION DELETE */
     background-color: var(--white-color);
 }
 

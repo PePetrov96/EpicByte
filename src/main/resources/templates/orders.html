@@ -11,7 +11,9 @@
         <div class="orders-page-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <div class="orders-container">
+            <h1 th:if="${noOrders}" th:text="#{no.orders.text}"></h1>
+
+            <div th:unless="${noOrders}" class="orders-container">
                 <div th:each="orderItem : ${userOrders}" class="order-container">
                     <div class="order-text">
                         <table>
@@ -48,12 +50,12 @@
                           th:action="@{/admin/order/complete/{id}(id=${orderItem.id})}"
                           th:unless="${orderItem.isComplete}"
                           class="order-button-container">
-                        <input type="submit" value="Complete Order">
+                        <input type="submit" th:value="#{complete.order.text}">
                     </form>
                     <form th:method="GET"
                           th:action="@{/order/details/{id}(id=${orderItem.id})}"
                           class="order-button-container">
-                        <input type="submit" value="View Order">
+                        <input type="submit" th:value="#{view.order.text}">
                     </form>
                 </div>
             </div>

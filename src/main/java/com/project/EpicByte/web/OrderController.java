@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.security.Principal;
 import java.util.UUID;
 
-import static com.project.EpicByte.util.Constants.ADMIN_ORDERS_URL;
-import static com.project.EpicByte.util.Constants.USER_ORDERS_URL;
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class OrderController {
@@ -28,17 +27,17 @@ public class OrderController {
         return this.orderService.displayUserOrders(model, principal);
     }
 
-    @GetMapping(ADMIN_ORDERS_URL)
+    @GetMapping(MODERATOR_ORDERS_URL)
     public String displayAdminOrdersPage(Model model) {
         return this.orderService.displayAdminAllOrders(model);
     }
 
-    @PostMapping("/admin/order/complete/{id}")
+    @PostMapping(MODERATOR_ORDER_COMPLETE_URL + "{id}")
     public String completeOrder(@PathVariable UUID id, Model model) {
         return this.orderService.completeOrder(id);
     }
 
-    @GetMapping("/order/details/{id}")
+    @GetMapping(ORDER_DETAILS_URL + "{id}")
     public String displayOrderDetails(@PathVariable UUID id, Model model) {
         return this.orderService.displayOrderDetails(id, model);
     }

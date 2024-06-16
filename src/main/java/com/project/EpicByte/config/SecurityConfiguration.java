@@ -36,10 +36,12 @@ public class SecurityConfiguration {
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Index page is available to everyone
                                 .requestMatchers(INDEX_URL).permitAll()
+                                .requestMatchers("/moderator/**").hasAnyRole(UserRolesEnum.MODERATOR.name(), UserRolesEnum.ADMIN.name())
+                                // All /admin links ara available to MODERATOR and ADMIN
+                                .requestMatchers("/admin/**").hasRole(UserRolesEnum.ADMIN.name())
                                 // User cart page, user cart checkout confirmation page, user orders list  page are available to logged-in users only
                                 .requestMatchers(USER_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL, USER_ORDERS_URL).authenticated()
-                                // All /admin links ara available to MODERATOR and ADMIN
-                                .requestMatchers("/admin/**").hasAnyRole(UserRolesEnum.MODERATOR.name(), UserRolesEnum.ADMIN.name())
+                                // All /moderator links ara available to MODERATOR and ADMIN
                                 // test
                                 .requestMatchers(PRODUCT_ADD_TO_CART_URL).authenticated()
                                 // Not-logged in users can access Register and Login pages
@@ -52,7 +54,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(ALL_BOOKS_URL, ALL_TEXTBOOKS_URL, ALL_MUSIC_URL, ALL_MOVIES_URL, ALL_TOYS_URL).permitAll()
                                 // Terms and Conditions page, Privacy page ara available to everyone
                                 .requestMatchers(TERMS_AND_CONDITIONS_URL, PRIVACY_URL).permitAll()
-                                // All other requests are permited
+                                // All other requests are permitted
                                 .anyRequest().permitAll()
                 // LOGIN logic
                 ).formLogin(

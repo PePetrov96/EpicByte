@@ -35,13 +35,13 @@ public class MusicController {
     }
 
     // Display Add Music page
-    @GetMapping(ADMIN_PRODUCT_ADD_MUSIC_URL)
+    @GetMapping(MODERATOR_PRODUCT_ADD_MUSIC_URL)
     protected String displayProductAddMusicPage(Model model) {
         return musicService.displayProductAddMusicPage(model);
     }
 
     // Process Add new Music
-    @PostMapping(ADMIN_PRODUCT_ADD_MUSIC_URL)
+    @PostMapping(MODERATOR_PRODUCT_ADD_MUSIC_URL)
     public String handleProductAddMusicPage(@Valid @ModelAttribute("product") MusicAddDTO musicAddDTO,
                                             BindingResult bindingResult, Model model) {
         return musicService.handleProductAddMusic(musicAddDTO, bindingResult, model);

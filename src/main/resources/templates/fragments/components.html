@@ -86,16 +86,17 @@
                                     </form>
                                 </div>
 
-                                <!-- USER MENU BUTTON - ADMIN SETTINGS -->
-                                <div sec:authorize="hasRole('ADMIN')">
+                                <!-- USER MENU BUTTON - MODERATOR SETTINGS -->
+                                <div sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')">
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a th:text="#{add.book.text}" class="dropdown-item" href="/admin/product/add/book"></a></li>
-                                    <li><a th:text="#{add.textbook.text}" class="dropdown-item" href="/admin/product/add/textbook"></a></li>
-                                    <li><a th:text="#{add.music.text}" class="dropdown-item" href="/admin/product/add/music">A</a></li>
-                                    <li><a th:text="#{add.movie.text}" class="dropdown-item" href="/admin/product/add/movie"></a></li>
-                                    <li><a th:text="#{add.toy.text}" class="dropdown-item" href="/admin/product/add/toy"></a></li>
+                                    <li><a th:text="#{add.book.text}" class="dropdown-item" href="/moderator/product/add/book"></a></li>
+                                    <li><a th:text="#{add.textbook.text}" class="dropdown-item" href="/moderator/product/add/textbook"></a></li>
+                                    <li><a th:text="#{add.music.text}" class="dropdown-item" href="/moderator/product/add/music"></a></li>
+                                    <li><a th:text="#{add.movie.text}" class="dropdown-item" href="/moderator/product/add/movie"></a></li>
+                                    <li><a th:text="#{add.toy.text}" class="dropdown-item" href="/moderator/product/add/toy"></a></li>
+                                    <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/moderator/orders"></a></li>
 
-                                    <li><a th:text="#{view.orders.text}" class="dropdown-item" href="/admin/orders"></a></li>
+                                    <li sec:authorize="hasRole('ADMIN')"><a th:text="#{manage.privileges.text}" class="dropdown-item" href="/admin/manage-privileges"></a></li>
                                 </div>
                                 <!-- EO: USER MENU BUTTON - ADMIN SETTINGS -->
                             </ul>

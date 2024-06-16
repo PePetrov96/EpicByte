@@ -72,9 +72,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             setModelAttributeOfUserCart(userEntity, model);
             addProductBreadcrumb(model, USER_CART_URL, "Cart");
         } catch (NullPointerException | UsernameNotFoundException e) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            return returnErrorPage(model);
         }
         return CART_HTML;
     }
@@ -110,9 +108,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
             return CART_CHECKOUT_HTML;
         } catch (NullPointerException | UsernameNotFoundException exception) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            return returnErrorPage(model);
         }
     }
 
@@ -136,6 +132,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     }
 
     // SUPPORT METHODS
+
+    // Return error page
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
 
     // Create order and save it to the database for the "confirmCheckout" method.
     private void createOrder(String username, OrderAddressDTO orderAddressDTO) {
@@ -171,14 +174,6 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         return order;
     }
 
-//    private List<OrderItem> createOrderItems(Order order, List<BaseProduct> products) {
-//        return products.stream().map(baseProduct -> {
-//            OrderItem orderItem = new OrderItem();
-//            orderItem.setOrder(order);
-//            orderItem.setProduct(baseProduct);
-//            return orderItem;
-//        }).collect(Collectors.toList());
-//    }
     private List<OrderItem> createOrderItems(Order order, List<BaseProduct> products) {
         Map<BaseProduct, Integer> productCountMap = new HashMap<>();
 

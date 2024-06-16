@@ -15,5 +15,4 @@ public interface UserService {
     String registerUser(UserRegisterDTO userRegisterDTO, Model model, BindingResult bindingResult);
     String showProfilePage(Model model, Principal principal);
     String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal);
-    String displayUserOrdersPage(Model model, Principal principal);
 }
