@@ -14,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.project.EpicByte.util.Constants.*;
 
@@ -36,7 +35,7 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
     public String displayUserOrders(Model model, Principal principal) {
         try {
             UserEntity user = getUserEntityByUsername(principal.getName());
-            List<Order> orderList = user.getOrders();
+            Set<Order> orderList = user.getOrders();
             return returnModelPage(orderList, model);
         } catch (NullPointerException | UsernameNotFoundException exception) {
             return returnErrorPage(model);
@@ -45,7 +44,7 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
     @Override
     public String displayAdminAllOrders(Model model) {
         try {
-            List<Order> orderList = orderRepository.findAll();
+            Set<Order> orderList = new HashSet<>(orderRepository.findAll());
             return returnModelPage(orderList, model);
         } catch (NullPointerException | UsernameNotFoundException exception) {
             return returnErrorPage(model);
@@ -88,7 +87,7 @@ public class OrderServiceImpl extends Breadcrumbs implements OrderService {
     // Support methods
 
     // Set page model attributes
-    private String returnModelPage(List<Order> orderList, Model model) {
+    private String returnModelPage(Set<Order> orderList, Model model) {
         addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
 
         if (orderList.isEmpty()) {

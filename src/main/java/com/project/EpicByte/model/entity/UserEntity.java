@@ -47,5 +47,5 @@ public class UserEntity extends BaseEntity {
     private List<CartItem> cartItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    private Set<Order> orders = new HashSet<>();
 }

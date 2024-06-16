@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 
 import static com.project.EpicByte.util.Constants.*;
 
-@Transactional
+
 @Service
 public class CartServiceImpl extends Breadcrumbs implements CartService {
     private final Map<String, JpaRepository<? extends BaseProduct, UUID>> productRepositories;
@@ -81,8 +81,16 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     public String deleteItemFromUserCart(UUID productId, String username, Model model) {
         UserEntity userEntity = getUserEntityByUsername(username);
         List<CartItem> deletionProducts = this.cartRepository.findAllByUserIdAndProductId(userEntity.getId(), productId);
-        this.cartRepository.deleteAll(deletionProducts);
+
+        deleteItemsFromCart(deletionProducts);
+
         return "redirect:" + USER_CART_URL;
+    }
+
+    protected void deleteItemsFromCart(List<CartItem> deletionProducts) {
+        for(CartItem item : deletionProducts) {
+            this.cartRepository.delete(item);
+        }
     }
 
     @Override
@@ -196,7 +204,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         return orderItems;
     }
 
-    private void finalizeOrderCreation(Order order, UserEntity userEntity) {
+    protected void finalizeOrderCreation(Order order, UserEntity userEntity) {
         orderRepository.save(order);
         userEntity.getOrders().add(order);
         userEntity.getCartItems().clear();
@@ -204,7 +212,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     }
 
     // Add cart item, to the database, linking it to a user, for the "addProductToCart" method.
-    public void addCartItemToDatabase(UUID productId, String productType, Principal principal) {
+    protected void addCartItemToDatabase(UUID productId, String productType, Principal principal) {
         CartItem cartItem = new CartItem();
         if (principal == null) {
             throw new UsernameNotFoundException("Username not found.");
@@ -305,17 +313,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         return messageSource.getMessage(text, null, locale);
     }
 
-    @Transactional
     protected UserEntity getUserEntityByUsername(String username) {
         UserEntity user = this.userRepository
-                .findUserEntityByUsername(username);
+                .getUserEntityByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-
-        Hibernate.initialize(user.getCartItems());
-        Hibernate.initialize(user.getOrders());
 
         return user;
     }
