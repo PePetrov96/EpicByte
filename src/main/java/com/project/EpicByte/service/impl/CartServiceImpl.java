@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -64,21 +65,27 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             setModelAttributesForCart(userEntity, model);
             addProductBreadcrumb(model, USER_CART_URL, "Cart");
         } catch (UsernameNotFoundException e) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            return returnErrorPage(model);
+        } catch (EmptyCartException e) {
+            return returnEmptyCartPage(model);
         }
+
         return CART_HTML;
     }
 
     @Override
+    @Transactional
     public String deleteItemFromUserCart(UUID productId, String username, Model model) {
         UserEntity userEntity = getUserEntityByUsername(username);
-        List<CartItem> deletionProducts = this.cartRepository.findAllByUserIdAndProductId(userEntity.getId(), productId);
+        List<CartItem> deletionProducts = this.cartRepository
+                .findAllByUserIdAndProductId(userEntity.getId(), productId);
 
-        this.cartRepository.deleteAll(deletionProducts);
+        for (CartItem cartItem : deletionProducts) {
+            userEntity.getCartItems().remove(cartItem);
+            this.cartRepository.delete(cartItem);
+        }
 
-        return "redirect:/user/cart";
+        return "redirect:" + USER_CART_URL;
     }
 
     @Override
@@ -99,14 +106,14 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     public String showCartCheckoutPage(Principal principal, Model model) {
         try {
             UserEntity userEntity = getUserEntityByUsername(principal.getName());
-
             setModelAttributesForCart(userEntity, model);
-
             model.addAttribute("orderAddressDTO", new OrderAddressDTO());
             addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
             return CART_CHECKOUT_HTML;
         } catch (NullPointerException | UsernameNotFoundException exception) {
             return returnErrorPage(model);
+        }  catch (EmptyCartException e) {
+            return returnEmptyCartPage(model);
         }
     }
 
@@ -125,7 +132,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
             return DISPLAY_TEXT_HTML;
         } catch (EmptyCartException exception) {
-            return INDEX_HTML;
+            return returnEmptyCartPage(model);
         }
     }
 
@@ -187,7 +194,6 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
                 .toList();
     }
 
-
     private UserOrder initializeUserOrder(UserEntity userEntity, OrderAddressDTO orderAddressDTO) {
         UserOrder order = new UserOrder();
         order.setUser(userEntity);
@@ -209,6 +215,12 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         model.addAttribute("errorType", "Oops...");
         model.addAttribute("errorText", "Something went wrong!");
         return ERROR_PAGE_HTML;
+    }
+
+    private String returnEmptyCartPage(Model model) {
+        model.addAttribute("emptyCart", true);
+        addProductBreadcrumb(model, USER_CART_URL, "Cart");
+        return CART_HTML;
     }
 
     public void addToCart(UUID productId, String productType, Principal principal) {
@@ -238,6 +250,10 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
                 .stream()
                 .map(CartItem::getProduct)
                 .toList();
+
+        if (products.isEmpty()) {
+            throw new EmptyCartException();
+        }
 
         UserCartBindingModel userCartBindingModel = new UserCartBindingModel();
 
@@ -302,8 +318,6 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-
-//        Hibernate.initialize(user.getCartItems());
 
         return user;
     }
