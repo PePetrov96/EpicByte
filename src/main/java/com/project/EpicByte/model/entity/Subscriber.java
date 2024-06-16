@@ -13,6 +13,6 @@ import lombok.Setter;
 public class Subscriber extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 }

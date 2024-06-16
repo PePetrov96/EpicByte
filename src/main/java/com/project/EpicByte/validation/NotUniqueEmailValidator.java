@@ -11,6 +11,6 @@ public class NotUniqueEmailValidator implements ConstraintValidator<NotUniqueEma
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        return this.subscriberRepository.findByEmail(s).isPresent();
+        return this.subscriberRepository.findByEmail(s).isEmpty();
     }
 }
