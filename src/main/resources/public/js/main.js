@@ -1,12 +1,13 @@
 'use strict'
 
-function adjustBodyPadding() {
-    const headerHeight = document.querySelector("header").offsetHeight;
-    document.body.style.paddingTop = headerHeight + "px";
-}
-
-document.addEventListener("DOMContentLoaded", adjustBodyPadding);
-window.addEventListener("resize", adjustBodyPadding);
+// OLD PAGE PADDING ADDING LOGIC
+// document.addEventListener("DOMContentLoaded", adjustBodyPadding);
+// window.addEventListener("resize", adjustBodyPadding);
+//
+// function adjustBodyPadding() {
+//     const headerHeight = document.querySelector("header").offsetHeight;
+//     document.body.style.paddingTop = headerHeight + "px";
+// }
 
 // Fetch all the forms we want to apply custom Bootstrap validation styles to
 const forms = document.querySelectorAll('.needs-validation')
@@ -55,3 +56,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 }, false);
+
+// // Add SockJS and Stomp logic to end of your existing JavaScript
+// document.addEventListener("DOMContentLoaded", function() {
+//     // Connect to WebSocket and subscribe to "/cart/size"
+//     var socket = new SockJS("/ws");
+//     var stompClient = Stomp.over(socket);
+//     stompClient.connect({}, function(frame) {
+//         stompClient.subscribe("/cart/size", function(size) {
+//             var cartSize = JSON.parse(size.body);
+//
+//             $(".cart-item-count").text(cartSize);
+//         });
+//     });
+// });

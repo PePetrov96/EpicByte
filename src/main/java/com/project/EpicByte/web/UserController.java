@@ -58,14 +58,8 @@ public class UserController {
 
     // USER PROFILE page handle update
     @PostMapping(USER_PROFILE_URL)
-    public String updateProfilePage(@ModelAttribute("userUpdateDTO") @Valid UserUpdateDTO userUpdateDTO,
+    public String updateProfilePage(@ModelAttribute("userUpdateDTO") @Valid UserUpdateDTO userUpdateDTO, BindingResult bindingResult,
                                     Model model, RedirectAttributes redirectAttributes, Principal principal) {
-        return userService.updateProfilePage(userUpdateDTO, model, redirectAttributes, principal);
-    }
-
-    // USER ORDERS page display
-    @GetMapping(USER_ORDERS_URL)
-    public String showUserOrdersPage(Model model, Principal principal) {
-        return userService.displayUserOrdersPage(model, principal);
+        return userService.updateProfilePage(userUpdateDTO, bindingResult, model, redirectAttributes, principal);
     }
 }

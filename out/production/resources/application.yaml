@@ -2,37 +2,26 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: 'TRUE'
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
-
   mvc:
     hiddenmethod:
       filter:
         enabled: 'true'
-
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://root:MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8@lk5ax5.stackhero-network.com/root?useSSL=true&requireSSL=true
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
 #    username: root
-#    password: MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8
-    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    epic-byte: ${EMAIL:}
-#    username: ${EMAIL:}
-#    password: ${EMAIL_PASSWORD:}
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+#    password:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgres://u17hrqpe6rt51v:p4ea6092c0879d7721875a6211945a7d4cfcee2e96ecf47b43e99b35c99eb1daf@c9tiftt16dc3eo.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/dbbnq9vvedonp9
+    username: u17hrqpe6rt51v
+    password: p4ea6092c0879d7721875a6211945a7d4cfcee2e96ecf47b43e99b35c99eb1daf
 
 logging:
   level:
@@ -44,6 +33,7 @@ logging:
       nodeValue: WARN
       springframework:
         security: DEBUG
+
 server:
   port: ${PORT:5000}
 admin:

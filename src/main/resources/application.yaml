@@ -1,38 +1,32 @@
 spring:
   jpa:
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        format_sql: 'TRUE'
+        format_sql: 'true'
+        use_sql_comments: true
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
-
   mvc:
     hiddenmethod:
       filter:
         enabled: 'true'
 
+  # Local Database
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://root:MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8@lk5ax5.stackhero-network.com/root?useSSL=true&requireSSL=true
-#    username: root
-#    password: MlNRoFUlnU7PQbNcDuNj4Yb7Ujvt3mz8
     url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    epic-byte: ${EMAIL:}
-#    username: ${EMAIL:}
-#    password: ${EMAIL_PASSWORD:}
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
+
+  # Heroku Database
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://root:FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5@h41sp5.stackhero-network.com:3306/root?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+#    username: root
+#    password: FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5
 
 logging:
   level:
@@ -44,6 +38,7 @@ logging:
       nodeValue: WARN
       springframework:
         security: DEBUG
+
 server:
   port: ${PORT:5000}
 admin:

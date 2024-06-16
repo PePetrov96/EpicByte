@@ -118,7 +118,7 @@ _The project incorporates some Aspect-Oriented Programming (AOP) to modularize c
 
 * **Exception Handling**
 1. **`Custom exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
-
+2. **`Custom validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
 ---
 
 * **Testing**
@@ -127,11 +127,50 @@ _The project incorporates some Aspect-Oriented Programming (AOP) to modularize c
 ---
 
 ## Usage
-**`TBC`**
-### Admin
-**`TBC`**
-### User
-**`TBC`**
+
+### User Rights
+*The below list should not be considered fully complete, on the account of what each user can do.*
+
+#### Admin
+* The **`Admin`**, is saved in the memory and is not present in the database. The Admin username and password need to be set, from the project properties. Special Admin rights include:
+  * Add new products (Books, Textbooks, Music, Movies, Toys)
+  * Delete products
+  * Update products
+  * Review all user orders and change their status
+  * Review individual user orders in detail
+  * Give and Revoke **`Moderator`** rights from any user.
+* The **`Admin`**, due to not being an actual database entity, cannot perform the following actions:
+  * Open the Profile menu
+  * Open the User orders menu
+  * Add a product to their cart
+  * Create a new order, with all the cart items
+
+#### Moderator
+* The **`Moderator`** role is a user entity, saved in the database, with standard user information and Moderator rights (provided by the **`Admin`**). The Moderator can do anything the Admin can, except for giving and revoking **`Moderator`** rights to **`User`**. Unlike the **`Admin`** entity, the **`Moderator`** entity, can perform all the actions the **`Admin`** entity cannot.
+
+#### User
+* The **`User`** role is a user entity, saved in the database, with standard user information and User rights. The User can do the following:
+  * Open their profile, to change their information:
+    * First name
+    * Last name
+    * Username
+    * Email
+  * Review all products
+  * Order how the products are displayed, in "New", "Alphabetical", "Highest price" or "Lowest price" orders
+  * Review product details
+  * Place a new order, by entering address details and confirming the final price
+  * Add any product to their cart (in any quantity they desire)
+  * Open "Orders" menu, to review all their current and past orders.
+  * Logout
+
+#### Anonymous
+* The **`Anonymous`** entity, is a not-logged-in or even not registered site visitor. They can perform the following actions:
+  * Register
+  * Login
+  * Review all products
+  * Order how the products are displayed, in "New", "Alphabetical", "Highest price" or "Lowest price" orders
+  * Review product details
+
 ## REST Test
 **`TBC`**
 

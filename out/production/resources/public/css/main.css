@@ -21,6 +21,11 @@ body {
     background-repeat: no-repeat; /* Optional: This will avoid repeating the background image. */
     background-attachment: fixed; /* added the property here */
 }
+.product-details-container,
+.products-container,
+.orders-page-container { /* CAUTION DELETE */
+    min-height: 60vh;
+}
 
 /* CAROUSEL CONTAINER */
 .carousel-container {
@@ -69,7 +74,8 @@ body {
 .product-details-container,
 .product-update-container,
 .orders-page-container,
-.user-profile-container {
+.user-profile-container,
+.orders-page-container { /* CAUTION DELETE */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -730,10 +736,12 @@ body {
     display: flex;
 }
 
-.order-button-container a {
+.order-button-container a,
+.order-button-container input {
     padding: calc(var(--page-padding) / 2);
     text-decoration: none;
     height: max-content;
+    border: none;
 }
 
 /* USER PROFILE PAGE */
@@ -768,11 +776,26 @@ body {
     top: 0;
     right: 0;
 }
-
+/* MISC ITEMS */
 .new-item-tag p {
     background: var(--red);
     color: var(--white-color);
     padding: 2px 10px;
+}
+
+.notification {
+    position: fixed;
+    top: 150px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px 20px;
+    color: white;
+    font-size: 18px;
+    border-radius: 50rem 0 0 50rem;
+}
+
+.cart-totals-table-checkout {
+    height: max-content;
 }
 
 /* TEXT COLORS */
@@ -797,7 +820,8 @@ body {
 .return-home-button,
 .cart-totals-table tfoot tr,
 .cart-totals-table tfoot,
-.order-button-container a {
+.order-button-container a,
+.order-button-container input{
     color: var(--white-color);
 }
 
@@ -826,6 +850,7 @@ body {
 .cart-totals-table tfoot tr,
 .cart-totals-table tfoot,
 .order-button-container a:hover,
+.order-button-container input:hover,
 .update-user-button {
     background: var(--blue);
 }
@@ -850,7 +875,8 @@ body {
 .product-update-container,
 .display-text-container,
 .orders-page-container,
-.user-profile-container {
+.user-profile-container,
+.orders-page-container { /* CAUTION DELETE */
     background-color: var(--white-color);
 }
 
@@ -863,7 +889,8 @@ body {
 .item-delete-button,
 .checkout-button,
 .return-home-button,
-.order-button-container a {
+.order-button-container a,
+.order-button-container input {
     background: var(--red);
 }
 
@@ -871,7 +898,8 @@ body {
 .item-add-to-cart-button.details-page:hover,
 .checkout-button:hover,
 .return-home-button:hover,
-.order-button-container a:hover {
+.order-button-container a:hover,
+.order-button-container input:hover {
     background: var(--red-hover);
 }
 

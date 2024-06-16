@@ -10,6 +10,6 @@ public class NotAdminUsernameValidator implements ConstraintValidator<NotAdminUs
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
-        return !username.equals(adminUsername);
+        return !username.equalsIgnoreCase(adminUsername);
     }
 }
