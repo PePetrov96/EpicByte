@@ -1,6 +1,6 @@
 'use strict'
 
-// OLD PAGE PADDING ADDING
+// OLD PAGE PADDING ADDING LOGIC
 // document.addEventListener("DOMContentLoaded", adjustBodyPadding);
 // window.addEventListener("resize", adjustBodyPadding);
 //
@@ -8,42 +8,6 @@
 //     const headerHeight = document.querySelector("header").offsetHeight;
 //     document.body.style.paddingTop = headerHeight + "px";
 // }
-
-// IMPROVED PAGE PADDING ADDING
-document.addEventListener("DOMContentLoaded", function() {
-    adjustBodyPadding();
-
-    // Optionally, adjust padding on window resize if the header height can change
-    window.addEventListener('resize', debounce(adjustBodyPadding, 100));
-
-    // Use MutationObserver to handle dynamic changes in the header's content or styles
-    const header = document.querySelector("header");
-    if (header) {
-        const observer = new MutationObserver(debounce(adjustBodyPadding, 100));
-        observer.observe(header, { attributes: true, childList: true, subtree: true });
-    }
-});
-
-function adjustBodyPadding() {
-    const header = document.querySelector("header");
-    if (header) {
-        const headerHeight = header.offsetHeight;
-        document.body.style.paddingTop = headerHeight + "px";
-    }
-}
-
-// Debounce function to limit how often a function is called
-function debounce(func, wait) {
-    let timeout;
-    return function(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func.apply(this, args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
 // Fetch all the forms we want to apply custom Bootstrap validation styles to
 const forms = document.querySelectorAll('.needs-validation')
