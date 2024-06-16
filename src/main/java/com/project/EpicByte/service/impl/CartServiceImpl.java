@@ -64,10 +64,6 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         UserEntity userEntity = getUserEntityByUsername(username);
         List<CartItem> deletionProducts = this.cartRepository.findAllByUserIdAndProductId(userEntity.getId(), productId);
 
-//        for (CartItem cartItem : deletionProducts) {
-//            this.cartRepository.deleteById(cartItem.getId());
-//        }
-
         this.cartRepository.deleteAll(deletionProducts);
 
         return "redirect:/user/cart";
