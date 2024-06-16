@@ -28,29 +28,54 @@
             <div class="newsletter">
                 <h1>Don't miss out on new products and offers!</h1>
 
-                <div class="newsletter-input-container">
+                <form th:method="POST"
+                      th:action="@{/subscribe}"
+                      th:object="${subscriberDTO}"
+                      class="newsletter-input-container">
+
                     <div class="form-floating mb-3">
-                        <input type="text"
+                        <input th:name="name"
+                               th:field="*{name}"
+                               th:errorclass="is-invalid"
+                               type="text"
                                class="form-control"
-                               id="floatingName"
-                               placeholder="Nme">
-                        <label for="floatingInput">First name</label>
+                               id="name"
+                               placeholder="name">
+
+                        <label th:text="#{firstName.text}" for="name"></label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('name')}"
+                               th:errors="*{name}"></small>
                     </div>
-                    <div class="form-floating">
-                        <input type="email"
+
+
+                    <div class="form-floating mb-3">
+                        <input th:name="email"
+                               th:field="*{email}"
+                               th:errorclass="is-invalid"
+                               type="email"
                                class="form-control"
-                               id="floatingInput"
-                               placeholder="Email">
-                        <label for="floatingInput">Email address</label>
+                               id="email"
+                               placeholder="email">
+
+                        <label th:text="#{emailAddress.text}" for="email"></label>
+
+                        <small th:class="text-danger"
+                               th:if="${#fields.hasErrors('email')}"
+                               th:errors="*{email}"></small>
                     </div>
-                </div>
 
-                <p>By subscribing you agree to receive emails from EpicByte,
-                    including upcoming offers, news and exclusive events.</p>
+                    <p>By subscribing you agree to receive emails from EpicByte,
+                        including upcoming offers, news and exclusive events.</p>
 
-                <div class="col-12">
-                    <button class="btn btn-primary subscribe-button" type="submit">Subscribe to our newsletter</button>
-                </div>
+                    <div class="col-12">
+                        <button type="submit"
+                                class="btn btn-primary subscribe-button">Subscribe to our newsletter
+                        </button>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>

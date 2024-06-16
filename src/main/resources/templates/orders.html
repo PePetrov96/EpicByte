@@ -45,18 +45,20 @@
                             </tbody>
                         </table>
                     </div>
-                    <form sec:authorize="hasRole('ADMIN')"
-                          th:method="POST"
-                          th:action="@{/admin/order/complete/{id}(id=${orderItem.id})}"
-                          th:unless="${orderItem.isComplete}"
-                          class="order-button-container">
-                        <input type="submit" th:value="#{complete.order.text}">
-                    </form>
-                    <form th:method="GET"
-                          th:action="@{/order/details/{id}(id=${orderItem.id})}"
-                          class="order-button-container">
-                        <input type="submit" th:value="#{view.order.text}">
-                    </form>
+                    <div class="order-button-wrapper">
+                        <form sec:authorize="hasAnyRole('ADMIN', 'MODERATOR')"
+                              th:method="POST"
+                              th:action="@{/moderator/order/complete/{id}(id=${orderItem.id})}"
+                              th:unless="${orderItem.isComplete}"
+                              class="order-button-container">
+                            <input type="submit" th:value="#{complete.order.text}">
+                        </form>
+                        <form th:method="GET"
+                              th:action="@{/order/details/{id}(id=${orderItem.id})}"
+                              class="order-button-container">
+                            <input type="submit" th:value="#{view.order.text}">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

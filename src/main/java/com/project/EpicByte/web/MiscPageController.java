@@ -1,12 +1,21 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.model.dto.SubscriberDTO;
+import com.project.EpicByte.model.entity.Subscriber;
+import com.project.EpicByte.repository.SubscriberRepository;
+import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.util.Breadcrumbs;
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Locale;
 
@@ -23,10 +32,31 @@ import static com.project.EpicByte.util.Constants.*;
 @Controller
 public class MiscPageController extends Breadcrumbs {
     private final MessageSource messageSource;
+    private final SubscriberRepository subscriberRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public MiscPageController(MessageSource messageSource) {
+    public MiscPageController(MessageSource messageSource, SubscriberRepository subscriberRepository, ModelMapper modelMapper) {
         this.messageSource = messageSource;
+        this.subscriberRepository = subscriberRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("subscriberDTO", new SubscriberDTO());
+        return INDEX_HTML;
+    }
+
+    @PostMapping("/subscribe")
+    public String subscribe(@Valid @ModelAttribute("subscriberDTO") SubscriberDTO subscriberDTO,
+                            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return INDEX_HTML;
+        }
+
+        this.subscriberRepository.save(modelMapper.map(subscriberDTO, Subscriber.class));
+        return "redirect:" + INDEX_URL;
     }
 
     @GetMapping(TERMS_AND_CONDITIONS_URL)

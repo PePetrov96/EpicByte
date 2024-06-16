@@ -118,6 +118,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     }
 
     @Override
+    @Transactional
     public String confirmCheckout(OrderAddressDTO orderAddressDTO, BindingResult bindingResult, Principal principal, Model model) {
         if (bindingResult.hasErrors()) {
             UserEntity userEntity = getUserEntityByUsername(principal.getName());
@@ -181,9 +182,11 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     }
 
     protected void finalizeOrderCreation(UserOrder userOrder, UserEntity userEntity) {
-        userOrderRepository.save(userOrder);
-        userEntity.getCartItems().clear();
-        userRepository.save(userEntity);
+        this.userOrderRepository.save(userOrder);
+        UserEntity user = this.userRepository
+                .findUserWithInitializedCartItems(userEntity.getUsername());
+        user.getCartItems().clear();
+        this.userRepository.saveAndFlush(user);
     }
 
     private List<BaseProduct> fetchUserCartProducts(UserEntity userEntity) {

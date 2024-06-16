@@ -47,7 +47,7 @@
                     </div>
                     <form sec:authorize="hasRole('ADMIN')"
                           th:method="POST"
-                          th:action="@{/admin/order/complete/{id}(id=${orderItem.id})}"
+                          th:action="@{/moderator/order/complete/{id}(id=${orderItem.id})}"
                           th:unless="${orderItem.isComplete}"
                           class="order-button-container">
                         <input type="submit" th:value="#{complete.order.text}">

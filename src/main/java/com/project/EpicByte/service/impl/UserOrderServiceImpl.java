@@ -75,7 +75,7 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
             return ORDER_DETAILS_HTML;
         }
 
-        return INDEX_HTML;
+        return "redirect:" + INDEX_URL;
     }
 
     // Support methods
@@ -104,13 +104,11 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
     // Get user. Transactional, since the collections are prone to errors
     protected UserEntity getUserEntityByUsername(String username) {
         UserEntity user = this.userRepository
-                .findUserEntityByUsername(username);
+                .findUserWithInitializedOrders(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-
-        Hibernate.initialize(user.getCartItems());
 
         return user;
     }

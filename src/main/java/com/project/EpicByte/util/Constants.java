@@ -44,7 +44,7 @@ public class Constants {
     public static final String MODERATOR_ORDERS_URL = "/moderator/orders";
     public static final String MODERATOR_PRODUCT_UPDATE_URL = "/moderator/product/update";
     public static final String MODERATOR_PRODUCT_DELETE_URL = "/moderator/product/delete";
-    public static final String MODERATOR_ORDER_COMPLETE_URL = "/admin/order/complete/";
+    public static final String MODERATOR_ORDER_COMPLETE_URL = "/moderator/order/complete/";
 
     public static final String ADMIN_MANAGE_PRIVILEGES_URL = "/admin/manage-privileges";
     public static final String ADMIN_REMOVE_PRIVILEGES_URL = "/admin/remove-privilege/";

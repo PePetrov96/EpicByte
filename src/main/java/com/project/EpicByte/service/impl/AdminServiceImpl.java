@@ -6,20 +6,16 @@ import com.project.EpicByte.model.entity.UserRoleEntity;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.AdminService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.project.EpicByte.model.entity.enums.UserRolesEnum.MODERATOR;
 import static com.project.EpicByte.util.Constants.*;
 
-@Transactional
 @Service
 public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
@@ -34,13 +30,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String displayAdminManagePrivilegesPage(Model model) {
-        LinkedHashMap<String, UserEntity> userEntityMap = getUserEntityMap();
+        LinkedHashMap<UserEntity, String> userEntityMap = getUserEntityMap();
         model.addAttribute("userMap", userEntityMap);
         return USER_PRIVILEGE_CONTROLLER_HTML;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public String giveModeratorPrivilegesToUser(UUID id, Model model) {
         try {
             UserEntity userEntity = getUserEntityById(id);
@@ -53,8 +49,8 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional
     public String removeModeratorPrivileges(UUID id, Model model) {
         try {
             UserEntity userEntity = getUserEntityById(id);
@@ -68,34 +64,35 @@ public class AdminServiceImpl implements AdminService {
     }
 
     // Support Methods
+    @Transactional
     protected UserEntity getUserEntityById(UUID id) {
-        UserEntity user = this.userRepository
-                .findUserEntityById(id);
+        Optional<UserEntity> user = this.userRepository.findById(id);
 
-        if (user == null) {
+        if (user.isEmpty()) {
             throw new UsernameIsEmptyException();
         }
 
-        Hibernate.initialize(user.getCartItems());
-
-        return user;
+        return user.get();
     }
 
-    private LinkedHashMap<String, UserEntity> getUserEntityMap() {
+    protected LinkedHashMap<UserEntity, String> getUserEntityMap() {
         List<UserEntity> users = this.userRepository.findAll();
 
-        LinkedHashMap<String, UserEntity> userMap = new LinkedHashMap<>();
+        LinkedHashMap<UserEntity, String> userMap = new LinkedHashMap<>();
         UserRoleEntity moderatorRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
 
         for (UserEntity user : users) {
-            String role;
-            if (user.getRoles().contains(moderatorRole)) {
-                role = "MODERATOR";
-            } else {
-                role = "USER";
+            String role = "USER";
+            Set<UserRoleEntity> userRoles = user.getRoles();
+
+            for (UserRoleEntity userRole : userRoles) {
+                if (userRole.getRole().name().equals(MODERATOR.name())) {
+                    role = "MODERATOR";
+                    break;
+                }
             }
 
-            userMap.put(role, user);
+            userMap.put(user, role);
         }
 
         return userMap;
