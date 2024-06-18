@@ -1,10 +1,11 @@
 package com.project.EpicByte.service.impl.productServices;
 
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
-import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import com.project.EpicByte.model.entity.productEntities.Book;
 import com.project.EpicByte.repository.BookRepository;
+import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -26,12 +27,17 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
     private final BookRepository bookRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    // CLOUDINARY
+    private final ProductImagesService productImagesService;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper, MessageSource messageSource) {
+    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper, MessageSource messageSource,
+                           ProductImagesService productImagesService) {
         this.bookRepository = bookRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.productImagesService = productImagesService;
+
     }
 
     @Override
@@ -117,6 +123,12 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
 
     private void addBookToDatabase(BookAddDTO bookAddDTO) {
         Book book = modelMapper.map(bookAddDTO, Book.class);
+
+        // CLOUDINARY
+        book.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                bookAddDTO.getProductImageUrl()));
 
         book.setNewProduct(true);
         book.setDateCreated(LocalDate.now());

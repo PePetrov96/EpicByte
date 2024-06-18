@@ -35,5 +35,4 @@ public abstract class BaseProduct extends BaseEntity {
 
     @Column(name = "description", columnDefinition = "LONGTEXT")
     private String description;
-
 }

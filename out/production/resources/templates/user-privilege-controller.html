@@ -16,33 +16,33 @@
                             <tbody>
                                 <tr>
                                     <th th:text="#{username.text}"></th>
-                                    <td th:text="${userEntity.value.username}"></td>
+                                    <td th:text="${userEntity.key.username}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{full.name.text}"></th>
-                                    <td th:text="${userEntity.value.firstName} + ' ' + ${userEntity.value.lastName}"></td>
+                                    <td th:text="${userEntity.key.firstName} + ' ' + ${userEntity.key.lastName}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{emailAddress.text}"></th>
-                                    <td th:text="${userEntity.value.email}"></td>
+                                    <td th:text="${userEntity.key.email}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{privileges.text}"></th>
-                                    <td th:text="#{${userEntity.key}}"></td>
+                                    <td th:text="#{${userEntity.value}}"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <form th:method="POST"
-                          th:action="@{/admin/remove-privilege/{id}(id=${userEntity.value.id})}"
-                          th:if="${userEntity.key == 'MODERATOR'}"
+                          th:action="@{/admin/remove-privilege/{id}(id=${userEntity.key.id})}"
+                          th:if="${userEntity.value == 'MODERATOR'}"
                           class="order-button-container">
 
                         <input type="submit" th:value="#{revoke.moderator.privileges.text}">
                     </form>
                     <form th:method="POST"
-                          th:action="@{/admin/give-privileges/{id}(id=${userEntity.value.id})}"
-                          th:if="${userEntity.key == 'USER'}"
+                          th:action="@{/admin/give-privileges/{id}(id=${userEntity.key.id})}"
+                          th:if="${userEntity.value == 'USER'}"
                           class="order-button-container">
 
                         <input type="submit" th:value="#{provide.moderator.privileges.text}">

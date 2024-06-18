@@ -5,6 +5,7 @@ import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
 import com.project.EpicByte.repository.TextbookRepository;
+import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -26,12 +27,15 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     private final TextbookRepository textbookRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final ProductImagesService productImagesService;
 
     @Autowired
-    public TextbookServiceImpl(TextbookRepository textbookRepository, ModelMapper modelMapper, MessageSource messageSource) {
+    public TextbookServiceImpl(TextbookRepository textbookRepository, ModelMapper modelMapper,
+                               MessageSource messageSource, ProductImagesService productImagesService) {
         this.textbookRepository = textbookRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.productImagesService = productImagesService;
     }
 
     @Override
@@ -139,6 +143,11 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     private void addTextbookToDatabase(TextbookAddDTO textbookAddDTO) {
         Textbook textbook = modelMapper.map(textbookAddDTO, Textbook.class);
 
+        // CLOUDINARY
+        textbook.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                textbookAddDTO.getProductImageUrl()));
         textbook.setProductType(ProductTypeEnum.TEXTBOOK);
         textbook.setDateCreated(LocalDate.now());
         textbook.setNewProduct(true);

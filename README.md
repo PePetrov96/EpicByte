@@ -54,9 +54,15 @@ In order to run CarWash you need to:
    spring.datasource.url: jdbc:mysql://localhost:${MYSQL_PORT}/EpicByte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
    spring.datasource.username: ${MYSQL_USER}
    spring.datasource.password: ${MYSQL_PASSWORD}
+   
    admin.username: ${ADMIN_USERNAME}
    admin.password: ${ADMIN_PASSWORD}
+   
    server.port: ${PORT:5000}
+   
+   name: ${CLOUDINARY_NAME}
+   api-key: ${CLOUDINARY_API_KEY}
+   api-secret: ${CLOUDINARY_API_SECRET}
    ```
 3. Start the application and enjoy!
 
@@ -119,6 +125,11 @@ _The project incorporates some Aspect-Oriented Programming (AOP) to modularize c
 * **Exception Handling**
 1. **`Custom exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
 2. **`Custom validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
+---
+
+* **Integrated services**
+
+1. **`Cloudinary`** for managing and storing external image files for the products.
 ---
 
 * **Testing**

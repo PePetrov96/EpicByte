@@ -721,7 +721,11 @@ body {
 }
 
 .order-text {
-    width: 50%;
+    width: 80%;
+}
+
+.order-button-wrapper form input {
+    width: 100%
 }
 
 .order-text table {
@@ -734,6 +738,12 @@ body {
 
 .order-button-container {
     display: flex;
+}
+
+.order-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
 .order-button-container a,

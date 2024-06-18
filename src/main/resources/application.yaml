@@ -33,11 +33,16 @@ logging:
     org:
       hibernate:
         type:
-          descriptor: TRACE
-        SQL: DEBUG
-      nodeValue: WARN
+#          descriptor: TRACE
+#        SQL: DEBUG
+#      nodeValue: WARN
       springframework:
-        security: DEBUG
+#        security: DEBUG
+
+cloudinary:
+  name: ${CLOUDINARY_NAME:divhxhqsg}
+  api-key: ${CLOUDINARY_API_KEY:269588157677357}
+  api-secret: ${CLOUDINARY_API_SECRET:XpUZNs2ML7AQ56C4h2Q2222tgos}
 
 server:
   port: ${PORT:5000}

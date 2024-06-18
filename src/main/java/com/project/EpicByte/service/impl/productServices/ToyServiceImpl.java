@@ -4,6 +4,7 @@ import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.repository.ToyRepository;
+import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.ToyService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -25,12 +26,15 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     private final ToyRepository toyRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final ProductImagesService productImagesService;
 
     @Autowired
-    public ToyServiceImpl(ToyRepository toyRepository, ModelMapper modelMapper, MessageSource messageSource) {
+    public ToyServiceImpl(ToyRepository toyRepository, ModelMapper modelMapper, MessageSource messageSource,
+                          ProductImagesService productImagesService) {
         this.toyRepository = toyRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.productImagesService = productImagesService;
     }
 
     @Override
@@ -109,6 +113,12 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
 
     private void addToyToDatabase(ToyAddDTO toyAddDTO) {
         Toy toy = modelMapper.map(toyAddDTO, Toy.class);
+
+        // CLOUDINARY
+        toy.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                toyAddDTO.getProductImageUrl()));
 
         toy.setProductType(ProductTypeEnum.TEXTBOOK);
         toy.setDateCreated(LocalDate.now());

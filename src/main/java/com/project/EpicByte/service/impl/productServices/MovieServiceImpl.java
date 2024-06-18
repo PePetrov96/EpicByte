@@ -1,11 +1,11 @@
 package com.project.EpicByte.service.impl.productServices;
 
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
-import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.MovieCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Movie;
 import com.project.EpicByte.repository.MovieRepository;
+import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -27,12 +27,15 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     private final MovieRepository movieRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final ProductImagesService productImagesService;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, ModelMapper modelMapper, MessageSource messageSource) {
+    public MovieServiceImpl(MovieRepository movieRepository, ModelMapper modelMapper, MessageSource messageSource,
+                            ProductImagesService productImagesService) {
         this.movieRepository = movieRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.productImagesService = productImagesService;
     }
 
     @Override
@@ -135,6 +138,12 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
     private void addMovieToDatabase(MovieAddDTO movieAddDTO) {
         Movie movie = modelMapper.map(movieAddDTO, Movie.class);
+
+        // CLOUDINARY
+        movie.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                movieAddDTO.getProductImageUrl()));
 
         movie.setProductType(ProductTypeEnum.MOVIE);
         movie.setDateCreated(LocalDate.now());

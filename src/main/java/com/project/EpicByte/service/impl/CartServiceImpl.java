@@ -12,12 +12,10 @@ import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.repository.*;
 import com.project.EpicByte.service.CartService;
 import com.project.EpicByte.util.Breadcrumbs;
-import org.hibernate.Hibernate;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -274,7 +272,12 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
             cartItemBindingModel.setId(product.getId());
             cartItemBindingModel.setProductType(product.getProductType().toString().toLowerCase());
-            cartItemBindingModel.setProductImageUrl(product.getProductImageUrl());
+
+
+            // CLOUDINARY
+//            cartItemBindingModel.setProductImageUrl(product.getProductImageUrl());
+
+
             cartItemBindingModel.setProductName(product.getProductName());
             cartItemBindingModel.setProductPrice(product.getProductPrice());
             cartItemBindingModel.setQuantity(quantity);

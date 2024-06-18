@@ -6,11 +6,9 @@ import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.service.UserOrderService;
 import com.project.EpicByte.util.Breadcrumbs;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.security.Principal;
@@ -43,7 +41,7 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
     @Override
     public String displayAdminAllUserOrders(Model model) {
         try {
-            Set<UserOrder> userOrdersSet = new HashSet<>(userOrderRepository.findAll());
+            LinkedHashSet<UserOrder> userOrdersSet = new LinkedHashSet<>(userOrderRepository.findUserOrdersComplete());
             return returnModelPage(userOrdersSet, model);
         } catch (NullPointerException | UsernameNotFoundException exception) {
             return returnErrorPage(model);

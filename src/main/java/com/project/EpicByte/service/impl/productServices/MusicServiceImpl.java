@@ -5,6 +5,7 @@ import com.project.EpicByte.model.entity.enums.MusicCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Music;
 import com.project.EpicByte.repository.MusicRepository;
+import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -26,12 +27,15 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     private final MusicRepository musicRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final ProductImagesService productImagesService;
 
     @Autowired
-    public MusicServiceImpl(MusicRepository musicRepository, ModelMapper modelMapper, MessageSource messageSource) {
+    public MusicServiceImpl(MusicRepository musicRepository, ModelMapper modelMapper, MessageSource messageSource,
+                            ProductImagesService productImagesService) {
         this.musicRepository = musicRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.productImagesService = productImagesService;
     }
 
     @Override
@@ -137,6 +141,12 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
     private void addMusicToDatabase(MusicAddDTO musicAddDTO) {
         Music music = modelMapper.map(musicAddDTO, Music.class);
+
+        // CLOUDINARY
+        music.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                musicAddDTO.getProductImageUrl()));
 
         music.setProductType(ProductTypeEnum.MUSIC);
         music.setDateCreated(LocalDate.now());
