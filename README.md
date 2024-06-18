@@ -41,12 +41,12 @@
 
 ### Prerequisites
 
-* JDK 17
-* IDE (Eclipse / IntelliJ IDEA)
+* JDK 17+
+* IDE (IntelliJ IDEA)
 * Depending on the features you want to use, you may need some third-party software, such as [MySQL Workbench](https://dev.mysql.com/downloads/workbench/) for data modeling, SQL development, and comprehensive administration for the system data.
 
 ### Installation
-In order to run CarWash you need to:
+In order to run EpicByte you need to:
 
 1. <a href="https://github.com/PePetrov96/EpicByte/archive/refs/heads/master.zip">DOWNLOAD</a> the repo.
 2. Set up environment variables `${MYYSQL_PORT}, ${MYSQL_USER}.. etc...`
