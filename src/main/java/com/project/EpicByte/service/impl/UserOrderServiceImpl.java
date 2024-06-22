@@ -102,7 +102,7 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
     // Get user. Transactional, since the collections are prone to errors
     protected UserEntity getUserEntityByUsername(String username) {
         UserEntity user = this.userRepository
-                .findUserWithInitializedOrders(username);
+                .findUserByUsernameWithInitializedOrders(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(username);

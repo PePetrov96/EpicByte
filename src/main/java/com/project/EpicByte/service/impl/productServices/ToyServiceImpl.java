@@ -94,6 +94,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     @Override
     public String displayDetailedViewToyPage(UUID id, Model model) {
         Toy toy = toyRepository.findToyById(id);
+        if (toy == null) return returnErrorPage(model);
 
         addProductBreadcrumb(model, ALL_TOYS_URL, "Toys", toy.getProductName());
         model.addAttribute("product", toy);
@@ -103,6 +104,12 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     }
 
     // Support methods
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
+
     private Map<String, String> getDetailFields(Toy toy) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 

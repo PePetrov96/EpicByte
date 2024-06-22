@@ -20,9 +20,18 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("SELECT u FROM UserEntity u JOIN FETCH u.userOrders")
     List<UserEntity> findAllUsersWithInitializedOrders();
 
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.cartItems")
+    List<UserEntity> findAllUsersWithInitializedCartItems();
+
     @Query("SELECT u FROM UserEntity u JOIN FETCH u.cartItems WHERE u.username = :username")
-    UserEntity findUserWithInitializedCartItems(@Param("username") String username);
+    UserEntity findUserByUsernameWithInitializedCartItems(@Param("username") String username);
 
     @Query("SELECT u FROM UserEntity u JOIN FETCH u.userOrders WHERE u.username = :username")
-    UserEntity findUserWithInitializedOrders(@Param("username") String username);
+    UserEntity findUserByUsernameWithInitializedOrders(@Param("username") String username);
+
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.cartItems WHERE u.id = :userId")
+    UserEntity findUserByIdWithInitializedCartItems(@Param("userId") UUID userId);
+
+    @Query("SELECT u FROM UserEntity u JOIN FETCH u.userOrders WHERE u.id = :userId")
+    UserEntity findUserByIdWithInitializedOrders(@Param("userId") UUID userId);
 }

@@ -1,9 +1,11 @@
 spring:
   jpa:
+    show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: 'true'
+        use_sql_comments: true
     hibernate:
       ddl-auto: update
     open-in-view: 'false'
@@ -12,19 +14,19 @@ spring:
       filter:
         enabled: 'true'
 
-  # Local Database
-#  datasource:
-#    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
-#    username: root
-#    password:
-
-  # Heroku Database
+#   Local Database
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://root:FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5@h41sp5.stackhero-network.com:3306/root?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
-    password: FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5
+    password:
+
+#  # Heroku Database
+#  datasource:
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://root:FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5@h41sp5.stackhero-network.com:3306/root?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+#    username: root
+#    password: FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5
 
 logging:
   level:
@@ -36,6 +38,11 @@ logging:
 #      nodeValue: WARN
       springframework:
 #        security: DEBUG
+
+cloudinary:
+  name: ${CLOUDINARY_NAME:divhxhqsg}
+  api-key: ${CLOUDINARY_API_KEY:269588157677357}
+  api-secret: ${CLOUDINARY_API_SECRET:XpUZNs2ML7AQ56C4h2Q2222tgos}
 
 server:
   port: ${PORT:5000}

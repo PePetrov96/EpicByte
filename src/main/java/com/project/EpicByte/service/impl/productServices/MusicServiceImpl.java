@@ -97,6 +97,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     @Override
     public String displayDetailedViewMusicPage(UUID id, Model model) {
         Music music = musicRepository.findMusicById(id);
+        if (music == null) return returnErrorPage(model);
 
         addProductBreadcrumb(model, ALL_MUSIC_URL, "Music", music.getProductName());
         model.addAttribute("product", music);
@@ -106,6 +107,12 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     }
 
     // Support methods
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
+
     private Map<String, String> getDetailFields(Music music) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 

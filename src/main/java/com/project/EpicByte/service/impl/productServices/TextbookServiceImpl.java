@@ -97,6 +97,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     @Override
     public String displayDetailedViewTextbookPage(UUID id, Model model) {
         Textbook textbook = textbookRepository.findTextbookById(id);
+        if (textbook == null) return returnErrorPage(model);
 
         addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks", textbook.getProductName());
         model.addAttribute("product", textbook);
@@ -106,6 +107,12 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     }
 
     // Support methods
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
+
     private Map<String, String> getDetailFields(Textbook textbook) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 

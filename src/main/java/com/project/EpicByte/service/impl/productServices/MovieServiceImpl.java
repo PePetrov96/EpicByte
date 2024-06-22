@@ -97,6 +97,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     @Override
     public String displayDetailedViewMoviePage(UUID id, Model model) {
         Movie movie = movieRepository.findMovieById(id);
+        if (movie == null) return returnErrorPage(model);
 
         addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
         model.addAttribute("product", movie);
@@ -106,6 +107,12 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     }
 
     // Support methods
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
+
     private Map<String, String> getDetailFields(Movie movie) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 

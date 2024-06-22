@@ -12,6 +12,7 @@ import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.repository.*;
 import com.project.EpicByte.service.CartService;
 import com.project.EpicByte.util.Breadcrumbs;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
@@ -36,15 +37,17 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     private final MovieRepository movieRepository;
     private final MusicRepository musicRepository;
     private final ToyRepository toyRepository;
-    private final MessageSource messageSource;
 
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
     private final UserOrderRepository userOrderRepository;
 
+    private final MessageSource messageSource;
+    private final ModelMapper modelMapper;
+
     public CartServiceImpl(BookRepository bookRepository, TextbookRepository textbookRepository,
                            MovieRepository movieRepository, MusicRepository musicRepository,
-                           ToyRepository toyRepository, MessageSource messageSource, CartRepository cartRepository, UserRepository userRepository, UserOrderRepository userOrderRepository) {
+                           ToyRepository toyRepository, MessageSource messageSource, CartRepository cartRepository, UserRepository userRepository, UserOrderRepository userOrderRepository, ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
@@ -54,6 +57,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.userOrderRepository = userOrderRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -168,7 +172,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
         for (BaseProduct product : productCountMap.keySet()) {
             OrderItem orderItem = new OrderItem();
-            orderItem.setProduct(product);
+//            orderItem.setProduct(product);
+
+            orderItem.setProductType(product.getProductType());
+            orderItem.setProductImageUrl(product.getProductImageUrl());
+            orderItem.setProductName(product.getProductName());
+            orderItem.setProductPrice(product.getProductPrice());
+
             int quantity = productCountMap.get(product);
             orderItem.setQuantity(quantity);
             orderItem.setTotalProductPrice(product.getProductPrice().multiply(new BigDecimal(quantity)));
@@ -182,7 +192,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     protected void finalizeOrderCreation(UserOrder userOrder, UserEntity userEntity) {
         this.userOrderRepository.save(userOrder);
         UserEntity user = this.userRepository
-                .findUserWithInitializedCartItems(userEntity.getUsername());
+                .findUserByUsernameWithInitializedCartItems(userEntity.getUsername());
         user.getCartItems().clear();
         this.userRepository.saveAndFlush(user);
     }
@@ -201,9 +211,9 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         order.setCity(orderAddressDTO.getCity());
         order.setNeighborhood(orderAddressDTO.getNeighborhood());
         order.setAddress(orderAddressDTO.getAddress());
-        order.setComplete(false);  // default orders are "not shipped"
-        order.setOrderDate(LocalDate.now());
-        order.setTotalCost(new BigDecimal("4.99"));
+        order.setComplete(false); // default orders are "not shipped"
+        order.setOrderDate(LocalDate.now()); // all orders are created for current local time
+        order.setTotalCost(new BigDecimal("4.99")); // by default +4.99 for delivery
         return order;
     }
 
@@ -266,23 +276,12 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
         // Convert each unique product to CartItemDTO and set the quantity
         for (BaseProduct product : productCountMap.keySet()) {
-            CartItemBindingModel cartItemBindingModel = new CartItemBindingModel();
-            int quantity = productCountMap.get(product);
-            BigDecimal productPrice = product.getProductPrice();
-
-            cartItemBindingModel.setId(product.getId());
+            CartItemBindingModel cartItemBindingModel = this.modelMapper.map(product, CartItemBindingModel.class);
             cartItemBindingModel.setProductType(product.getProductType().toString().toLowerCase());
-
-
-            // CLOUDINARY
-//            cartItemBindingModel.setProductImageUrl(product.getProductImageUrl());
-
-
-            cartItemBindingModel.setProductName(product.getProductName());
-            cartItemBindingModel.setProductPrice(product.getProductPrice());
+            int quantity = productCountMap.get(product);
             cartItemBindingModel.setQuantity(quantity);
+            BigDecimal productPrice = product.getProductPrice();
             cartItemBindingModel.setTotalPriceOfProduct(productPrice.multiply(BigDecimal.valueOf(quantity)));
-
             userCartBindingModel.getCartItems().add(cartItemBindingModel);
         }
 

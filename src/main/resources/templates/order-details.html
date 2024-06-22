@@ -24,13 +24,13 @@
 
                     <div class="cart-row cart-item" th:each="orderItem : ${orderItems}">
                         <div class="cart-cell1">
-                            <a class="cart-row-image-container" th:href="@{/{linkType}/details/{id}(linkType=${#strings.toLowerCase(orderItem.product.productType)}, id=${orderItem.product.id})}">
-                                <img th:src="${orderItem.product.productImageUrl}" th:alt="${orderItem.product.productName}">
+                            <a class="cart-row-image-container" th:href="@{/{linkType}/details/{id}(linkType=${#strings.toLowerCase(orderItem.productType)}, id=${orderItem.id})}">
+                                <img th:src="${orderItem.productImageUrl}" th:alt="${orderItem.productName}">
                             </a>
-                            <div class="cart-row-name" th:text="${orderItem.product.productName}" ></div>
+                            <div class="cart-row-name" th:text="${orderItem.productName}" ></div>
                         </div>
                         <div class="cart-cell2">
-                            <div class="cart-row-single-price-box" th:text="${orderItem.product.productPrice} + ' €'"></div>
+                            <div class="cart-row-single-price-box" th:text="${orderItem.productPrice} + ' €'"></div>
                         </div>
                         <div class="cart-cell3">
                             <div class="cart-row-quantity" th:text="${orderItem.quantity}"></div>

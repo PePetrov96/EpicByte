@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -15,7 +14,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.project.EpicByte.util.Constants.*;
-import static com.project.EpicByte.util.Constants.PRODUCT_ADD_TO_CART_URL;
 
 @Configuration
 public class SecurityConfiguration {
@@ -28,8 +26,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-//                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringRequestMatchers("/api/admin/**"))
                 .authorizeHttpRequests(
                         //Define which URLs are visible by which users
                         authorizeRequest -> authorizeRequest
@@ -40,6 +39,10 @@ public class SecurityConfiguration {
                                 .requestMatchers("/moderator/**").hasAnyRole(UserRolesEnum.MODERATOR.name(), UserRolesEnum.ADMIN.name())
                                 // All /admin links ara available to MODERATOR and ADMIN
                                 .requestMatchers("/admin/**").hasRole(UserRolesEnum.ADMIN.name())
+                                // All API /admin links ara available to ADMIN
+                                .requestMatchers("/api/admin/**").permitAll()
+                                // All API /user links ara available to everyone
+                                .requestMatchers("/api/user/**").permitAll()
                                 // User cart page, user cart checkout confirmation page, user orders list  page are available to logged-in users only
                                 .requestMatchers(USER_CART_URL, USERS_CART_CHECKOUT_CONFIRM_URL, USER_ORDERS_URL).authenticated()
                                 // All /moderator links ara available to MODERATOR and ADMIN

@@ -1,12 +1,9 @@
 package com.project.EpicByte.model.entity.productEntities;
 
 import com.project.EpicByte.model.entity.BaseEntity;
-import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.UserOrder;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +15,22 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class OrderItem extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private BaseProduct product;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_type")
+    private ProductTypeEnum productType;
+
+    @Column(name = "product_image_url")
+    private String productImageUrl;
+
+    @Column(name = "product_name")
+    private String productName;
+
+    @Column(name = "product_price")
+    private BigDecimal productPrice;
+
+//    @ManyToOne
+//    @JoinColumn(name = "product_id")
+//    private BaseProduct product;
 
     @Column(name = "quantity")
     private int quantity;

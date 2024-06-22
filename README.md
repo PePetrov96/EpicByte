@@ -27,12 +27,18 @@
     <li><a href="#usage">Usage</a>
       <ul>
         <li><a href="#admin">Admin</a></li>
-      </ul>
-      <ul>
+        <li><a href="#moderator">Moderator</a></li>
         <li><a href="#user">User</a></li>
+        <li><a href="#anonymous">Anonymous</a></li>
       </ul>
     </li>
-    <li><a href="#rest-test">REST Test</a></li>
+    <li><a href="#rest-services">REST Services</a>
+      <ul>
+        <li><a href="#get-request">GET Request</a></li>
+        <li><a href="#post-request">POST Request</a></li>
+        <li><a href="#delete-request">DELETE Request</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -97,44 +103,29 @@ _Thymeleaf View Engine utilized in this project for rendering dynamic HTML conte
 ### Back End
 
 _The project incorporates some Aspect-Oriented Programming (AOP) to modularize cross-cutting concerns._
-
 * **Scheduled Task** :
-
 1. **`Removing "New" status from products`**: Products who have a status of newly added, appear with a special classification. Any product added in the store more than 7 days ago, receives normal status.
-
 ---
-
 * **Internalization/i18n** :
-
 1. **`Bulgarian`**
 2. **`English`**
-
 ---
 * **Mapping**
-
 1. **`ModelMapper`** - In this project, [ModelMapper](https://modelmapper.org/) was employed to handle the mapping between different types of objects, mainly between entity models and DTOs.
-
 ---
-
 * **Authentication**
-
 1. Handled through Spring security with a web cookie.
 - [x] *Expiration*: The token expires after 24 hours.
 ---
-
 * **Exception Handling**
 1. **`Custom exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
 2. **`Custom validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
 ---
-
 * **Integrated services**
-
 1. **`Cloudinary`** for managing and storing external image files for the products.
 ---
-
 * **Testing**
 **`TBC`**
-
 ---
 
 ## Usage
@@ -182,6 +173,59 @@ _The project incorporates some Aspect-Oriented Programming (AOP) to modularize c
   * Order how the products are displayed, in "New", "Alphabetical", "Highest price" or "Lowest price" orders
   * Review product details
 
-## REST Test
-**`TBC`**
+## REST Services
 
+_TIP: Admin credentials are configurated in the .yaml file. If using systems like Postman for the tests, you will need to
+set the Auth credentials there as well._
+
+### **`GET Request`**
+
+---
+#### Authorization level **`User`** & **`Moderator`**:
+   _Works for all product types_
+  * Return all books in the repository:
+    * **`http://localhost:5000/api/user/books`**
+  * Return a single book from the repository:
+    * **`http://localhost:5000/api/user/books/{id}`**
+---
+#### Authorization level **`Admin`**:
+  * Return all users in the repository with all their cart items and orders, with order items:
+    * **`http://localhost:5000/api/admin/users`**
+  * Return only a single user from the repository with the same data:
+    * **`http://localhost:5000/api/admin/users/{id}`**
+
+<br>
+
+### **`POST Request`**
+
+---
+#### Authorization level **`Admin`**:
+  _Works for all product types_
+  * Add a new Book entity to the database:
+    * **`http://localhost:5000/api/admin/books`**
+
+          {
+          "productType": "BOOK",
+          "productImageUrl": "Example Image URL",
+          "productImageUrl": "Example Image URL",
+          "productName": "Example Title",
+          "productPrice": 99.99,
+          "description": "Example Description",
+          "authorName": "Example Author",
+          "publisher": "Example Publisher",
+          "publicationDate": "2000-01-01",
+          "language": "English",
+          "printLength": 999,
+          "dimensions": "10 x 10 x 10",
+          "newProduct": false
+          }
+
+<br>
+
+### **`DELETE Request`**
+
+---
+#### Authorization level **`Admin`**:
+  _Works for all product types_
+  * Delete a Book entity from the database:
+    * **`http://localhost:5000/api/admin/books/{id}`**

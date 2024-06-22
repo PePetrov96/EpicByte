@@ -99,6 +99,7 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
     @Override
     public String displayDetailedViewBookPage(UUID id, Model model) {
         Book book = bookRepository.findBookById(id);
+        if (book == null) return returnErrorPage(model);
 
         addProductBreadcrumb(model, ALL_BOOKS_URL, "Books", book.getProductName());
         model.addAttribute("product", book);
@@ -108,6 +109,12 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
     }
 
     // Support methods
+    private String returnErrorPage(Model model) {
+        model.addAttribute("errorType", "Oops...");
+        model.addAttribute("errorText", "Something went wrong!");
+        return ERROR_PAGE_HTML;
+    }
+
     private Map<String, String> getDetailFields(Book book) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
