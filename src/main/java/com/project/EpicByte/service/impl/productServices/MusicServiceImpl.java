@@ -3,8 +3,10 @@ package com.project.EpicByte.service.impl.productServices;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.enums.MusicCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Music;
-import com.project.EpicByte.repository.MusicRepository;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.MusicRepository;
 import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -25,14 +27,19 @@ import static com.project.EpicByte.util.Constants.*;
 @Service
 public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     private final MusicRepository musicRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public MusicServiceImpl(MusicRepository musicRepository, ModelMapper modelMapper, MessageSource messageSource,
+    public MusicServiceImpl(MusicRepository musicRepository,
+                            CartRepository cartRepository,
+                            ModelMapper modelMapper,
+                            MessageSource messageSource,
                             ProductImagesService productImagesService) {
         this.musicRepository = musicRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
         this.productImagesService = productImagesService;
@@ -101,12 +108,33 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
         addProductBreadcrumb(model, ALL_MUSIC_URL, "Music", music.getProductName());
         model.addAttribute("product", music);
-        model.addAttribute("productDetails", getDetailFields(music)); //TODO: all details
+        model.addAttribute("productDetails", getDetailFields(music));
+        model.addAttribute("linkType", "music");
 
         return PRODUCT_DETAILS_HTML;
     }
 
+    @Override
+    public String deleteMusic(UUID id) {
+        deleteMusicFromDatabase(id);
+        return "redirect:" + ALL_MUSIC_URL;
+    }
+
     // Support methods
+    private void deleteMusicFromDatabase(UUID id) {
+        Music music = this.musicRepository.findMusicById(id);
+
+        // Remove the image from Cloudinary
+        this.productImagesService.removeImageURL(music.getProductImageUrl());
+
+        // Remove the image from the repository
+        this.musicRepository.delete(music);
+
+        // Remove the product from all user carts
+        List<CartItem> cartItemList = this.cartRepository.findAllByProductId(id);
+        this.cartRepository.deleteAll(cartItemList);
+    }
+
     private String returnErrorPage(Model model) {
         model.addAttribute("errorType", "Oops...");
         model.addAttribute("errorText", "Something went wrong!");

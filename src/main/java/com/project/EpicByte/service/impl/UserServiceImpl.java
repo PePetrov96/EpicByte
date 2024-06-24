@@ -1,5 +1,7 @@
 package com.project.EpicByte.service.impl;
 
+import com.project.EpicByte.exceptions.LogoutRequestException;
+import com.project.EpicByte.exceptions.UsernameAlreadyExistsException;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
 import com.project.EpicByte.model.dto.UserUpdateDTO;
 import com.project.EpicByte.model.entity.UserEntity;
@@ -9,15 +11,15 @@ import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.UserService;
 import com.project.EpicByte.util.Breadcrumbs;
-import com.project.EpicByte.exceptions.UsernameAlreadyExistsException;
-import org.hibernate.Hibernate;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,14 +35,22 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     private final ModelMapper modelMapper;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final HttpServletRequest request;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper,
-                           UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           ModelMapper modelMapper,
+                           UserRoleRepository userRoleRepository,
+                           PasswordEncoder passwordEncoder,
+                           HttpServletRequest request,
+                           UserDetailsService userDetailsService1) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.request = request;
+        this.userDetailsService = userDetailsService1;
     }
 
     @Override
@@ -95,9 +105,8 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     }
 
     @Override
-    public String updateProfilePage(UserUpdateDTO userUpdateDTO, Model model, RedirectAttributes redirectAttributes, Principal principal) {
-        BindingResult bindingResult = new BeanPropertyBindingResult(userUpdateDTO, "userUpdateDTO");
-
+    public String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult,
+                                    Model model, RedirectAttributes redirectAttributes, Principal principal) {
         if (bindingResult.hasErrors()) {
             addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
@@ -111,57 +120,29 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
             bindingResult.rejectValue(USERNAME_FIELD, USERNAME_FIELD, e.getMessage());
             addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
+        } catch (LogoutRequestException e) {
+            return "redirect:" + LOGIN_URL;
         }
-    }
-
-    @Override
-    public String displayUserOrdersPage(Model model, Principal principal) {
-        addProductBreadcrumb(model, USER_ORDERS_URL, "My orders");
-        model.addAttribute("ordersType", "My orders");
-
-        try {
-            UserEntity userEntity = getByUsername(principal.getName());
-//            List<OrderDTO> orderDTOList = userEntity.getOrdersByUser(userEntity);
-//            model.addAttribute("list of orders", orderDTOList);
-        } catch (UsernameNotFoundException e) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
-        }
-
-        return ORDERS_HTML;
     }
 
     //Support methods
-    private UserEntity getByUsername(String username) {
-        UserEntity user = this.userRepository
-                .findUserEntityByUsername(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-
-        Hibernate.initialize(user.getCartItems());
-
-        return user;
-    }
-
     private void updateUserInDatabase(UserUpdateDTO userUpdateDTO) {
-        UserEntity existingUser = this.userRepository
-                .findUserEntityByUsername(userUpdateDTO.getUsername());
-
-        if (existingUser != null && !existingUser.getId().equals(userUpdateDTO.getId())) {
-            throw new UsernameAlreadyExistsException("Username already exists");
-        }
-
         UserEntity userEntity = this.userRepository.findUserEntityById(userUpdateDTO.getId());
 
         userEntity.setFirstName(userUpdateDTO.getFirstName());
         userEntity.setLastName(userUpdateDTO.getLastName());
-        userEntity.setUsername(userUpdateDTO.getUsername());
         userEntity.setEmail(userUpdateDTO.getEmail());
 
-        this.userRepository.saveAndFlush(userEntity);
+        if (!userEntity.getUsername().equals(userUpdateDTO.getUsername())) {
+            userEntity.setUsername(userUpdateDTO.getUsername());
+            this.userRepository.saveAndFlush(userEntity);
+            try {
+                request.logout();
+                throw new LogoutRequestException();
+            } catch (ServletException e) {
+                throw new RuntimeException();
+            }
+        }
     }
 
     private void saveUserInDatabase(UserRegisterDTO userRegisterDTO) {

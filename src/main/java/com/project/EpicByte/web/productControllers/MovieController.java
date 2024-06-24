@@ -45,4 +45,10 @@ public class MovieController {
     public String handleProductAddMoviePage(@Valid @ModelAttribute("product") MovieAddDTO musicAddDTO, BindingResult bindingResult, Model model) {
         return movieService.handleProductAddMovie(musicAddDTO, bindingResult, model);
     }
+
+    // Delete a Movie
+    @GetMapping(MODERATOR_MOVIES_DELETE_URL)
+    public String deleteMovie(@PathVariable UUID id) {
+        return movieService.deleteMovie(id);
+    }
 }

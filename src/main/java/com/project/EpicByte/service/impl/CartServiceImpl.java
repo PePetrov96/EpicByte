@@ -10,6 +10,7 @@ import com.project.EpicByte.model.entity.UserEntity;
 import com.project.EpicByte.model.entity.UserOrder;
 import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.repository.*;
+import com.project.EpicByte.repository.productRepositories.*;
 import com.project.EpicByte.service.CartService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
@@ -171,18 +172,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         List<OrderItem> orderItems = new ArrayList<>();
 
         for (BaseProduct product : productCountMap.keySet()) {
-            OrderItem orderItem = new OrderItem();
-//            orderItem.setProduct(product);
-
-            orderItem.setProductType(product.getProductType());
-            orderItem.setProductImageUrl(product.getProductImageUrl());
-            orderItem.setProductName(product.getProductName());
-            orderItem.setProductPrice(product.getProductPrice());
+            OrderItem orderItem = modelMapper.map(product, OrderItem.class);
 
             int quantity = productCountMap.get(product);
             orderItem.setQuantity(quantity);
             orderItem.setTotalProductPrice(product.getProductPrice().multiply(new BigDecimal(quantity)));
             orderItem.setUserOrder(userOrder);
+
             orderItems.add(orderItem);
         }
 

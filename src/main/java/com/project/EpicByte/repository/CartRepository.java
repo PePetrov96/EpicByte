@@ -16,4 +16,7 @@ public interface CartRepository extends JpaRepository<CartItem, UUID> {
 
     @Query("SELECT ci FROM CartItem ci WHERE ci.user.id = :userId AND ci.product.id = :productId")
     List<CartItem> findAllByUserIdAndProductId(@Param("userId") UUID userId, @Param("productId") UUID productId);
+
+    @Query("SELECT ci FROM CartItem ci WHERE ci.product.id = :productId")
+    List<CartItem> findAllByProductId(@Param("productId") UUID productId);
 }

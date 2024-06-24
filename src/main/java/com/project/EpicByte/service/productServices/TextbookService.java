@@ -11,5 +11,5 @@ public interface TextbookService {
     String handleProductAddTextbook(TextbookAddDTO textbookAddDTO, BindingResult bindingResult, Model model);
     String displayAllTextbooksPage(Model model, String string);
     String displayDetailedViewTextbookPage(UUID id, Model model);
-
+    String deleteTextbook(UUID id);
 }

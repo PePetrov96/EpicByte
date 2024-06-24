@@ -3,8 +3,10 @@ package com.project.EpicByte.service.impl.productServices;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
 import com.project.EpicByte.model.entity.enums.MovieCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Movie;
-import com.project.EpicByte.repository.MovieRepository;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.MovieRepository;
 import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -25,14 +27,17 @@ import static com.project.EpicByte.util.Constants.*;
 @Service
 public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     private final MovieRepository movieRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    //CLOUDINARY
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, ModelMapper modelMapper, MessageSource messageSource,
+    public MovieServiceImpl(MovieRepository movieRepository, CartRepository cartRepository, ModelMapper modelMapper, MessageSource messageSource,
                             ProductImagesService productImagesService) {
         this.movieRepository = movieRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
         this.productImagesService = productImagesService;
@@ -102,11 +107,32 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
         model.addAttribute("product", movie);
         model.addAttribute("productDetails", getDetailFields(movie));
+        model.addAttribute("linkType", "movies");
 
         return PRODUCT_DETAILS_HTML;
     }
 
+    @Override
+    public String deleteMovie(UUID id) {
+        deleteMovieFromDatabase(id);
+        return "redirect:" + ALL_MOVIES_URL;
+    }
+
     // Support methods
+    private void deleteMovieFromDatabase(UUID id) {
+        Movie movie = movieRepository.findMovieById(id);
+
+        // Remove the image from Cloudinary
+        this.productImagesService.removeImageURL(movie.getProductImageUrl());
+
+        // Remove the image from the repository
+        this.movieRepository.delete(movie);
+
+        // Remove the product from all user carts
+        List<CartItem> cartItemList = this.cartRepository.findAllByProductId(id);
+        this.cartRepository.deleteAll(cartItemList);
+    }
+
     private String returnErrorPage(Model model) {
         model.addAttribute("errorType", "Oops...");
         model.addAttribute("errorText", "Something went wrong!");

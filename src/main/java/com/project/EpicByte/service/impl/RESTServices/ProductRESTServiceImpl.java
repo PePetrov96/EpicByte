@@ -4,7 +4,8 @@ import com.project.EpicByte.model.dto.productDTOs.*;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.*;
-import com.project.EpicByte.repository.*;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.*;
 import com.project.EpicByte.service.ProductRESTService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class ProductRESTServiceImpl implements ProductRESTService {
     private final MovieRepository movieRepository;
     private final MusicRepository musicRepository;
     private final ToyRepository toyRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
@@ -29,12 +31,14 @@ public class ProductRESTServiceImpl implements ProductRESTService {
                                   MovieRepository movieRepository,
                                   MusicRepository musicRepository,
                                   ToyRepository toyRepository,
+                                  CartRepository cartRepository,
                                   ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
         this.musicRepository = musicRepository;
         this.toyRepository = toyRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -122,22 +126,27 @@ public class ProductRESTServiceImpl implements ProductRESTService {
         return switch (productType) {
             case "BOOKS" -> {
                 this.bookRepository.deleteById(uuid);
+                this.cartRepository.deleteAll(this.cartRepository.findAllByProductId(uuid));
                 yield true;
             }
             case "TEXTBOOKS" -> {
                 this.textbookRepository.deleteById(uuid);
+                this.cartRepository.deleteAll(this.cartRepository.findAllByProductId(uuid));
                 yield true;
             }
             case "MOVIES" -> {
                 this.movieRepository.deleteById(uuid);
+                this.cartRepository.deleteAll(this.cartRepository.findAllByProductId(uuid));
                 yield true;
             }
             case "MUSIC" -> {
                 this.musicRepository.deleteById(uuid);
+                this.cartRepository.deleteAll(this.cartRepository.findAllByProductId(uuid));
                 yield true;
             }
             case "TOYS" -> {
                 this.toyRepository.deleteById(uuid);
+                this.cartRepository.deleteAll(this.cartRepository.findAllByProductId(uuid));
                 yield true;
             }
             default -> false;

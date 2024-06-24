@@ -42,9 +42,18 @@ public class Constants {
     public static final String MODERATOR_PRODUCT_ADD_MUSIC_URL = "/moderator/product/add/music";
     public static final String MODERATOR_PRODUCT_ADD_TOY_URL = "/moderator/product/add/toy";
     public static final String MODERATOR_ORDERS_URL = "/moderator/orders";
-    public static final String MODERATOR_PRODUCT_UPDATE_URL = "/moderator/product/update";
-    public static final String MODERATOR_PRODUCT_DELETE_URL = "/moderator/product/delete";
     public static final String MODERATOR_ORDER_COMPLETE_URL = "/moderator/order/complete/";
+
+    public static final String MODERATOR_BOOKS_UPDATE_URL = "/moderator/books/update/{id}";
+    public static final String MODERATOR_BOOKS_DELETE_URL = "/moderator/books/delete/{id}";
+    public static final String MODERATOR_TEXTBOOKS_UPDATE_URL = "/moderator/textbooks/update/{id}";
+    public static final String MODERATOR_TEXTBOOKS_DELETE_URL = "/moderator/textbooks/delete/{id}";
+    public static final String MODERATOR_MUSIC_UPDATE_URL = "/moderator/music/update/{id}";
+    public static final String MODERATOR_MUSIC_DELETE_URL = "/moderator/music/delete/{id}";
+    public static final String MODERATOR_MOVIES_UPDATE_URL = "/moderator/movies/update/{id}";
+    public static final String MODERATOR_MOVIES_DELETE_URL = "/moderator/movies/delete/{id}";
+    public static final String MODERATOR_TOYS_UPDATE_URL = "/moderator/toys/update/{id}";
+    public static final String MODERATOR_TOYS_DELETE_URL = "/moderator/toys/delete/{id}";
 
     public static final String ADMIN_MANAGE_PRIVILEGES_URL = "/admin/manage-privileges";
     public static final String ADMIN_REMOVE_PRIVILEGES_URL = "/admin/remove-privilege/";

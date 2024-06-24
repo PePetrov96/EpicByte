@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 @Documented
 public @interface UniqueUsername {
-    String message() default "Username is already taken";
+    String message() default "{username.is.already.taken.error.text}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

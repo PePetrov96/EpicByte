@@ -11,5 +11,5 @@ public interface ToyService {
     String handleProductAddToy(ToyAddDTO toyAddDTO, BindingResult bindingResult, Model model);
     String displayAllToysPage(Model model, String string);
     String displayDetailedViewToyPage(UUID id, Model model);
-
+    String deleteToy(UUID id);
 }

@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = NotUniqueEmailValidator.class)
 @Documented
 public @interface NotUniqueEmail {
-    String message() default "Email has already subscribed!";
+    String message() default "{email.already.subscribed.error.text}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

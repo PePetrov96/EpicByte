@@ -11,5 +11,5 @@ public interface MovieService {
     String handleProductAddMovie(MovieAddDTO movieAddDTO, BindingResult bindingResult, Model model);
     String displayAllMoviesPage(Model model, String string);
     String displayDetailedViewMoviePage(UUID id, Model model);
-
+    String deleteMovie(UUID id);
 }

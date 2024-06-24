@@ -4,7 +4,9 @@ import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.Book;
-import com.project.EpicByte.repository.BookRepository;
+import com.project.EpicByte.model.entity.productEntities.CartItem;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.BookRepository;
 import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -25,15 +27,17 @@ import static com.project.EpicByte.util.Constants.*;
 @Service
 public class BookServiceImpl extends Breadcrumbs implements BookService {
     private final BookRepository bookRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
     // CLOUDINARY
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper, MessageSource messageSource,
+    public BookServiceImpl(BookRepository bookRepository, CartRepository cartRepository, ModelMapper modelMapper, MessageSource messageSource,
                            ProductImagesService productImagesService) {
         this.bookRepository = bookRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
         this.productImagesService = productImagesService;
@@ -104,8 +108,29 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
         addProductBreadcrumb(model, ALL_BOOKS_URL, "Books", book.getProductName());
         model.addAttribute("product", book);
         model.addAttribute("productDetails", getDetailFields(book));
+        model.addAttribute("linkType", "books");
 
         return PRODUCT_DETAILS_HTML;
+    }
+
+    @Override
+    public String deleteBook(UUID id) {
+        deleteBookFromDatabase(id);
+        return "redirect:" + ALL_BOOKS_URL;
+    }
+
+    private void deleteBookFromDatabase(UUID id) {
+        Book book = bookRepository.findBookById(id);
+
+        // Remove the image from Cloudinary
+        this.productImagesService.removeImageURL(book.getProductImageUrl());
+
+        // Remove the image from the repository
+        this.bookRepository.delete(book);
+
+        // Remove the product from all user carts
+        List<CartItem> cartItemList = this.cartRepository.findAllByProductId(id);
+        this.cartRepository.deleteAll(cartItemList);
     }
 
     // Support methods

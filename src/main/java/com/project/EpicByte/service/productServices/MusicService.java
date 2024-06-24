@@ -11,5 +11,5 @@ public interface MusicService {
     String handleProductAddMusic(MusicAddDTO musicAddDTO, BindingResult bindingResult, Model model);
     String displayAllMusicPage(Model model, String string);
     String displayDetailedViewMusicPage(UUID id, Model model);
-
+    String deleteMusic(UUID id);
 }

@@ -44,4 +44,11 @@ public class ToyController {
     public String handleProductAddToyPage(@Valid @ModelAttribute("product") ToyAddDTO toyAddDTO, BindingResult bindingResult, Model model) {
         return toyService.handleProductAddToy(toyAddDTO, bindingResult, model);
     }
+
+    // Delete a toy
+    @GetMapping(MODERATOR_TOYS_DELETE_URL)
+    public String deleteToy(@PathVariable UUID id) {
+        return toyService.deleteToy(id);
+    }
+
 }

@@ -46,4 +46,16 @@ public class TextbookController {
                                                BindingResult bindingResult, Model model) {
         return textbookService.handleProductAddTextbook(textbookAddDTODTO, bindingResult, model);
     }
+
+    // Delete a textbook
+    @GetMapping(MODERATOR_TEXTBOOKS_DELETE_URL)
+    public String deleteTextbooks(@PathVariable UUID id) {
+        return this.textbookService.deleteTextbook(id);
+    }
+    //
+//    // Delete a book
+//    @GetMapping(MODERATOR_BOOKS_DELETE_URL)
+//    public String deleteBook(@PathVariable UUID id) {
+//        return bookService.deleteBook(id);
+//    }
 }

@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = NotAdminUsernameValidator.class)
 @Documented
 public @interface NotAdminUsername {
-    String message() default "Username is forbidden!";
+    String message() default "{forbidden.username.text}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

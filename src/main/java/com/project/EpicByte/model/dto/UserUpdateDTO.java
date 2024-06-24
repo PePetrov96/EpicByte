@@ -1,7 +1,7 @@
 package com.project.EpicByte.model.dto;
 
 import com.project.EpicByte.validation.NotAdminUsername;
-import com.project.EpicByte.validation.UniqueUsername;
+import com.project.EpicByte.validation.UniqueUpdateUsername;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter @Setter @NoArgsConstructor
+@UniqueUpdateUsername
 public class UserUpdateDTO {
     private UUID id;
 

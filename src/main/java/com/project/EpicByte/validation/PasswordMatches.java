@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({TYPE})
 @Retention(RUNTIME)
 public @interface PasswordMatches {
-    String message() default "Passwords do not match";
+    String message() default "{passwords.do.not.match.error.text}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

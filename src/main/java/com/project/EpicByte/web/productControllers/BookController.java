@@ -46,4 +46,10 @@ public class BookController extends Breadcrumbs {
     public String handleProductAddBookPage(@Valid @ModelAttribute("product") BookAddDTO product, BindingResult bindingResult, Model model) {
         return bookService.handleProductAddBook(product, bindingResult, model);
     }
+
+    // Delete a book
+    @GetMapping(MODERATOR_BOOKS_DELETE_URL)
+    public String deleteBook(@PathVariable UUID id) {
+        return bookService.deleteBook(id);
+    }
 }

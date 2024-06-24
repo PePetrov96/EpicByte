@@ -2,8 +2,10 @@ package com.project.EpicByte.service.impl.productServices;
 
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Toy;
-import com.project.EpicByte.repository.ToyRepository;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.ToyRepository;
 import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.ToyService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -24,14 +26,19 @@ import static com.project.EpicByte.util.Constants.*;
 @Service
 public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     private final ToyRepository toyRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public ToyServiceImpl(ToyRepository toyRepository, ModelMapper modelMapper, MessageSource messageSource,
+    public ToyServiceImpl(ToyRepository toyRepository,
+                          CartRepository cartRepository,
+                          ModelMapper modelMapper,
+                          MessageSource messageSource,
                           ProductImagesService productImagesService) {
         this.toyRepository = toyRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
         this.productImagesService = productImagesService;
@@ -99,11 +106,34 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
         addProductBreadcrumb(model, ALL_TOYS_URL, "Toys", toy.getProductName());
         model.addAttribute("product", toy);
         model.addAttribute("productDetails", getDetailFields(toy)); //TODO: all details
+        model.addAttribute("linkType", "toys");
 
         return PRODUCT_DETAILS_HTML;
     }
 
+    @Override
+    public String deleteToy(UUID id) {
+        deleteToyFromDatabase(id);
+        return "redirect:" + ALL_TOYS_URL;
+    }
+
+    private void deleteToyFromDatabase(UUID id) {
+        Toy toy = toyRepository.findToyById(id);
+
+        // Remove the image from Cloudinary
+        this.productImagesService.removeImageURL(toy.getProductImageUrl());
+
+        // Remove the image from the repository
+        this.toyRepository.delete(toy);
+
+        // Remove the product from all user carts
+        List<CartItem> cartItemList = this.cartRepository.findAllByProductId(id);
+        this.cartRepository.deleteAll(cartItemList);
+    }
+
     // Support methods
+    private void deleteMovieFromDatabase(UUID id) {}
+
     private String returnErrorPage(Model model) {
         model.addAttribute("errorType", "Oops...");
         model.addAttribute("errorText", "Something went wrong!");

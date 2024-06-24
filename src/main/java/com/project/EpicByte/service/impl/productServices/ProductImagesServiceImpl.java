@@ -7,6 +7,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 // CLOUDINARY
@@ -33,5 +34,25 @@ public class ProductImagesServiceImpl implements ProductImagesService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void removeImageURL(String imageURL) {
+        try {
+            Map params1 = ObjectUtils.asMap(
+                    "use_filename", true,
+                    "unique_filename", false,
+                    "overwrite", true
+            );
+
+            cloudinary.uploader().destroy(getPublicID(imageURL), params1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getPublicID(String imageURL) {
+        List<String> imageElements = List.of(imageURL.split("/"));
+        return imageElements.get(imageElements.size() - 1).split("\\.")[0];
     }
 }

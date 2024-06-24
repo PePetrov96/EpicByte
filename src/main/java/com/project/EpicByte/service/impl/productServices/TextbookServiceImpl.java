@@ -3,8 +3,11 @@ package com.project.EpicByte.service.impl.productServices;
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
+import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
-import com.project.EpicByte.repository.TextbookRepository;
+import com.project.EpicByte.model.entity.productEntities.Toy;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.productRepositories.TextbookRepository;
 import com.project.EpicByte.service.ProductImagesService;
 import com.project.EpicByte.service.productServices.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -25,14 +29,19 @@ import static com.project.EpicByte.util.Constants.*;
 @Service
 public class TextbookServiceImpl extends Breadcrumbs implements TextbookService {
     private final TextbookRepository textbookRepository;
+    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public TextbookServiceImpl(TextbookRepository textbookRepository, ModelMapper modelMapper,
-                               MessageSource messageSource, ProductImagesService productImagesService) {
+    public TextbookServiceImpl(TextbookRepository textbookRepository,
+                               CartRepository cartRepository,
+                               ModelMapper modelMapper,
+                               MessageSource messageSource,
+                               ProductImagesService productImagesService) {
         this.textbookRepository = textbookRepository;
+        this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
         this.productImagesService = productImagesService;
@@ -101,12 +110,34 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
         addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks", textbook.getProductName());
         model.addAttribute("product", textbook);
-        model.addAttribute("productDetails", getDetailFields(textbook)); //TODO: all details
+        model.addAttribute("productDetails", getDetailFields(textbook));
+        model.addAttribute("linkType", "textbooks");
+
 
         return PRODUCT_DETAILS_HTML;
     }
 
+    @Override
+    public String deleteTextbook(UUID id) {
+        deleteTextbookFromDatabase(id);
+        return "redirect:" + ALL_TEXTBOOKS_URL;
+    }
+
     // Support methods
+    private void deleteTextbookFromDatabase(UUID id) {
+        Textbook textbook = textbookRepository.findTextbookById(id);
+
+        // Remove the image from Cloudinary
+        this.productImagesService.removeImageURL(textbook.getProductImageUrl());
+
+        // Remove the image from the repository
+        this.textbookRepository.delete(textbook);
+
+        // Remove the product from all user carts
+        List<CartItem> cartItemList = this.cartRepository.findAllByProductId(id);
+        this.cartRepository.deleteAll(cartItemList);
+    }
+
     private String returnErrorPage(Model model) {
         model.addAttribute("errorType", "Oops...");
         model.addAttribute("errorText", "Something went wrong!");

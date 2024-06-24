@@ -3,6 +3,7 @@ package com.project.EpicByte.init;
 import com.project.EpicByte.model.entity.UserRoleEntity;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.*;
+import com.project.EpicByte.repository.productRepositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

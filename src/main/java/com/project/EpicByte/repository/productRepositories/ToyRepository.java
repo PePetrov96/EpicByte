@@ -1,4 +1,4 @@
-package com.project.EpicByte.repository;
+package com.project.EpicByte.repository.productRepositories;
 
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import org.springframework.data.jpa.repository.JpaRepository;

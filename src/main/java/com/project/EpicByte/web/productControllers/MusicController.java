@@ -46,4 +46,10 @@ public class MusicController {
                                             BindingResult bindingResult, Model model) {
         return musicService.handleProductAddMusic(musicAddDTO, bindingResult, model);
     }
+
+    // Delete a music
+    @GetMapping(MODERATOR_MUSIC_DELETE_URL)
+    public String deleteMusic(@PathVariable UUID id) {
+        return this.musicService.deleteMusic(id);
+    }
 }
