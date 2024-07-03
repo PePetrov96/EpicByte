@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title th:remove="all">EpicByte</title>
+</head>
+<body>
+    <p th:text="'Hello, ' + ${names} + ','"></p>
+    <p>
+        You have successfully registered to <b>EpicByte</b> on
+        <span th:text="${currentDate}"></span>
+    </p>
+    <p>
+        <img style="height: 70px; width: auto" src="/images/Site-Logo-Full-2.png"  alt="EpicByte Logo"/>
+    </p>
+    <p>
+        Regards, <br />
+        <em>The EpicByte Team</em>
+    </p>
+</body>
+</html>

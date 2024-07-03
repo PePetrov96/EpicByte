@@ -29,23 +29,15 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
 
     @Override
     public String displayUserOrders(Model model, Principal principal) {
-        try {
-            UserEntity user = getUserEntityByUsername(principal.getName());
-            Set<UserOrder> userOrdersSet = this.userOrderRepository.findUserOrderByUserId(user.getId());
-            return returnModelPage(userOrdersSet, model);
-        } catch (NullPointerException | UsernameNotFoundException exception) {
-            return returnErrorPage(model);
-        }
+        UserEntity user = getUserEntityByUsername(principal.getName());
+        Set<UserOrder> userOrdersSet = this.userOrderRepository.findUserOrderByUserId(user.getId());
+        return returnModelPage(userOrdersSet, model);
     }
 
     @Override
     public String displayAdminAllUserOrders(Model model) {
-        try {
-            LinkedHashSet<UserOrder> userOrdersSet = new LinkedHashSet<>(userOrderRepository.findUserOrdersComplete());
-            return returnModelPage(userOrdersSet, model);
-        } catch (NullPointerException | UsernameNotFoundException exception) {
-            return returnErrorPage(model);
-        }
+        LinkedHashSet<UserOrder> userOrdersSet = new LinkedHashSet<>(userOrderRepository.findUserOrdersComplete());
+        return returnModelPage(userOrdersSet, model);
     }
 
     @Override
@@ -90,13 +82,6 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
         }
 
         return ORDERS_HTML;
-    }
-
-    // Return error page
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
     }
 
     // Get user. Transactional, since the collections are prone to errors

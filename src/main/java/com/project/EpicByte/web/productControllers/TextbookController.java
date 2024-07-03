@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
-import com.project.EpicByte.service.productServices.TextbookService;
+import com.project.EpicByte.service.product.TextbookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,10 +52,4 @@ public class TextbookController {
     public String deleteTextbooks(@PathVariable UUID id) {
         return this.textbookService.deleteTextbook(id);
     }
-    //
-//    // Delete a book
-//    @GetMapping(MODERATOR_BOOKS_DELETE_URL)
-//    public String deleteBook(@PathVariable UUID id) {
-//        return bookService.deleteBook(id);
-//    }
 }

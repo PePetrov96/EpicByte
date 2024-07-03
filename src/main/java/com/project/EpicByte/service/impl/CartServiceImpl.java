@@ -46,9 +46,16 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
 
-    public CartServiceImpl(BookRepository bookRepository, TextbookRepository textbookRepository,
-                           MovieRepository movieRepository, MusicRepository musicRepository,
-                           ToyRepository toyRepository, MessageSource messageSource, CartRepository cartRepository, UserRepository userRepository, UserOrderRepository userOrderRepository, ModelMapper modelMapper) {
+    public CartServiceImpl(BookRepository bookRepository,
+                           TextbookRepository textbookRepository,
+                           MovieRepository movieRepository,
+                           MusicRepository musicRepository,
+                           ToyRepository toyRepository,
+                           MessageSource messageSource,
+                           CartRepository cartRepository,
+                           UserRepository userRepository,
+                           UserOrderRepository userOrderRepository,
+                           ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
@@ -67,11 +74,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             UserEntity userEntity = getUserEntityByUsername(username);
             setModelAttributesForCart(userEntity, model);
             addProductBreadcrumb(model, USER_CART_URL, "Cart");
-        } catch (UsernameNotFoundException e) {
-            return returnErrorPage(model);
         } catch (EmptyCartException e) {
             return returnEmptyCartPage(model);
         }
+
+//        catch (UsernameNotFoundException e) {
+//            return returnErrorPage(model);
+//        }
 
         return CART_HTML;
     }
@@ -113,11 +122,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             model.addAttribute("orderAddressDTO", new OrderAddressDTO());
             addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
             return CART_CHECKOUT_HTML;
-        } catch (NullPointerException | UsernameNotFoundException exception) {
-            return returnErrorPage(model);
-        }  catch (EmptyCartException e) {
+        }catch (EmptyCartException e) {
             return returnEmptyCartPage(model);
         }
+//
+//        catch (NullPointerException | UsernameNotFoundException exception) {
+//            return returnErrorPage(model);
+//        }
     }
 
     @Override
@@ -217,12 +228,12 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(text, null, locale);
     }
-
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
-    }
+//
+//    private String returnErrorPage(Model model) {
+//        model.addAttribute("errorType", "Oops...");
+//        model.addAttribute("errorText", "Something went wrong!");
+//        return ERROR_PAGE_HTML;
+//    }
 
     private String returnEmptyCartPage(Model model) {
         model.addAttribute("emptyCart", true);

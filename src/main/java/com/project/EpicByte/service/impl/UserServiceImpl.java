@@ -1,5 +1,6 @@
 package com.project.EpicByte.service.impl;
 
+import com.project.EpicByte.events.UserRegisterEvent;
 import com.project.EpicByte.exceptions.LogoutRequestException;
 import com.project.EpicByte.exceptions.UsernameAlreadyExistsException;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
@@ -15,7 +16,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
-    private final UserDetailsService userDetailsService;
+    private final ApplicationEventPublisher eventPublisher;
+    private final MailSenderService mailSenderService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -44,13 +46,14 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
                            UserRoleRepository userRoleRepository,
                            PasswordEncoder passwordEncoder,
                            HttpServletRequest request,
-                           UserDetailsService userDetailsService1) {
+                           ApplicationEventPublisher eventPublisher, MailSenderService mailSenderService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.request = request;
-        this.userDetailsService = userDetailsService1;
+        this.eventPublisher = eventPublisher;
+        this.mailSenderService = mailSenderService;
     }
 
     @Override
@@ -77,6 +80,14 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
         }
 
         saveUserInDatabase(userRegisterDTO);
+
+        this.eventPublisher.publishEvent(
+                new UserRegisterEvent(
+                        this,
+                        userRegisterDTO.getUsername(),
+                        userRegisterDTO.getEmail(),
+                        userRegisterDTO.getFirstName() + " " + userRegisterDTO.getLastName()));
+
         return "redirect:" + LOGIN_URL;
     }
 
@@ -84,14 +95,11 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     public String showProfilePage(Model model, Principal principal) {
         addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
 
-        // Populate user values in the fields
         try {
             UserUpdateDTO userUpdateDTO = this.getUserUpdateDTOByUsername(principal.getName());
             model.addAttribute(USER_UPDATE_DTO, userUpdateDTO);
         } catch (UsernameNotFoundException e) {
-            model.addAttribute("errorType", "Oops...");
-            model.addAttribute("errorText", "Something went wrong!");
-            return ERROR_PAGE_HTML;
+            throw new UsernameNotFoundException("Username not found");
         }
 
         // check if it is a redirect with previously successful operation or a new request

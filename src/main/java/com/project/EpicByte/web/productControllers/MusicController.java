@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
-import com.project.EpicByte.service.productServices.MusicService;
+import com.project.EpicByte.service.product.MusicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -11,7 +11,7 @@
         <div class="orders-page-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <h1 th:if="${noUserOrders}" th:text="#{no.orders.text}"></h1>
+            <h1 th:if="${noUserOrders}" th:text="#{no.orders.text}" style="text-align: center"></h1>
 
             <div th:unless="${noUserOrders}" class="orders-container">
                 <div th:each="orderItem : ${userOrders}" class="order-container">

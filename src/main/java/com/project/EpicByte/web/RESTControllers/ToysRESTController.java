@@ -3,7 +3,7 @@ package com.project.EpicByte.web.RESTControllers;
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Toy;
-import com.project.EpicByte.service.ProductRESTService;
+import com.project.EpicByte.service.REST.ProductRESTService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

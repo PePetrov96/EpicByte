@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface TextbookRepository extends JpaRepository<Textbook, UUID> {
     @Query("SELECT t from Textbook t WHERE t.id = :userId")
     Textbook findTextbookById(@Param("userId") UUID userId);
+
+    @Query("SELECT t FROM Textbook t WHERE t.isNewProduct = true and t.dateCreated <= :date")
+    List<Textbook> findNewTextbooksOlderThanAWeek(LocalDate date);
 }

@@ -1,5 +1,6 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl.product;
 
+import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
 import com.project.EpicByte.model.entity.enums.MovieCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
@@ -8,7 +9,7 @@ import com.project.EpicByte.model.entity.productEntities.Movie;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.MovieRepository;
 import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.productServices.MovieService;
+import com.project.EpicByte.service.product.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,10 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     private final ProductImagesService productImagesService;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository, CartRepository cartRepository, ModelMapper modelMapper, MessageSource messageSource,
+    public MovieServiceImpl(MovieRepository movieRepository,
+                            CartRepository cartRepository,
+                            ModelMapper modelMapper,
+                            MessageSource messageSource,
                             ProductImagesService productImagesService) {
         this.movieRepository = movieRepository;
         this.cartRepository = cartRepository;
@@ -45,8 +49,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
     @Override
     public String displayProductAddMoviePage(Model model) {
-        model.addAttribute("linkType", "movie");
-        model.addAttribute("productType", getLocalizedText("movie.text"));
+        addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new MovieAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("movie", false));
         model.addAttribute("enumsList", MovieCarrierEnum.values());
@@ -55,8 +58,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
     @Override
     public String handleProductAddMovie(MovieAddDTO movieAddDTO, BindingResult bindingResult, Model model) {
-        model.addAttribute("productType", getLocalizedText("movie.text"));
-        model.addAttribute("linkType", "movie");
+        addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("movie", false));
@@ -64,53 +66,31 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
             return PRODUCT_ADD_HTML;
         }
 
-        addMovieToDatabase(movieAddDTO);
-
-        model.addAttribute("pageType", "Completed Successfully");
-        model.addAttribute("pageText", "Movie added successfully!");
+        addMovieToDatabase(movieAddDTO, model);
         return DISPLAY_TEXT_HTML;
     }
 
     @Override
     public String displayAllMoviesPage(Model model, String sort) {
         addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies");
-        model.addAttribute("productType", getLocalizedText("movies.text"));
-        model.addAttribute("productLinkType", "movie");
-        model.addAttribute("linkType", "movies");
-
-        List<Movie> movieList;
-
-        if (sort == null) {
-            movieList = getAllSortedByIsNewProduct();
-        } else if (sort.equals("lowest")) {
-            movieList = getAllSortedByLowestPrice();
-        } else if (sort.equals("highest")) {
-            movieList = getAllSortedByHighestPrice();
-        } else if (sort.equals("alphabetical")) {
-            movieList = getAllSortedAlphabetically();
-        } else {
-            movieList = getAllSortedByIsNewProduct();
-        }
-
+        addDefaultModelAttributesForAllAndDetailed(model);
+        List<Movie> movieList = getSortedMovies(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
-
         model.addAttribute("productList", movieList);
-
         return PRODUCTS_ALL_HTML;
     }
 
     @Override
     public String displayDetailedViewMoviePage(UUID id, Model model) {
-        Movie movie = movieRepository.findMovieById(id);
-        if (movie == null) return returnErrorPage(model);
-
+        Movie movie = getMovieOrThrowException(id);
         addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
+        addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", movie);
         model.addAttribute("productDetails", getDetailFields(movie));
         model.addAttribute("linkType", "movies");
-
         return PRODUCT_DETAILS_HTML;
     }
+
 
     @Override
     public String deleteMovie(UUID id) {
@@ -119,6 +99,37 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     }
 
     // Support methods
+    private Movie getMovieOrThrowException(UUID id) {
+        Movie movie = movieRepository.findMovieById(id);
+        if (movie == null) throw new NoSuchProductException();
+        return movie;
+    }
+
+    private void addDefaultModelAttributesForAddAndHandle(Model model) {
+        model.addAttribute("linkType", "movie");
+        model.addAttribute("productType", getLocalizedText("movie.text"));
+    }
+
+    private void addDefaultModelAttributesForAllAndDetailed(Model model) {
+        model.addAttribute("productType", getLocalizedText("movies.text"));
+        model.addAttribute("productLinkType", "movie");
+        model.addAttribute("linkType", "movies");
+    }
+
+    private List<Movie> getSortedMovies(String sort) {
+        if (sort == null || sort.equals("default")) {
+            return getAllSortedByIsNewProduct();
+        } else if (sort.equals("lowest")) {
+            return getAllSortedByLowestPrice();
+        } else if (sort.equals("highest")) {
+            return getAllSortedByHighestPrice();
+        } else if (sort.equals("alphabetical")) {
+            return getAllSortedAlphabetically();
+        } else {
+            return getAllSortedByIsNewProduct();
+        }
+    }
+
     private void deleteMovieFromDatabase(UUID id) {
         Movie movie = movieRepository.findMovieById(id);
 
@@ -133,12 +144,6 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         this.cartRepository.deleteAll(cartItemList);
     }
 
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
-    }
-
     private Map<String, String> getDetailFields(Movie movie) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
@@ -146,6 +151,28 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         fieldsMap.put(getLocalizedText("carrier.text"), movie.getCarrier().toString());
 
         return fieldsMap;
+    }
+
+    private void addMovieToDatabase(MovieAddDTO movieAddDTO, Model model) {
+        Movie movie = modelMapper.map(movieAddDTO, Movie.class);
+        setNewMovieDetails(movie, movieAddDTO);
+        movieRepository.saveAndFlush(movie);
+        setSuccessMessageToModel(model);
+    }
+
+    private void setNewMovieDetails(Movie movie, MovieAddDTO movieAddDTO) {
+        movie.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                movieAddDTO.getProductImageUrl()));
+        movie.setNewProduct(true);
+        movie.setDateCreated(LocalDate.now());
+        movie.setProductType(ProductTypeEnum.MOVIE);
+    }
+
+    private void setSuccessMessageToModel(Model model) {
+        model.addAttribute("pageType", "Completed Successfully");
+        model.addAttribute("pageText", getLocalizedText("movie.added.successfully.text"));
     }
 
     private String getLocalizedText(String text) {
@@ -167,21 +194,5 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
     private List<Movie> getAllSortedAlphabetically() {
         return movieRepository.findAll(Sort.by(Sort.Direction.ASC,"productName"));
-    }
-
-    private void addMovieToDatabase(MovieAddDTO movieAddDTO) {
-        Movie movie = modelMapper.map(movieAddDTO, Movie.class);
-
-        // CLOUDINARY
-        movie.setProductImageUrl(
-                this.productImagesService
-                        .getImageURL(
-                                movieAddDTO.getProductImageUrl()));
-
-        movie.setProductType(ProductTypeEnum.MOVIE);
-        movie.setDateCreated(LocalDate.now());
-        movie.setNewProduct(true);
-
-        movieRepository.saveAndFlush(movie);
     }
 }

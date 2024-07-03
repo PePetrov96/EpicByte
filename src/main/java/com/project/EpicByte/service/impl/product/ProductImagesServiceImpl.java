@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl.product;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

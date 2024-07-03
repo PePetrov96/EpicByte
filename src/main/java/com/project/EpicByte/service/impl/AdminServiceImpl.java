@@ -38,29 +38,21 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public String giveModeratorPrivilegesToUser(UUID id, Model model) {
-        try {
-            UserEntity userEntity = getUserEntityById(id);
-            UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
-            userEntity.getRoles().add(userRole);
-            userRepository.saveAndFlush(userEntity);
-            return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
-        } catch (UsernameIsEmptyException e) {
-            return returnErrorPage(model);
-        }
+        UserEntity userEntity = getUserEntityById(id);
+        UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
+        userEntity.getRoles().add(userRole);
+        userRepository.saveAndFlush(userEntity);
+        return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
     }
 
     @Override
     @Transactional
     public String removeModeratorPrivileges(UUID id, Model model) {
-        try {
-            UserEntity userEntity = getUserEntityById(id);
-            UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
-            userEntity.getRoles().remove(userRole);
-            userRepository.saveAndFlush(userEntity);
-            return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
-        } catch (UsernameIsEmptyException e) {
-            return returnErrorPage(model);
-        }
+        UserEntity userEntity = getUserEntityById(id);
+        UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
+        userEntity.getRoles().remove(userRole);
+        userRepository.saveAndFlush(userEntity);
+        return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
     }
 
     // Support Methods
@@ -96,11 +88,5 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return userMap;
-    }
-
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
     }
 }

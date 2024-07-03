@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.impl.RESTServices;
+package com.project.EpicByte.service.impl.REST;
 
 import com.project.EpicByte.model.dto.productDTOs.*;
 import com.project.EpicByte.model.entity.BaseProduct;
@@ -6,7 +6,7 @@ import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.*;
-import com.project.EpicByte.service.ProductRESTService;
+import com.project.EpicByte.service.REST.ProductRESTService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

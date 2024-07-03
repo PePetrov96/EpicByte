@@ -1,5 +1,6 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl.product;
 
+import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.CartItem;
@@ -7,7 +8,7 @@ import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.ToyRepository;
 import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.productServices.ToyService;
+import com.project.EpicByte.service.product.ToyService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
 
     @Override
     public String displayProductAddToyPage(Model model) {
-        model.addAttribute("linkType", "toy");
-        model.addAttribute("productType", getLocalizedText("toy.text"));
+        addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new ToyAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("toy", false));
         return PRODUCT_ADD_HTML;
@@ -55,59 +55,35 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
 
     @Override
     public String handleProductAddToy(ToyAddDTO toyAddDTO, BindingResult bindingResult, Model model) {
-        model.addAttribute("linkType", "toy");
-        model.addAttribute("productType", getLocalizedText("toy.text"));
+        addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("toy", false));
             return PRODUCT_ADD_HTML;
         }
 
-        addToyToDatabase(toyAddDTO);
-
-        model.addAttribute("pageType", "Completed Successfully");
-        model.addAttribute("pageText", "Toy added successfully!");
+        addToyToDatabase(toyAddDTO, model);
         return DISPLAY_TEXT_HTML;
     }
 
     @Override
     public String displayAllToysPage(Model model, String sort) {
         addProductBreadcrumb(model, ALL_TOYS_URL, "Toys");
-        model.addAttribute("productType", getLocalizedText("toys.text"));
-        model.addAttribute("productLinkType", "toy");
-        model.addAttribute("linkType", "toys");
-
-        List<Toy> toyList;
-
-        if (sort == null) {
-            toyList = getAllSortedByIsNewProduct();
-        } else if (sort.equals("lowest")) {
-            toyList = getAllSortedByLowestPrice();
-        } else if (sort.equals("highest")) {
-            toyList = getAllSortedByHighestPrice();
-        } else if (sort.equals("alphabetical")) {
-            toyList = getAllSortedAlphabetically();
-        } else {
-            toyList = getAllSortedByIsNewProduct();
-        }
-
+        addDefaultModelAttributesForAllAndDetailed(model);
+        List<Toy> toyList = getSortedToys(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
-
         model.addAttribute("productList", toyList);
-
         return PRODUCTS_ALL_HTML;
     }
 
     @Override
     public String displayDetailedViewToyPage(UUID id, Model model) {
-        Toy toy = toyRepository.findToyById(id);
-        if (toy == null) return returnErrorPage(model);
-
+        Toy toy = getToyOrThrowException(id);
         addProductBreadcrumb(model, ALL_TOYS_URL, "Toys", toy.getProductName());
+        addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", toy);
-        model.addAttribute("productDetails", getDetailFields(toy)); //TODO: all details
+        model.addAttribute("productDetails", getDetailFields(toy));
         model.addAttribute("linkType", "toys");
-
         return PRODUCT_DETAILS_HTML;
     }
 
@@ -115,6 +91,38 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     public String deleteToy(UUID id) {
         deleteToyFromDatabase(id);
         return "redirect:" + ALL_TOYS_URL;
+    }
+
+    // Support methods
+    private Toy getToyOrThrowException(UUID id){
+        Toy toy = toyRepository.findToyById(id);
+        if (toy == null) throw new NoSuchProductException();
+        return toy;
+    }
+
+    private void addDefaultModelAttributesForAddAndHandle(Model model) {
+        model.addAttribute("linkType", "toy");
+        model.addAttribute("productType", getLocalizedText("toy.text"));
+    }
+
+    private void addDefaultModelAttributesForAllAndDetailed(Model model) {
+        model.addAttribute("productType", getLocalizedText("toys.text"));
+        model.addAttribute("productLinkType", "toy");
+        model.addAttribute("linkType", "toys");
+    }
+
+    private List<Toy> getSortedToys(String sort) {
+        if (sort == null || sort.equals("default")) {
+            return getAllSortedByIsNewProduct();
+        } else if (sort.equals("lowest")) {
+            return getAllSortedByLowestPrice();
+        } else if (sort.equals("highest")) {
+            return getAllSortedByHighestPrice();
+        } else if (sort.equals("alphabetical")) {
+            return getAllSortedAlphabetically();
+        } else {
+            return getAllSortedByIsNewProduct();
+        }
     }
 
     private void deleteToyFromDatabase(UUID id) {
@@ -131,15 +139,6 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
         this.cartRepository.deleteAll(cartItemList);
     }
 
-    // Support methods
-    private void deleteMovieFromDatabase(UUID id) {}
-
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
-    }
-
     private Map<String, String> getDetailFields(Toy toy) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
@@ -148,20 +147,26 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
         return fieldsMap;
     }
 
-    private void addToyToDatabase(ToyAddDTO toyAddDTO) {
+    private void addToyToDatabase(ToyAddDTO toyAddDTO, Model model) {
         Toy toy = modelMapper.map(toyAddDTO, Toy.class);
+        setNewToyDetails(toy, toyAddDTO);
+        toyRepository.saveAndFlush(toy);
+        setSuccessMessageToModel(model);
+    }
 
-        // CLOUDINARY
+    private void setNewToyDetails(Toy toy, ToyAddDTO toyAddDTO) {
         toy.setProductImageUrl(
                 this.productImagesService
                         .getImageURL(
                                 toyAddDTO.getProductImageUrl()));
-
-        toy.setProductType(ProductTypeEnum.TEXTBOOK);
+        toy.setNewProduct(true);
         toy.setDateCreated(LocalDate.now());
         toy.setProductType(ProductTypeEnum.TOY);
+    }
 
-        toyRepository.saveAndFlush(toy);
+    private void setSuccessMessageToModel(Model model) {
+        model.addAttribute("pageType", "Completed Successfully");
+        model.addAttribute("pageText", getLocalizedText("toy.added.successfully.text"));
     }
 
     private String getLocalizedText(String text) {

@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.productServices;
+package com.project.EpicByte.service.product;
 
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.project.EpicByte.service;
+package com.project.EpicByte.service.REST;
 
 import com.project.EpicByte.model.dto.RESTDTOs.UserRESTViewDTO;
 

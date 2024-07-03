@@ -70,13 +70,17 @@ In order to run EpicByte you need to:
    name: ${CLOUDINARY_NAME}
    api-key: ${CLOUDINARY_API_KEY}
    api-secret: ${CLOUDINARY_API_SECRET}
+   
+   email-address: ${EMAIL}
+   username: ${EMAIL_USERNAME}
+   password: ${EMAIL_PASSWORD}
    ```
 3. Start the application and enjoy!
 
 
 ## About The Project
 
-![project-index](src/main/resources/public/images/project/Index-page.png)
+![project-index](src/main/resources/public/images/project/Index-page.JPG)
 _EpicByte project is a Spring Boot-based application designed to create a website for selling books, movies, music and more. It offers users the convenience of registering, viewing products, selecting products to add to their carts, changing their profile details and more. It offers administrators, the ability to create and add new products, reviewing all open orders from users and more._
 
 ### Built With
@@ -104,29 +108,36 @@ _Thymeleaf View Engine utilized in this project for rendering dynamic HTML conte
 ### Back End
 
 _The project incorporates some Aspect-Oriented Programming (AOP) to modularize cross-cutting concerns._
-* **Scheduled Task** :
+
+**Scheduled Task**
 1. **`Removing "New" status from products`**: Products who have a status of newly added, appear with a special classification. Any product added in the store more than 7 days ago, receives normal status.
 ---
-* **Internalization/i18n** :
+**Events _(Asynchronous)_**
+1. **`Welcome email`** sent to every user after a successful registration has been made.
+---
+**Internalization/i18n**
 1. **`Bulgarian`**
 2. **`English`**
 ---
-* **Mapping**
+**Mapping**
 1. **`ModelMapper`** - In this project, [ModelMapper](https://modelmapper.org/) was employed to handle the mapping between different types of objects, mainly between entity models and DTOs.
 ---
-* **Authentication**
+**Authentication**
 1. Handled through Spring security with a web cookie.
-- [x] *Expiration*: The token expires after 24 hours.
+   - *Expiration*: The token expires after 24 hours.
 ---
-* **Exception Handling**
-1. **`Custom exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
-2. **`Custom validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
+**Exception Handling**
+1. **`Custom Exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
+2. **`Custom Validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
+3. **`Global Exception Handler`** is implemented to handle specific exceptions and redirect to custom web-pages.
+4. **`Custom Error Controller`** is implemented to handle specific HTTP error statuses, like `403`, `404`, `500`, and all other error statuses, to provide a better user experience.
 ---
-* **Integrated services**
+**Integrated services**
 1. **`Cloudinary`** for managing and storing external image files for the products.
 ---
-* **Testing**
-**`TBC`**
+**Testing**
+1. **`Unit Testing`**
+2. **`Integration Testing`**
 ---
 
 ## Usage

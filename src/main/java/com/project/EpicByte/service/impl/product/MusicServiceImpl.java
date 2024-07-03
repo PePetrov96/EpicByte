@@ -1,5 +1,6 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl.product;
 
+import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.enums.MusicCarrierEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
@@ -8,7 +9,7 @@ import com.project.EpicByte.model.entity.productEntities.Music;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.MusicRepository;
 import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.productServices.MusicService;
+import com.project.EpicByte.service.product.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +48,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
     @Override
     public String displayProductAddMusicPage(Model model) {
-        model.addAttribute("linkType", "music");
-        model.addAttribute("productType", getLocalizedText("music.text"));
+        addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new MusicAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("music", false));
         model.addAttribute("enumsList", MusicCarrierEnum.values());
@@ -57,8 +57,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
     @Override
     public String handleProductAddMusic(MusicAddDTO musicAddDTO, BindingResult bindingResult, Model model) {
-        model.addAttribute("productType", getLocalizedText("music.text"));
-        model.addAttribute("linkType", "music");
+        addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("music", false));
@@ -66,51 +65,28 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
             return PRODUCT_ADD_HTML;
         }
 
-        addMusicToDatabase(musicAddDTO);
-
-        model.addAttribute("pageType", "Completed Successfully");
-        model.addAttribute("pageText", "Music added successfully!");
+        addMusicToDatabase(musicAddDTO, model);
         return DISPLAY_TEXT_HTML;
     }
 
     @Override
     public String displayAllMusicPage(Model model, String sort) {
         addProductBreadcrumb(model, ALL_MUSIC_URL, "Music");
-        model.addAttribute("productType", getLocalizedText("music.text"));
-        model.addAttribute("productLinkType", "music");
-        model.addAttribute("linkType", "music");
-
-        List<Music> musicList;
-
-        if (sort == null) {
-            musicList = getAllSortedByIsNewProduct();
-        } else if (sort.equals("lowest")) {
-            musicList = getAllSortedByLowestPrice();
-        } else if (sort.equals("highest")) {
-            musicList = getAllSortedByHighestPrice();
-        } else if (sort.equals("alphabetical")) {
-            musicList = getAllSortedAlphabetically();
-        } else {
-            musicList = getAllSortedByIsNewProduct();
-        }
-
+        addDefaultModelAttributesForAllAndDetailed(model);
+        List<Music> musicList = getSortedMusic(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
-
         model.addAttribute("productList", musicList);
-
         return PRODUCTS_ALL_HTML;
     }
 
     @Override
     public String displayDetailedViewMusicPage(UUID id, Model model) {
-        Music music = musicRepository.findMusicById(id);
-        if (music == null) return returnErrorPage(model);
-
+        Music music = getMusicOrThrowException(id);
         addProductBreadcrumb(model, ALL_MUSIC_URL, "Music", music.getProductName());
+        addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", music);
         model.addAttribute("productDetails", getDetailFields(music));
         model.addAttribute("linkType", "music");
-
         return PRODUCT_DETAILS_HTML;
     }
 
@@ -121,6 +97,37 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     }
 
     // Support methods
+    private Music getMusicOrThrowException(UUID id){
+        Music music = musicRepository.findMusicById(id);
+        if (music == null) throw new NoSuchProductException();
+        return music;
+    }
+
+    private void addDefaultModelAttributesForAddAndHandle(Model model) {
+        model.addAttribute("linkType", "music");
+        model.addAttribute("productType", getLocalizedText("music.text"));
+    }
+
+    private void addDefaultModelAttributesForAllAndDetailed(Model model) {
+        model.addAttribute("productType", getLocalizedText("music.text"));
+        model.addAttribute("productLinkType", "music");
+        model.addAttribute("linkType", "music");
+    }
+
+    private List<Music> getSortedMusic(String sort) {
+        if (sort == null || sort.equals("default")) {
+            return getAllSortedByIsNewProduct();
+        } else if (sort.equals("lowest")) {
+            return getAllSortedByLowestPrice();
+        } else if (sort.equals("highest")) {
+            return getAllSortedByHighestPrice();
+        } else if (sort.equals("alphabetical")) {
+            return getAllSortedAlphabetically();
+        } else {
+            return getAllSortedByIsNewProduct();
+        }
+    }
+
     private void deleteMusicFromDatabase(UUID id) {
         Music music = this.musicRepository.findMusicById(id);
 
@@ -135,12 +142,6 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
         this.cartRepository.deleteAll(cartItemList);
     }
 
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
-    }
-
     private Map<String, String> getDetailFields(Music music) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
@@ -151,6 +152,28 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
         fieldsMap.put(getLocalizedText("genre.text"), music.getGenre());
 
         return fieldsMap;
+    }
+
+    private void addMusicToDatabase(MusicAddDTO musicAddDTO, Model model) {
+        Music music = modelMapper.map(musicAddDTO, Music.class);
+        setNewMusicDetails(music, musicAddDTO);
+        musicRepository.saveAndFlush(music);
+        setSuccessMessageToModel(model);
+    }
+
+    private void setNewMusicDetails(Music music, MusicAddDTO musicAddDTO) {
+        music.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                musicAddDTO.getProductImageUrl()));
+        music.setNewProduct(true);
+        music.setDateCreated(LocalDate.now());
+        music.setProductType(ProductTypeEnum.MUSIC);
+    }
+
+    private void setSuccessMessageToModel(Model model) {
+        model.addAttribute("pageType", "Completed Successfully");
+        model.addAttribute("pageText", getLocalizedText("music.added.successfully.text"));
     }
 
     private String getLocalizedText(String text) {
@@ -172,22 +195,5 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
     private List<Music> getAllSortedAlphabetically() {
         return musicRepository.findAll(Sort.by(Sort.Direction.ASC,"productName"));
-    }
-
-    private void addMusicToDatabase(MusicAddDTO musicAddDTO) {
-        Music music = modelMapper.map(musicAddDTO, Music.class);
-
-        // CLOUDINARY
-        music.setProductImageUrl(
-                this.productImagesService
-                        .getImageURL(
-                                musicAddDTO.getProductImageUrl()));
-
-        music.setProductType(ProductTypeEnum.MUSIC);
-        music.setDateCreated(LocalDate.now());
-        music.setNewProduct(true);
-
-        musicRepository.saveAndFlush(music);
-
     }
 }

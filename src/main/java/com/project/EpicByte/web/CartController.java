@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.project.EpicByte.util.Constants.USERS_CART_CHECKOUT_URL;
+import static com.project.EpicByte.util.Constants.*;
 
 @Controller
 public class CartController {
@@ -27,19 +27,19 @@ public class CartController {
     }
 
     // Display cart page
-    @GetMapping("/user/cart")
+    @GetMapping(USER_CART_URL)
     public String displayCartPage(Principal principal, Model model) {
         return this.cartService.showCartPage(principal.getName(), model);
     }
 
     // Delete items from cart
-    @PostMapping("/user/cart/delete/{id}")
+    @PostMapping(USER_CART_DELETE_URL)
     public String handleItemDeletionFromCart(@PathVariable UUID id, Principal principal, Model model) {
         return this.cartService.deleteItemFromUserCart(id, principal.getName(), model);
     }
 
     // Add product to cart (no redirects. through AJAX request)
-    @PostMapping(value = "/product/add-to-cart", consumes = "application/json")
+    @PostMapping(value = PRODUCT_ADD_TO_CART_URL, consumes = "application/json")
     public @ResponseBody ResponseEntity<?> addItemToUserCart(@RequestBody Map<String, Object> payload, Principal principal) {
         return this.cartService.addProductToCart(payload, principal);
     }

@@ -6,10 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface ToyRepository extends JpaRepository<Toy, UUID> {
     @Query("SELECT t from Toy t WHERE t.id = :userId")
     Toy findToyById(@Param("userId") UUID userId);
+
+    @Query("SELECT t FROM Toy t WHERE t.isNewProduct = true and t.dateCreated <= :date")
+    List<Toy> findNewToysOlderThanAWeek(LocalDate date);
 }

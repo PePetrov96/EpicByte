@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
-import com.project.EpicByte.service.productServices.ToyService;
+import com.project.EpicByte.service.product.ToyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

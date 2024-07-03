@@ -1,15 +1,15 @@
-package com.project.EpicByte.service.impl.productServices;
+package com.project.EpicByte.service.impl.product;
 
+import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
 import com.project.EpicByte.model.entity.enums.LanguageEnum;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
-import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.TextbookRepository;
 import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.productServices.TextbookService;
+import com.project.EpicByte.service.product.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -32,6 +31,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    // CLOUDINARY
     private final ProductImagesService productImagesService;
 
     @Autowired
@@ -49,8 +49,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
     @Override
     public String displayProductAddTextbookPage(Model model) {
-        model.addAttribute("linkType", "textbook");
-        model.addAttribute("productType", getLocalizedText("textbook.text"));
+        addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new TextbookAddDTO());
         model.addAttribute("fieldsMap", getFieldNames("textbook", false));
         model.addAttribute("enumsList", LanguageEnum.values());
@@ -59,8 +58,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
     @Override
     public String handleProductAddTextbook(TextbookAddDTO textbookAddDTO, BindingResult bindingResult, Model model) {
-        model.addAttribute("productType", getLocalizedText("textbook.text"));
-        model.addAttribute("linkType", "textbook");
+        addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("fieldsMap", getFieldNames("textbook", false));
@@ -68,52 +66,28 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
             return PRODUCT_ADD_HTML;
         }
 
-        addTextbookToDatabase(textbookAddDTO);
-
-        model.addAttribute("pageType", "Completed Successfully");
-        model.addAttribute("pageText", "Textbook added successfully!");
+        addTextbookToDatabase(textbookAddDTO, model);
         return DISPLAY_TEXT_HTML;
     }
 
     @Override
     public String displayAllTextbooksPage(Model model, String sort) {
         addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks");
-        model.addAttribute("productType", getLocalizedText("textbooks.text"));
-        model.addAttribute("productLinkType", "textbook");
-        model.addAttribute("linkType", "textbooks");
-
-        List<Textbook> textbookList;
-
-        if (sort == null) {
-            textbookList = getAllSortedByIsNewProduct();
-        } else if (sort.equals("lowest")) {
-            textbookList = getAllSortedByLowestPrice();
-        } else if (sort.equals("highest")) {
-            textbookList = getAllSortedByHighestPrice();
-        } else if (sort.equals("alphabetical")) {
-            textbookList = getAllSortedAlphabetically();
-        } else {
-            textbookList = getAllSortedByIsNewProduct();
-        }
-
+        addDefaultModelAttributesForAllAndDetailed(model);
+        List<Textbook> textbookList = getSortedTextbooks(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
-
         model.addAttribute("productList", textbookList);
-
         return PRODUCTS_ALL_HTML;
     }
 
     @Override
     public String displayDetailedViewTextbookPage(UUID id, Model model) {
-        Textbook textbook = textbookRepository.findTextbookById(id);
-        if (textbook == null) return returnErrorPage(model);
-
+        Textbook textbook = getTextbookOrThrowException(id);
         addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks", textbook.getProductName());
+        addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", textbook);
         model.addAttribute("productDetails", getDetailFields(textbook));
         model.addAttribute("linkType", "textbooks");
-
-
         return PRODUCT_DETAILS_HTML;
     }
 
@@ -124,6 +98,37 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     }
 
     // Support methods
+    private Textbook getTextbookOrThrowException(UUID id){
+        Textbook textbook = textbookRepository.findTextbookById(id);
+        if (textbook == null) throw new NoSuchProductException();
+        return textbook;
+    }
+
+    private void addDefaultModelAttributesForAddAndHandle(Model model) {
+        model.addAttribute("linkType", "textbook");
+        model.addAttribute("productType", getLocalizedText("textbook.text"));
+    }
+
+    private void addDefaultModelAttributesForAllAndDetailed(Model model) {
+        model.addAttribute("productType", getLocalizedText("textbooks.text"));
+        model.addAttribute("productLinkType", "textbook");
+        model.addAttribute("linkType", "textbooks");
+    }
+
+    private List<Textbook> getSortedTextbooks(String sort) {
+        if (sort == null || sort.equals("default")) {
+            return getAllSortedByIsNewProduct();
+        } else if (sort.equals("lowest")) {
+            return getAllSortedByLowestPrice();
+        } else if (sort.equals("highest")) {
+            return getAllSortedByHighestPrice();
+        } else if (sort.equals("alphabetical")) {
+            return getAllSortedAlphabetically();
+        } else {
+            return getAllSortedByIsNewProduct();
+        }
+    }
+
     private void deleteTextbookFromDatabase(UUID id) {
         Textbook textbook = textbookRepository.findTextbookById(id);
 
@@ -138,12 +143,6 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
         this.cartRepository.deleteAll(cartItemList);
     }
 
-    private String returnErrorPage(Model model) {
-        model.addAttribute("errorType", "Oops...");
-        model.addAttribute("errorText", "Something went wrong!");
-        return ERROR_PAGE_HTML;
-    }
-
     private Map<String, String> getDetailFields(Textbook textbook) {
         LinkedHashMap<String , String> fieldsMap = new LinkedHashMap<>();
 
@@ -155,6 +154,30 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
         fieldsMap.put(getLocalizedText("dimensions.text"), textbook.getDimensions());
 
         return fieldsMap;
+    }
+
+
+    private void addTextbookToDatabase(TextbookAddDTO textbookAddDTO, Model model) {
+        Textbook textbook = modelMapper.map(textbookAddDTO, Textbook.class);
+        setNewTextbookDetails(textbook, textbookAddDTO);
+        textbookRepository.saveAndFlush(textbook);
+        setSuccessMessageToModel(model);
+    }
+
+    private void setNewTextbookDetails(Textbook textbook, TextbookAddDTO textbookAddDTO) {
+        textbook.setProductImageUrl(
+                this.productImagesService
+                        .getImageURL(
+                                textbookAddDTO.getProductImageUrl()));
+
+        textbook.setNewProduct(true);
+        textbook.setDateCreated(LocalDate.now());
+        textbook.setProductType(ProductTypeEnum.TEXTBOOK);
+    }
+
+    private void setSuccessMessageToModel(Model model) {
+        model.addAttribute("pageType", "Completed Successfully");
+        model.addAttribute("pageText", getLocalizedText("textbook.added.successfully.text"));
     }
 
     private String getLocalizedText(String text) {
@@ -176,21 +199,5 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
     private List<Textbook> getAllSortedAlphabetically() {
         return textbookRepository.findAll(Sort.by(Sort.Direction.ASC,"productName"));
-    }
-
-    private void addTextbookToDatabase(TextbookAddDTO textbookAddDTO) {
-        Textbook textbook = modelMapper.map(textbookAddDTO, Textbook.class);
-
-        // CLOUDINARY
-        textbook.setProductImageUrl(
-                this.productImagesService
-                        .getImageURL(
-                                textbookAddDTO.getProductImageUrl()));
-        textbook.setProductType(ProductTypeEnum.TEXTBOOK);
-        textbook.setDateCreated(LocalDate.now());
-        textbook.setNewProduct(true);
-
-        textbookRepository.saveAndFlush(textbook);
-
     }
 }

@@ -5,7 +5,7 @@ public class Constants {
     public static final String AUTH_LOGIN_HTML = "auth-login";
     public static final String AUTH_REGISTER_HTML = "auth-register";
     public static final String USER_PROFILE_HTML = "user-profile";
-    public static final String ERROR_PAGE_HTML = "error-page";
+    public static final String ERROR_PAGE_HTML = "error";
     public static final String PRODUCTS_ALL_HTML = "products-all";
     public static final String PRODUCT_DETAILS_HTML = "product-details";
     public static final String PRODUCT_UPDATE_HTML = "product-update";
@@ -26,7 +26,7 @@ public class Constants {
     public static final String USER_ORDERS_URL = "/user/orders";
     public static final String USER_UNAUTHORIZED_URL = "/users/unauthorized";
     public static final String USER_CART_URL = "/user/cart";
-    public static final String USER_CART_DELETE_URL = "/user/cart/delete/";
+    public static final String USER_CART_DELETE_URL = "/user/cart/delete/{id}";
     public static final String PRODUCT_ADD_TO_CART_URL = "/product/add-to-cart";
 
     public static final String ALL_BOOKS_URL = "/books";

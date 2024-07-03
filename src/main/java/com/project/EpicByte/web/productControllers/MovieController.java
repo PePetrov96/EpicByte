@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
-import com.project.EpicByte.service.productServices.MovieService;
+import com.project.EpicByte.service.product.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
