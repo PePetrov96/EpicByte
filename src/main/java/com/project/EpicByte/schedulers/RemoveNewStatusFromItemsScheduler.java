@@ -45,7 +45,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewToys() {
-        List<Toy> toys = toyRepository.findNewToysOlderThanAWeek(LocalDate.now());
+        List<Toy> toys = toyRepository.findNewToysOlderThanAWeek(LocalDate.now().plusDays(7));
         log.info("Found {} old Toy products.", toys.size());
         for (Toy toy : toys) {
             toy.setNewProduct(false);
@@ -54,7 +54,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewMusic() {
-        List<Music> musics = musicRepository.findNewMusicOlderThanAWeek(LocalDate.now());
+        List<Music> musics = musicRepository.findNewMusicOlderThanAWeek(LocalDate.now().plusDays(7));
         log.info("Found {} old Music products.", musics.size());
         for (Music music : musics) {
             music.setNewProduct(false);
@@ -63,7 +63,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewMovies() {
-        List<Movie> movies = movieRepository.findNewMoviesOlderThanAWeek(LocalDate.now());
+        List<Movie> movies = movieRepository.findNewMoviesOlderThanAWeek(LocalDate.now().plusDays(7));
         log.info("Found {} old Movies products.", movies.size());
         for (Movie movie : movies) {
             movie.setNewProduct(false);
@@ -72,7 +72,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewTextbooks() {
-        List<Textbook> textbooks = textbookRepository.findNewTextbooksOlderThanAWeek(LocalDate.now());
+        List<Textbook> textbooks = textbookRepository.findNewTextbooksOlderThanAWeek(LocalDate.now().plusDays(7));
         log.info("Found {} old Textbooks products.", textbooks.size());
         for (Textbook textbook : textbooks) {
             textbook.setNewProduct(false);
@@ -81,7 +81,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewBooks() {
-        List<Book> books = bookRepository.findNewBooksOlderThanAWeek(LocalDate.now());
+        List<Book> books = bookRepository.findNewBooksOlderThanAWeek(LocalDate.now().plusDays(7));
         log.info("Found {} old Books products.", books.size());
         for (Book book : books) {
             book.setNewProduct(false);
