@@ -1,7 +1,7 @@
 package com.project.EpicByte.web.RESTControllers;
 
 import com.project.EpicByte.model.dto.RESTDTOs.UserRESTViewDTO;
-import com.project.EpicByte.service.REST.UserRESTService;
+import com.project.EpicByte.service.RESTService.UserRESTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

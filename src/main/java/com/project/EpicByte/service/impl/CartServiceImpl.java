@@ -4,32 +4,38 @@ import com.project.EpicByte.exceptions.CartItemNotFoundException;
 import com.project.EpicByte.exceptions.EmptyCartException;
 import com.project.EpicByte.model.bindingModel.CartItemBindingModel;
 import com.project.EpicByte.model.bindingModel.UserCartBindingModel;
-import com.project.EpicByte.model.dto.productDTOs.OrderAddressDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserOrder;
 import com.project.EpicByte.model.entity.productEntities.*;
-import com.project.EpicByte.repository.*;
+import com.project.EpicByte.repository.CartRepository;
+import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.productRepositories.*;
 import com.project.EpicByte.service.CartService;
 import com.project.EpicByte.util.Breadcrumbs;
+import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.security.Principal;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-import static com.project.EpicByte.util.Constants.*;
+import static com.project.EpicByte.util.Constants.CART_HTML;
+import static com.project.EpicByte.util.Constants.USER_CART_URL;
+
+/**
+ * By far the most complex controller, due to the fact that we have to account for multiple things like adding
+ * different product types, from different repositories, into the same place. Saving the cart items for later use.
+ * Updating the cart count without extending the complexity of the server requests and many more details to account for.
+ */
 
 @Service
 public class CartServiceImpl extends Breadcrumbs implements CartService {
@@ -41,9 +47,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
-    private final UserOrderRepository userOrderRepository;
 
-    private final MessageSource messageSource;
     private final ModelMapper modelMapper;
 
     public CartServiceImpl(BookRepository bookRepository,
@@ -51,43 +55,35 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
                            MovieRepository movieRepository,
                            MusicRepository musicRepository,
                            ToyRepository toyRepository,
-                           MessageSource messageSource,
                            CartRepository cartRepository,
                            UserRepository userRepository,
-                           UserOrderRepository userOrderRepository,
                            ModelMapper modelMapper) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
         this.musicRepository = musicRepository;
         this.toyRepository = toyRepository;
-        this.messageSource = messageSource;
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
-        this.userOrderRepository = userOrderRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public String showCartPage(String username, Model model) {
+    public String showCartPage(String username, Model model, HttpSession session) {
         try {
             UserEntity userEntity = getUserEntityByUsername(username);
-            setModelAttributesForCart(userEntity, model);
+            setModelAttributesForCart(userEntity, model, session);
             addProductBreadcrumb(model, USER_CART_URL, "Cart");
         } catch (EmptyCartException e) {
             return returnEmptyCartPage(model);
         }
-
-//        catch (UsernameNotFoundException e) {
-//            return returnErrorPage(model);
-//        }
 
         return CART_HTML;
     }
 
     @Override
     @Transactional
-    public String deleteItemFromUserCart(UUID productId, String username, Model model) {
+    public String deleteItemFromUserCart(UUID productId, String username, Model model, HttpSession session) {
         UserEntity userEntity = getUserEntityByUsername(username);
         List<CartItem> deletionProducts = this.cartRepository
                 .findAllByUserIdAndProductId(userEntity.getId(), productId);
@@ -97,15 +93,19 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
             this.cartRepository.delete(cartItem);
         }
 
+
+        int numItems = (int) session.getAttribute("numItems");
+        session.setAttribute("numItems", numItems - deletionProducts.size());
+
         return "redirect:" + USER_CART_URL;
     }
 
     @Override
-    public ResponseEntity<String> addProductToCart(Map<String, Object> payload, Principal principal) {
+    public ResponseEntity<String> addProductToCart(Map<String, Object> payload, Principal principal, HttpSession session) {
         try {
             UUID productId = UUID.fromString(payload.get("productId").toString());
             String productType = payload.get("productType").toString();
-            addToCart(productId, productType, principal);
+            addToCart(productId, productType, principal, session);
             return ResponseEntity.ok("Product added to cart successfully");
         } catch (UsernameNotFoundException | CartItemNotFoundException exception) {
             return ResponseEntity
@@ -114,134 +114,13 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         }
     }
 
-    @Override
-    public String showCartCheckoutPage(Principal principal, Model model) {
-        try {
-            UserEntity userEntity = getUserEntityByUsername(principal.getName());
-            setModelAttributesForCart(userEntity, model);
-            model.addAttribute("orderAddressDTO", new OrderAddressDTO());
-            addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
-            return CART_CHECKOUT_HTML;
-        }catch (EmptyCartException e) {
-            return returnEmptyCartPage(model);
-        }
-//
-//        catch (NullPointerException | UsernameNotFoundException exception) {
-//            return returnErrorPage(model);
-//        }
-    }
-
-    @Override
-    @Transactional
-    public String confirmCheckout(OrderAddressDTO orderAddressDTO, BindingResult bindingResult, Principal principal, Model model) {
-        if (bindingResult.hasErrors()) {
-            UserEntity userEntity = getUserEntityByUsername(principal.getName());
-            setModelAttributesForCart(userEntity, model);
-            addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
-            return CART_CHECKOUT_HTML;
-        }
-
-        try {
-            createUserOrder(principal.getName(), orderAddressDTO);
-            model.addAttribute("pageType", "Completed Successfully");
-            model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
-            return DISPLAY_TEXT_HTML;
-        } catch (EmptyCartException exception) {
-            return returnEmptyCartPage(model);
-        }
-    }
-
-    //Support methods
-    private void createUserOrder(String username, OrderAddressDTO orderAddressDTO) {
-        UserEntity userEntity = getUserEntityByUsername(username);
-        UserOrder order = initializeUserOrder(userEntity, orderAddressDTO);
-
-        List<BaseProduct> products = fetchUserCartProducts(userEntity);
-
-        if (products.isEmpty()) {
-            throw new EmptyCartException();
-        }
-
-        // Calculate total cost
-        BigDecimal totalCost = products.stream()
-                .map(BaseProduct::getProductPrice)
-                .reduce(order.getTotalCost(), BigDecimal::add);
-        order.setTotalCost(totalCost);
-
-        List<OrderItem> orderItems = createOrderItems(order, products);
-        order.setOrderItems(orderItems);
-        finalizeOrderCreation(order, userEntity);
-    }
-
-    private List<OrderItem> createOrderItems(UserOrder userOrder, List<BaseProduct> products) {
-        Map<BaseProduct, Integer> productCountMap = new HashMap<>();
-
-        for (BaseProduct product : products) {
-            productCountMap.put(product, productCountMap.getOrDefault(product, 0) + 1);
-        }
-
-        List<OrderItem> orderItems = new ArrayList<>();
-
-        for (BaseProduct product : productCountMap.keySet()) {
-            OrderItem orderItem = modelMapper.map(product, OrderItem.class);
-
-            int quantity = productCountMap.get(product);
-            orderItem.setQuantity(quantity);
-            orderItem.setTotalProductPrice(product.getProductPrice().multiply(new BigDecimal(quantity)));
-            orderItem.setUserOrder(userOrder);
-
-            orderItems.add(orderItem);
-        }
-
-        return orderItems;
-    }
-
-    protected void finalizeOrderCreation(UserOrder userOrder, UserEntity userEntity) {
-        this.userOrderRepository.save(userOrder);
-        UserEntity user = this.userRepository
-                .findUserByUsernameWithInitializedCartItems(userEntity.getUsername());
-        user.getCartItems().clear();
-        this.userRepository.saveAndFlush(user);
-    }
-
-    private List<BaseProduct> fetchUserCartProducts(UserEntity userEntity) {
-        return this.cartRepository
-                .findAllByUserId(userEntity.getId())
-                .stream()
-                .map(CartItem::getProduct)
-                .toList();
-    }
-
-    private UserOrder initializeUserOrder(UserEntity userEntity, OrderAddressDTO orderAddressDTO) {
-        UserOrder order = new UserOrder();
-        order.setUser(userEntity);
-        order.setCity(orderAddressDTO.getCity());
-        order.setNeighborhood(orderAddressDTO.getNeighborhood());
-        order.setAddress(orderAddressDTO.getAddress());
-        order.setComplete(false); // default orders are "not shipped"
-        order.setOrderDate(LocalDate.now()); // all orders are created for current local time
-        order.setTotalCost(new BigDecimal("4.99")); // by default +4.99 for delivery
-        return order;
-    }
-
-    private String getLocalizedText(String text) {
-        Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(text, null, locale);
-    }
-//
-//    private String returnErrorPage(Model model) {
-//        model.addAttribute("errorType", "Oops...");
-//        model.addAttribute("errorText", "Something went wrong!");
-//        return ERROR_PAGE_HTML;
-//    }
-
     private String returnEmptyCartPage(Model model) {
         model.addAttribute("emptyCart", true);
         addProductBreadcrumb(model, USER_CART_URL, "Cart");
         return CART_HTML;
     }
 
-    public void addToCart(UUID productId, String productType, Principal principal) {
+    public void addToCart(UUID productId, String productType, Principal principal, HttpSession session) {
         CartItem cartItem = new CartItem();
 
         if (principal == null) {
@@ -260,9 +139,11 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         }
 
         this.cartRepository.saveAndFlush(cartItem);
+        int numItems = (int) session.getAttribute("numItems");
+        session.setAttribute("numItems", numItems + 1);
     }
 
-    private void setModelAttributesForCart(UserEntity userEntity, Model model) {
+    private void setModelAttributesForCart(UserEntity userEntity, Model model, HttpSession session) {
         List<BaseProduct> products = this.cartRepository
                 .findAllByUserId(userEntity.getId())
                 .stream()
@@ -301,6 +182,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         userCartBindingModel.setTotalPrice(totalPrice);
 
         model.addAttribute("cartItemList", userCartBindingModel);
+        session.setAttribute("userCartBindingModel", userCartBindingModel);
     }
 
     private Book getBookById(UUID productId) {

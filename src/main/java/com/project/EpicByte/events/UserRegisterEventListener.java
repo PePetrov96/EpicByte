@@ -19,7 +19,5 @@ public class UserRegisterEventListener implements ApplicationListener<UserRegist
         String subject = "Welcome " + event.getUsername();
         String message = "Hi " + event.getNames() +  ",\nEpicByte would like to welcome you!";
         this.mailSenderService.sendNewMail(event.getEmail(), subject, message);
-
-        System.out.println("Event listener fired!");
     }
 }

@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.impl.product;
+package com.project.EpicByte.service.impl.productImpl;
 
 import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
@@ -8,8 +8,8 @@ import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Music;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.MusicRepository;
-import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.product.MusicService;
+import com.project.EpicByte.service.productService.ProductImagesService;
+import com.project.EpicByte.service.productService.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

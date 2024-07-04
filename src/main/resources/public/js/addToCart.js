@@ -31,6 +31,10 @@ $(document).ready(function () {
                                 } else {
                                         showNotification(successMessage, 'rgba(0, 128, 0, 0.8)');
                                 }
+
+                                // Manually increment numItems
+                                var numItemsDisplay = document.querySelector('.cart-item-count');  // Replace with an actual selector
+                                numItemsDisplay.textContent = parseInt(numItemsDisplay.textContent) + 1;
                         },
                         error: function () {
                                 showNotification(failMessage, 'rgba(228, 0, 0, 0.8)');

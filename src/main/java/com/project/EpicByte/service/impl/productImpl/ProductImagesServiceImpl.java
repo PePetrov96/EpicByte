@@ -1,8 +1,8 @@
-package com.project.EpicByte.service.impl.product;
+package com.project.EpicByte.service.impl.productImpl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.project.EpicByte.service.ProductImagesService;
+import com.project.EpicByte.service.productService.ProductImagesService;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.stereotype.Service;
 

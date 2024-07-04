@@ -20,8 +20,6 @@ public class RemoveNewStatusFromItemsScheduler {
     private final MusicRepository musicRepository;
     private final ToyRepository toyRepository;
 
-    private final LocalDate today = LocalDate.now();
-
     @Autowired
     public RemoveNewStatusFromItemsScheduler(BookRepository bookRepository,
                                              TextbookRepository textbookRepository,
@@ -47,7 +45,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewToys() {
-        List<Toy> toys = toyRepository.findNewToysOlderThanAWeek(today);
+        List<Toy> toys = toyRepository.findNewToysOlderThanAWeek(LocalDate.now());
         log.info("Found {} old Toy products.", toys.size());
         for (Toy toy : toys) {
             toy.setNewProduct(false);
@@ -56,7 +54,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewMusic() {
-        List<Music> musics = musicRepository.findNewMusicOlderThanAWeek(today);
+        List<Music> musics = musicRepository.findNewMusicOlderThanAWeek(LocalDate.now());
         log.info("Found {} old Music products.", musics.size());
         for (Music music : musics) {
             music.setNewProduct(false);
@@ -65,7 +63,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewMovies() {
-        List<Movie> movies = movieRepository.findNewMoviesOlderThanAWeek(today);
+        List<Movie> movies = movieRepository.findNewMoviesOlderThanAWeek(LocalDate.now());
         log.info("Found {} old Movies products.", movies.size());
         for (Movie movie : movies) {
             movie.setNewProduct(false);
@@ -74,7 +72,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewTextbooks() {
-        List<Textbook> textbooks = textbookRepository.findNewTextbooksOlderThanAWeek(today);
+        List<Textbook> textbooks = textbookRepository.findNewTextbooksOlderThanAWeek(LocalDate.now());
         log.info("Found {} old Textbooks products.", textbooks.size());
         for (Textbook textbook : textbooks) {
             textbook.setNewProduct(false);
@@ -83,7 +81,7 @@ public class RemoveNewStatusFromItemsScheduler {
     }
 
     private void removeNewBooks() {
-        List<Book> books = bookRepository.findNewBooksOlderThanAWeek(today);
+        List<Book> books = bookRepository.findNewBooksOlderThanAWeek(LocalDate.now());
         log.info("Found {} old Books products.", books.size());
         for (Book book : books) {
             book.setNewProduct(false);

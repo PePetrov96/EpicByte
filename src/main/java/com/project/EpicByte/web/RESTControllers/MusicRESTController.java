@@ -3,7 +3,7 @@ package com.project.EpicByte.web.RESTControllers;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Music;
-import com.project.EpicByte.service.REST.ProductRESTService;
+import com.project.EpicByte.service.RESTService.ProductRESTService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.impl.product;
+package com.project.EpicByte.service.impl.productImpl;
 
 import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
@@ -8,8 +8,8 @@ import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Movie;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.MovieRepository;
-import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.product.MovieService;
+import com.project.EpicByte.service.productService.ProductImagesService;
+import com.project.EpicByte.service.productService.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

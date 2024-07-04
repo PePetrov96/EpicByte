@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.REST;
+package com.project.EpicByte.service.RESTService;
 
 import com.project.EpicByte.model.dto.productDTOs.*;
 import com.project.EpicByte.model.entity.BaseProduct;

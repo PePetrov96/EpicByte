@@ -41,7 +41,7 @@
                     </div>
                     <!-- EO: LOGO IMAGE -->
 
-<!--                    &lt;!&ndash; SEARCH FORM &ndash;&gt;-->
+                    <!-- SEARCH FORM -->
 <!--                    <form class="search-form">-->
 <!--                        <div class="search">-->
 <!--                            <input type="text" class="search-input form-floating" placeholder="Search..." name="">-->
@@ -50,14 +50,15 @@
 <!--                            </a>-->
 <!--                        </div>-->
 <!--                    </form>-->
-<!--                    &lt;!&ndash; EO: SEARCH FORM &ndash;&gt;-->
+                    <!-- EO: SEARCH FORM -->
 
                     <div class="header-right">
                         <!-- SHOPPING CART BUTTON -->
                         <div class="shopping-cart">
-<!--                            <div class="shopping-cart-count">-->
-<!--                                <p class="cart-item-count">0</p>-->
-<!--                            </div>-->
+                            <div class="shopping-cart-count">
+                                <p th:unless="${session.numItems}" class="cart-item-count">0</p>
+                                <p th:utext="${session.numItems}" class="cart-item-count"></p>
+                            </div>
                             <a type="button" class="shopping-cart-button" aria-expanded="false" href="/user/cart">
                                 <i class="fas fa-shopping-cart"></i>
                             </a>

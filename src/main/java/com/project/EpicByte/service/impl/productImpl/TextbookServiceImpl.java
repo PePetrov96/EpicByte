@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.impl.product;
+package com.project.EpicByte.service.impl.productImpl;
 
 import com.project.EpicByte.exceptions.NoSuchProductException;
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
@@ -8,8 +8,8 @@ import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.TextbookRepository;
-import com.project.EpicByte.service.ProductImagesService;
-import com.project.EpicByte.service.product.TextbookService;
+import com.project.EpicByte.service.productService.ProductImagesService;
+import com.project.EpicByte.service.productService.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
