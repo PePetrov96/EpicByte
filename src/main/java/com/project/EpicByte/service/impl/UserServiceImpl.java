@@ -38,7 +38,6 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
     private final ApplicationEventPublisher eventPublisher;
-    private final MailSenderService mailSenderService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -46,14 +45,13 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
                            UserRoleRepository userRoleRepository,
                            PasswordEncoder passwordEncoder,
                            HttpServletRequest request,
-                           ApplicationEventPublisher eventPublisher, MailSenderService mailSenderService) {
+                           ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.request = request;
         this.eventPublisher = eventPublisher;
-        this.mailSenderService = mailSenderService;
     }
 
     @Override

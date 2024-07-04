@@ -18,7 +18,7 @@ public class Breadcrumbs extends FieldNamesGenerator {
     @Autowired
     private MessageSource messageSource;
 
-    protected void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
+    public void addProductBreadcrumb(Model model, String pageUrl, String... pageNames) {
         Map<String, String> breadcrumbs = new LinkedHashMap<>();
         breadcrumbs.put(getPageText("Home"), "/");
 
