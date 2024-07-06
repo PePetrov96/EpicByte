@@ -56,7 +56,6 @@
                         </div>
 
                         <div class="product-details-admin-items" sec:authorize="hasAnyRole('MODERATOR', 'ADMIN')">
-<!--                            <a class="item-update-button" th:href="@{/moderator/{linkType}/update/{id}(linkType=${linkType}, id=${product.id})}" th:text="UPDATE"></a>-->
                             <a class="item-delete-button" th:href="@{/moderator/{linkType}/delete/{id}(linkType=${linkType}, id=${product.id})}" th:text="DELETE"></a>
                         </div>
                     </div>
