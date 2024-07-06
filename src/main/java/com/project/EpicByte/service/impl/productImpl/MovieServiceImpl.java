@@ -11,6 +11,7 @@ import com.project.EpicByte.repository.productRepositories.MovieRepository;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.MovieService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,11 +27,13 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class MovieServiceImpl extends Breadcrumbs implements MovieService {
+public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
+    private final FieldNamesGenerator fieldNamesGenerator;
     //CLOUDINARY
     private final ProductImagesService productImagesService;
 
@@ -39,11 +42,15 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
                             CartRepository cartRepository,
                             ModelMapper modelMapper,
                             MessageSource messageSource,
+                            Breadcrumbs breadcrumbs,
+                            FieldNamesGenerator fieldNamesGenerator,
                             ProductImagesService productImagesService) {
         this.movieRepository = movieRepository;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
+        this.fieldNamesGenerator = fieldNamesGenerator;
         this.productImagesService = productImagesService;
     }
 
@@ -51,7 +58,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     public String displayProductAddMoviePage(Model model) {
         addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new MovieAddDTO());
-        model.addAttribute("fieldsMap", getFieldNames("movie", false));
+        model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("movie", false));
         model.addAttribute("enumsList", MovieCarrierEnum.values());
         return PRODUCT_ADD_HTML;
     }
@@ -61,7 +68,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
         addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("fieldsMap", getFieldNames("movie", false));
+            model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("movie", false));
             model.addAttribute("enumsList", MovieCarrierEnum.values());
             return PRODUCT_ADD_HTML;
         }
@@ -72,7 +79,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
 
     @Override
     public String displayAllMoviesPage(Model model, String sort) {
-        addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies");
+        breadcrumbs.addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies");
         addDefaultModelAttributesForAllAndDetailed(model);
         List<Movie> movieList = getSortedMovies(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
@@ -83,7 +90,7 @@ public class MovieServiceImpl extends Breadcrumbs implements MovieService {
     @Override
     public String displayDetailedViewMoviePage(UUID id, Model model) {
         Movie movie = getMovieOrThrowException(id);
-        addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
+        breadcrumbs.addProductBreadcrumb(model, ALL_MOVIES_URL, "Movies", movie.getProductName());
         addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", movie);
         model.addAttribute("productDetails", getDetailFields(movie));

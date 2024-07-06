@@ -11,6 +11,7 @@ import com.project.EpicByte.repository.productRepositories.MusicRepository;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.MusicService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,11 +27,14 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class MusicServiceImpl extends Breadcrumbs implements MusicService {
+public class MusicServiceImpl implements MusicService {
     private final MusicRepository musicRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
+    private final FieldNamesGenerator fieldNamesGenerator;
+    // CLOUDINARY
     private final ProductImagesService productImagesService;
 
     @Autowired
@@ -38,11 +42,15 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
                             CartRepository cartRepository,
                             ModelMapper modelMapper,
                             MessageSource messageSource,
+                            Breadcrumbs breadcrumbs,
+                            FieldNamesGenerator fieldNamesGenerator,
                             ProductImagesService productImagesService) {
         this.musicRepository = musicRepository;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
+        this.fieldNamesGenerator = fieldNamesGenerator;
         this.productImagesService = productImagesService;
     }
 
@@ -50,7 +58,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     public String displayProductAddMusicPage(Model model) {
         addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new MusicAddDTO());
-        model.addAttribute("fieldsMap", getFieldNames("music", false));
+        model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("music", false));
         model.addAttribute("enumsList", MusicCarrierEnum.values());
         return PRODUCT_ADD_HTML;
     }
@@ -60,7 +68,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
         addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("fieldsMap", getFieldNames("music", false));
+            model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("music", false));
             model.addAttribute("enumsList", MusicCarrierEnum.values());
             return PRODUCT_ADD_HTML;
         }
@@ -71,7 +79,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
 
     @Override
     public String displayAllMusicPage(Model model, String sort) {
-        addProductBreadcrumb(model, ALL_MUSIC_URL, "Music");
+        breadcrumbs.addProductBreadcrumb(model, ALL_MUSIC_URL, "Music");
         addDefaultModelAttributesForAllAndDetailed(model);
         List<Music> musicList = getSortedMusic(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
@@ -82,7 +90,7 @@ public class MusicServiceImpl extends Breadcrumbs implements MusicService {
     @Override
     public String displayDetailedViewMusicPage(UUID id, Model model) {
         Music music = getMusicOrThrowException(id);
-        addProductBreadcrumb(model, ALL_MUSIC_URL, "Music", music.getProductName());
+        breadcrumbs.addProductBreadcrumb(model, ALL_MUSIC_URL, "Music", music.getProductName());
         addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", music);
         model.addAttribute("productDetails", getDetailFields(music));

@@ -11,6 +11,7 @@ import com.project.EpicByte.repository.productRepositories.TextbookRepository;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.TextbookService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,11 +27,13 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class TextbookServiceImpl extends Breadcrumbs implements TextbookService {
+public class TextbookServiceImpl implements TextbookService {
     private final TextbookRepository textbookRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
+    private final FieldNamesGenerator fieldNamesGenerator;
     // CLOUDINARY
     private final ProductImagesService productImagesService;
 
@@ -39,11 +42,15 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
                                CartRepository cartRepository,
                                ModelMapper modelMapper,
                                MessageSource messageSource,
+                               Breadcrumbs breadcrumbs,
+                               FieldNamesGenerator fieldNamesGenerator,
                                ProductImagesService productImagesService) {
         this.textbookRepository = textbookRepository;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
+        this.fieldNamesGenerator = fieldNamesGenerator;
         this.productImagesService = productImagesService;
     }
 
@@ -51,7 +58,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     public String displayProductAddTextbookPage(Model model) {
         addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new TextbookAddDTO());
-        model.addAttribute("fieldsMap", getFieldNames("textbook", false));
+        model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("textbook", false));
         model.addAttribute("enumsList", LanguageEnum.values());
         return PRODUCT_ADD_HTML;
     }
@@ -61,7 +68,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
         addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("fieldsMap", getFieldNames("textbook", false));
+            model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("textbook", false));
             model.addAttribute("enumsList", LanguageEnum.values());
             return PRODUCT_ADD_HTML;
         }
@@ -72,7 +79,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
 
     @Override
     public String displayAllTextbooksPage(Model model, String sort) {
-        addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks");
+        breadcrumbs.addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks");
         addDefaultModelAttributesForAllAndDetailed(model);
         List<Textbook> textbookList = getSortedTextbooks(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
@@ -83,7 +90,7 @@ public class TextbookServiceImpl extends Breadcrumbs implements TextbookService 
     @Override
     public String displayDetailedViewTextbookPage(UUID id, Model model) {
         Textbook textbook = getTextbookOrThrowException(id);
-        addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks", textbook.getProductName());
+        breadcrumbs.addProductBreadcrumb(model, ALL_TEXTBOOKS_URL, "Textbooks", textbook.getProductName());
         addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", textbook);
         model.addAttribute("productDetails", getDetailFields(textbook));

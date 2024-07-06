@@ -11,6 +11,7 @@ import com.project.EpicByte.repository.productRepositories.BookRepository;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.BookService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,11 +27,13 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class BookServiceImpl extends Breadcrumbs implements BookService {
+public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
+    private final FieldNamesGenerator fieldNamesGenerator;
     // CLOUDINARY
     private final ProductImagesService productImagesService;
 
@@ -39,11 +42,15 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
                            CartRepository cartRepository,
                            ModelMapper modelMapper,
                            MessageSource messageSource,
+                           Breadcrumbs breadcrumbs,
+                           FieldNamesGenerator fieldNamesGenerator,
                            ProductImagesService productImagesService) {
         this.bookRepository = bookRepository;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
+        this.fieldNamesGenerator = fieldNamesGenerator;
         this.productImagesService = productImagesService;
     }
 
@@ -51,7 +58,7 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
     public String displayProductAddBookPage(Model model) {
         addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new BookAddDTO());
-        model.addAttribute("fieldsMap", getFieldNames("book", false));
+        model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("book", false));
         model.addAttribute("enumsList", LanguageEnum.values());
         return PRODUCT_ADD_HTML;
     }
@@ -61,7 +68,7 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
         addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("fieldsMap", getFieldNames("book", false));
+            model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("book", false));
             model.addAttribute("enumsList", LanguageEnum.values());
             return PRODUCT_ADD_HTML;
         }
@@ -72,7 +79,7 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
 
     @Override
     public String displayAllBooksPage(Model model, String sort) {
-        addProductBreadcrumb(model, ALL_BOOKS_URL, "Books");
+        breadcrumbs.addProductBreadcrumb(model, ALL_BOOKS_URL, "Books");
         addDefaultModelAttributesForAllAndDetailed(model);
         List<Book> bookList = getSortedBooks(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
@@ -83,7 +90,7 @@ public class BookServiceImpl extends Breadcrumbs implements BookService {
     @Override
     public String displayDetailedViewBookPage(UUID id, Model model) {
         Book book = getBookOrThrowException(id);
-        addProductBreadcrumb(model, ALL_BOOKS_URL, "Books", book.getProductName());
+        breadcrumbs.addProductBreadcrumb(model, ALL_BOOKS_URL, "Books", book.getProductName());
         addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", book);
         model.addAttribute("productDetails", getDetailFields(book));

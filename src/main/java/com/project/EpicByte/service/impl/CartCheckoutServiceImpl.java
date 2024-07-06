@@ -12,6 +12,7 @@ import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.service.CartCheckoutService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.Breadcrumbs2;
 import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckoutService {
+public class CartCheckoutServiceImpl implements CartCheckoutService {
     private final UserOrderRepository userOrderRepository;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
@@ -39,15 +40,21 @@ public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckout
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
 
+    private final Breadcrumbs2 breadcrumbs;
+
     @Autowired
-    public CartCheckoutServiceImpl(UserOrderRepository userOrderRepository, CartRepository cartRepository, UserRepository userRepository,
+    public CartCheckoutServiceImpl(UserOrderRepository userOrderRepository,
+                                   CartRepository cartRepository,
+                                   UserRepository userRepository,
                                    MessageSource messageSource,
-                                   ModelMapper modelMapper) {
+                                   ModelMapper modelMapper,
+                                   Breadcrumbs2 breadcrumbs) {
         this.userOrderRepository = userOrderRepository;
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
         this.modelMapper = modelMapper;
+        this.breadcrumbs = breadcrumbs;
     }
 
     @Override
@@ -55,7 +62,7 @@ public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckout
         try {
             model.addAttribute("cartItemList", session.getAttribute("userCartBindingModel"));
             model.addAttribute("orderAddressDTO", new OrderAddressDTO());
-            addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
+            breadcrumbs.addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
             return CART_CHECKOUT_HTML;
         }catch (EmptyCartException e) {
             return returnEmptyCartPage(model);
@@ -71,7 +78,7 @@ public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckout
                                   HttpSession session) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cartItemList", session.getAttribute("userCartBindingModel"));
-            addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
+            breadcrumbs.addProductBreadcrumb(model, USER_CART_URL, "Cart", "Checkout");
             return CART_CHECKOUT_HTML;
         }
 
@@ -88,7 +95,7 @@ public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckout
 
     @Override
     public String displayCartCheckoutConfirmationPage(Model model) {
-        addProductBreadcrumb(model, "/user/cart", "Cart", "Confirm Checkout");
+        breadcrumbs.addProductBreadcrumb(model, "/user/cart", "Cart", "Confirm Checkout");
         model.addAttribute("pageType", "Completed Successfully");
         model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
         return DISPLAY_TEXT_HTML;
@@ -188,7 +195,7 @@ public class CartCheckoutServiceImpl extends Breadcrumbs implements CartCheckout
 
     private String returnEmptyCartPage(Model model) {
         model.addAttribute("emptyCart", true);
-        addProductBreadcrumb(model, USER_CART_URL, "Cart");
+        breadcrumbs.addProductBreadcrumb(model, USER_CART_URL, "Cart");
         return CART_HTML;
     }
 }

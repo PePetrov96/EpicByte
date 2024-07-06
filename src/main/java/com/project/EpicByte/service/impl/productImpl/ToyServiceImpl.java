@@ -10,6 +10,7 @@ import com.project.EpicByte.repository.productRepositories.ToyRepository;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.ToyService;
 import com.project.EpicByte.util.Breadcrumbs;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,11 +26,14 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class ToyServiceImpl extends Breadcrumbs implements ToyService {
+public class ToyServiceImpl implements ToyService {
     private final ToyRepository toyRepository;
     private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
+    private final FieldNamesGenerator fieldNamesGenerator;
+    // CLOUDINARY
     private final ProductImagesService productImagesService;
 
     @Autowired
@@ -37,11 +41,15 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
                           CartRepository cartRepository,
                           ModelMapper modelMapper,
                           MessageSource messageSource,
+                          Breadcrumbs breadcrumbs,
+                          FieldNamesGenerator fieldNamesGenerator,
                           ProductImagesService productImagesService) {
         this.toyRepository = toyRepository;
         this.cartRepository = cartRepository;
         this.modelMapper = modelMapper;
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
+        this.fieldNamesGenerator = fieldNamesGenerator;
         this.productImagesService = productImagesService;
     }
 
@@ -49,7 +57,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     public String displayProductAddToyPage(Model model) {
         addDefaultModelAttributesForAddAndHandle(model);
         model.addAttribute("product", new ToyAddDTO());
-        model.addAttribute("fieldsMap", getFieldNames("toy", false));
+        model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("toy", false));
         return PRODUCT_ADD_HTML;
     }
 
@@ -58,7 +66,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
         addDefaultModelAttributesForAddAndHandle(model);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("fieldsMap", getFieldNames("toy", false));
+            model.addAttribute("fieldsMap", fieldNamesGenerator.getFieldNames("toy", false));
             return PRODUCT_ADD_HTML;
         }
 
@@ -68,7 +76,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
 
     @Override
     public String displayAllToysPage(Model model, String sort) {
-        addProductBreadcrumb(model, ALL_TOYS_URL, "Toys");
+        breadcrumbs.addProductBreadcrumb(model, ALL_TOYS_URL, "Toys");
         addDefaultModelAttributesForAllAndDetailed(model);
         List<Toy> toyList = getSortedToys(sort);
         model.addAttribute("selectedSortingOption", Objects.requireNonNullElse(sort, "default"));
@@ -79,7 +87,7 @@ public class ToyServiceImpl extends Breadcrumbs implements ToyService {
     @Override
     public String displayDetailedViewToyPage(UUID id, Model model) {
         Toy toy = getToyOrThrowException(id);
-        addProductBreadcrumb(model, ALL_TOYS_URL, "Toys", toy.getProductName());
+        breadcrumbs.addProductBreadcrumb(model, ALL_TOYS_URL, "Toys", toy.getProductName());
         addDefaultModelAttributesForAllAndDetailed(model);
         model.addAttribute("product", toy);
         model.addAttribute("productDetails", getDetailFields(toy));

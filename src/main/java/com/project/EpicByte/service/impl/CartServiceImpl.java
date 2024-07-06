@@ -38,7 +38,7 @@ import static com.project.EpicByte.util.Constants.USER_CART_URL;
  */
 
 @Service
-public class CartServiceImpl extends Breadcrumbs implements CartService {
+public class CartServiceImpl implements CartService {
     private final BookRepository bookRepository;
     private final TextbookRepository textbookRepository;
     private final MovieRepository movieRepository;
@@ -50,6 +50,8 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
     private final ModelMapper modelMapper;
 
+    private final Breadcrumbs breadcrumbs;
+
     public CartServiceImpl(BookRepository bookRepository,
                            TextbookRepository textbookRepository,
                            MovieRepository movieRepository,
@@ -57,7 +59,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
                            ToyRepository toyRepository,
                            CartRepository cartRepository,
                            UserRepository userRepository,
-                           ModelMapper modelMapper) {
+                           ModelMapper modelMapper, Breadcrumbs breadcrumbs) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
@@ -66,6 +68,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        this.breadcrumbs = breadcrumbs;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
         try {
             UserEntity userEntity = getUserEntityByUsername(username);
             setModelAttributesForCart(userEntity, model, session);
-            addProductBreadcrumb(model, USER_CART_URL, "Cart");
+            breadcrumbs.addProductBreadcrumb(model, USER_CART_URL, "Cart");
         } catch (EmptyCartException e) {
             return returnEmptyCartPage(model);
         }
@@ -116,7 +119,7 @@ public class CartServiceImpl extends Breadcrumbs implements CartService {
 
     private String returnEmptyCartPage(Model model) {
         model.addAttribute("emptyCart", true);
-        addProductBreadcrumb(model, USER_CART_URL, "Cart");
+        breadcrumbs.addProductBreadcrumb(model, USER_CART_URL, "Cart");
         return CART_HTML;
     }
 

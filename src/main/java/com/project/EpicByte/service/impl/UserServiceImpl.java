@@ -31,13 +31,14 @@ import java.util.Set;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class UserServiceImpl extends Breadcrumbs implements UserService{
+public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final HttpServletRequest request;
     private final ApplicationEventPublisher eventPublisher;
+    private final Breadcrumbs breadcrumbs;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -45,13 +46,15 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
                            UserRoleRepository userRoleRepository,
                            PasswordEncoder passwordEncoder,
                            HttpServletRequest request,
-                           ApplicationEventPublisher eventPublisher) {
+                           ApplicationEventPublisher eventPublisher,
+                           Breadcrumbs breadcrumbs) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.request = request;
         this.eventPublisher = eventPublisher;
+        this.breadcrumbs = breadcrumbs;
     }
 
     @Override
@@ -91,7 +94,7 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
 
     @Override
     public String showProfilePage(Model model, Principal principal) {
-        addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
+        breadcrumbs.addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
 
         try {
             UserUpdateDTO userUpdateDTO = this.getUserUpdateDTOByUsername(principal.getName());
@@ -114,7 +117,7 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
     public String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult,
                                     Model model, RedirectAttributes redirectAttributes, Principal principal) {
         if (bindingResult.hasErrors()) {
-            addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
+            breadcrumbs.addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
         }
 
@@ -124,7 +127,7 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
             return "redirect:" + USER_PROFILE_URL;
         } catch (UsernameAlreadyExistsException e) {
             bindingResult.rejectValue(USERNAME_FIELD, USERNAME_FIELD, e.getMessage());
-            addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
+            breadcrumbs.addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
         } catch (LogoutRequestException e) {
             return "redirect:" + LOGIN_URL;
@@ -149,6 +152,8 @@ public class UserServiceImpl extends Breadcrumbs implements UserService{
                 throw new RuntimeException();
             }
         }
+
+        this.userRepository.saveAndFlush(userEntity);
     }
 
     private void saveUserInDatabase(UserRegisterDTO userRegisterDTO) {

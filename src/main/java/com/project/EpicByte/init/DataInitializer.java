@@ -10,28 +10,16 @@ import org.springframework.stereotype.Component;
 
 /**
  * A necessary class for this staging application.
- * It is designed to fill the application with pre-validated data.
+ * It is designed to fill the application with the User Roles
  */
 
 @Component
 public class DataInitializer implements CommandLineRunner {
     private final UserRoleRepository userRoleRepository;
-    private final BookRepository bookRepository;
-    private final TextbookRepository textbookRepository;
-    private final MovieRepository movieRepository;
-    private final MusicRepository musicRepository;
-    private final ToyRepository toyRepository;
 
     @Autowired
-    public DataInitializer(UserRoleRepository userRoleRepository, BookRepository bookRepository,
-                           TextbookRepository textbookRepository, MovieRepository movieRepository,
-                           MusicRepository musicRepository, ToyRepository toyRepository) {
+    public DataInitializer(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
-        this.bookRepository = bookRepository;
-        this.textbookRepository = textbookRepository;
-        this.movieRepository = movieRepository;
-        this.musicRepository = musicRepository;
-        this.toyRepository = toyRepository;
     }
 
     @Override

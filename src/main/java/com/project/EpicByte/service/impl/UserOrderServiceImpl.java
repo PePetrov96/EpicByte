@@ -17,26 +17,30 @@ import java.util.*;
 import static com.project.EpicByte.util.Constants.*;
 
 @Service
-public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderService {
+public class UserOrderServiceImpl implements UserOrderService {
     private final UserOrderRepository userOrderRepository;
     private final UserRepository userRepository;
+    private final Breadcrumbs breadcrumbs;
 
     @Autowired
-    public UserOrderServiceImpl(UserOrderRepository userOrderRepository, UserRepository userRepository) {
+    public UserOrderServiceImpl(UserOrderRepository userOrderRepository,
+                                UserRepository userRepository,
+                                Breadcrumbs breadcrumbs) {
         this.userOrderRepository = userOrderRepository;
         this.userRepository = userRepository;
+        this.breadcrumbs = breadcrumbs;
     }
 
     @Override
     public String displayUserOrders(Model model, Principal principal) {
         UserEntity user = getUserEntityByUsername(principal.getName());
-        Set<UserOrder> userOrdersSet = this.userOrderRepository.findUserOrderByUserId(user.getId());
+        Set<UserOrder> userOrdersSet = this.userOrderRepository.findUserOrderByUserIdOrderByOrderDateDesc(user.getId());
         return returnModelPage(userOrdersSet, model);
     }
 
     @Override
     public String displayAdminAllUserOrders(Model model) {
-        LinkedHashSet<UserOrder> userOrdersSet = new LinkedHashSet<>(userOrderRepository.findUserOrdersComplete());
+        LinkedHashSet<UserOrder> userOrdersSet = new LinkedHashSet<>(userOrderRepository.findUserOrdersIncompleteOrderByOrderDateDesc());
         return returnModelPage(userOrdersSet, model);
     }
 
@@ -61,7 +65,7 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
             UserOrder actualUserOrder = UserOrder.get();
             model.addAttribute("orderItems", actualUserOrder.getOrderItems());
             model.addAttribute("totalCost", actualUserOrder.getTotalCost());
-            addProductBreadcrumb(model, USER_ORDERS_URL, "Orders", String.valueOf(actualUserOrder.getId()));
+            breadcrumbs.addProductBreadcrumb(model, USER_ORDERS_URL, "Orders", String.valueOf(actualUserOrder.getId()));
             return ORDER_DETAILS_HTML;
         }
 
@@ -72,7 +76,7 @@ public class UserOrderServiceImpl extends Breadcrumbs implements UserOrderServic
 
     // Set page model attributes
     private String returnModelPage(Set<UserOrder> userOrdersSet, Model model) {
-        addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
+        breadcrumbs.addProductBreadcrumb(model, USER_ORDERS_URL, "Orders");
 
         if (userOrdersSet.isEmpty()) {
             model.addAttribute("noUserOrders", true);

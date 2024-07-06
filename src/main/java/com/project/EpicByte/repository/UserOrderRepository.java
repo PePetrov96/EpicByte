@@ -12,7 +12,10 @@ import java.util.UUID;
 @Repository
 public interface UserOrderRepository extends JpaRepository<UserOrder, UUID> {
     Optional<UserOrder> findUserOrderById(UUID id);
+    Set<UserOrder> findUserOrderByUserIdOrderByOrderDateDesc(UUID id);
     Set<UserOrder> findUserOrderByUserId(UUID id);
+    @Query("SELECT uo FROM UserOrder uo WHERE uo.isComplete = false ORDER BY uo.orderDate DESC")
+    Set<UserOrder> findUserOrdersIncompleteOrderByOrderDateDesc();
     @Query("SELECT uo FROM UserOrder uo WHERE uo.isComplete = false")
-    Set<UserOrder> findUserOrdersComplete();
+    Set<UserOrder> findUserOrdersIncomplete();
 }
