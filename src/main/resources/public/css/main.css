@@ -441,13 +441,13 @@ body {
 .product-details-admin-items {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 10%;
 }
 
 .item-update-button,
 .item-delete-button {
-    width: 100%;
+    width: 50%;
     padding: 5px 0;
     border-radius: 50em;
     border: none;
