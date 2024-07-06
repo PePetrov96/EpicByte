@@ -21,24 +21,26 @@ import static com.project.EpicByte.util.Constants.*;
  */
 
 @Controller
-public class MiscPageController extends Breadcrumbs {
+public class MiscPageController {
     private final MessageSource messageSource;
+    private final Breadcrumbs breadcrumbs;
 
     @Autowired
-    public MiscPageController(MessageSource messageSource) {
+    public MiscPageController(MessageSource messageSource, Breadcrumbs breadcrumbs) {
         this.messageSource = messageSource;
+        this.breadcrumbs = breadcrumbs;
     }
 
     @GetMapping(TERMS_AND_CONDITIONS_URL)
     public String displayTermsAndConditionsPage(Model model) {
-        addProductBreadcrumb(model, TERMS_AND_CONDITIONS_URL, "Terms and Conditions");
+        breadcrumbs.addProductBreadcrumb(model, TERMS_AND_CONDITIONS_URL, "Terms and Conditions");
         model.addAttribute("pageType", getLocalizedText("terms.and.conditions.text"));
         return DISPLAY_TEXT_HTML;
     }
 
     @GetMapping(PRIVACY_URL)
     public String displayPrivacyPage(Model model) {
-        addProductBreadcrumb(model, PRIVACY_URL, "Privacy");
+        breadcrumbs.addProductBreadcrumb(model, PRIVACY_URL, "Privacy");
         model.addAttribute("pageType", getLocalizedText("privacy.text"));
         return DISPLAY_TEXT_HTML;
     }

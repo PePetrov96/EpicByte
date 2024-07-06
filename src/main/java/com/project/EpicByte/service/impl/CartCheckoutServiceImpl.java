@@ -12,7 +12,6 @@ import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.service.CartCheckoutService;
 import com.project.EpicByte.util.Breadcrumbs;
-import com.project.EpicByte.util.Breadcrumbs2;
 import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     private final MessageSource messageSource;
     private final ModelMapper modelMapper;
 
-    private final Breadcrumbs2 breadcrumbs;
+    private final Breadcrumbs breadcrumbs;
 
     @Autowired
     public CartCheckoutServiceImpl(UserOrderRepository userOrderRepository,
@@ -48,7 +47,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
                                    UserRepository userRepository,
                                    MessageSource messageSource,
                                    ModelMapper modelMapper,
-                                   Breadcrumbs2 breadcrumbs) {
+                                   Breadcrumbs breadcrumbs) {
         this.userOrderRepository = userOrderRepository;
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;

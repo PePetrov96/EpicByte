@@ -15,7 +15,7 @@ import java.util.UUID;
 import static com.project.EpicByte.util.Constants.*;
 
 @Controller
-public class BookController extends Breadcrumbs {
+public class BookController {
     private final BookService bookService;
 
     @Autowired
