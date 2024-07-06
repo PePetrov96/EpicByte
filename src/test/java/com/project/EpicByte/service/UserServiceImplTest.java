@@ -6,7 +6,7 @@ import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.impl.UserServiceImpl;
 import com.project.EpicByte.util.Breadcrumbs;
-import com.project.EpicByte.util.Breadcrumbs2;
+import com.project.EpicByte.util.FieldNamesGenerator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;

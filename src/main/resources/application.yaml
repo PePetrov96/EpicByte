@@ -19,16 +19,16 @@ spring:
     password: ${EMAIL_PASSWORD:sezbveesefiekudp}
     host: smtp.gmail.com
     port: 587
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password:
 #  datasource:
 #    driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://root:FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5@h41sp5.stackhero-network.com:3306/root?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+#    url: jdbc:mysql://localhost:3306/epicbyte_database?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
 #    username: root
-#    password: FDJVeVWdyZPGpkhYz6VQQD5cYXN4oZU5
+#    password:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://root:14XbPX0Mj4LgWaENs5SaLrVdKM2IW42C@i8lify.stackhero-network.com:3306/root?useSSL=true&requireSSL=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 14XbPX0Mj4LgWaENs5SaLrVdKM2IW42C
 
 logging:
   level:
