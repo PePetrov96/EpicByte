@@ -82,7 +82,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
         }
 
         try {
-            createUserOrder(principal.getName(), orderAddressDTO);
+            createUserOrder(principal, orderAddressDTO);
             model.addAttribute("pageType", "Completed Successfully");
             model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
             session.setAttribute("numItems", 0);
@@ -101,8 +101,8 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     }
 
     //Support methods
-    private void createUserOrder(String username, OrderAddressDTO orderAddressDTO) {
-        UserEntity userEntity = getUserEntityByUsername(username);
+    private void createUserOrder(Principal principal, OrderAddressDTO orderAddressDTO) {
+        UserEntity userEntity = getUserEntityByPrincipal(principal);
         UserOrder order = initializeUserOrder(userEntity, orderAddressDTO);
 
         List<BaseProduct> products = fetchUserCartProducts(userEntity);
@@ -181,12 +181,12 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
         return messageSource.getMessage(text, null, locale);
     }
 
-    private UserEntity getUserEntityByUsername(String username) {
+    private UserEntity getUserEntityByPrincipal(Principal principal) {
         UserEntity user = this.userRepository
-                .findUserEntityByUsername(username);
+                .findUserEntityByUsername(principal.getName());
 
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(principal.getName());
         }
 
         return user;

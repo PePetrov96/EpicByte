@@ -37,7 +37,7 @@ public class ProductImagesServiceImpl implements ProductImagesService {
     }
 
     @Override
-    public void removeImageURL(String imageURL) {
+    public boolean removeImageURL(String imageURL) {
         try {
             Map params1 = ObjectUtils.asMap(
                     "use_filename", true,
@@ -46,6 +46,7 @@ public class ProductImagesServiceImpl implements ProductImagesService {
             );
 
             cloudinary.uploader().destroy(getPublicID(imageURL), params1);
+            return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

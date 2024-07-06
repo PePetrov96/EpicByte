@@ -45,21 +45,26 @@ public class UserController {
 
     // REGISTER page handle update
     @PostMapping(REGISTER_URL)
-    public String registerUser(@Valid @ModelAttribute("userRegisterDTO") UserRegisterDTO userRegisterDTO, BindingResult bindingResult,
+    public String registerUser(@Valid @ModelAttribute("userRegisterDTO") UserRegisterDTO userRegisterDTO,
+                               BindingResult bindingResult,
                                Model model) {
-        return userService.registerUser(userRegisterDTO, model, bindingResult);
+        return userService.registerUser(userRegisterDTO, bindingResult, model);
     }
 
     // USER PROFILE page display
     @GetMapping(USER_PROFILE_URL)
-    public String showProfilePage(Model model, Principal principal) {
+    public String showProfilePage(Model model,
+                                  Principal principal) {
         return userService.showProfilePage(model, principal);
     }
 
     // USER PROFILE page handle update
     @PostMapping(USER_PROFILE_URL)
     public String updateProfilePage(@Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO,
-                                    BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal) {
+                                    BindingResult bindingResult,
+                                    Model model,
+                                    RedirectAttributes redirectAttributes,
+                                    Principal principal) {
         return userService.updateProfilePage(userUpdateDTO, bindingResult, model, redirectAttributes, principal);
     }
 }

@@ -12,7 +12,7 @@ public interface UserService {
     String showLoginPage();
     String handleLoginError(Model model);
     String showRegisterPage(Model model);
-    String registerUser(UserRegisterDTO userRegisterDTO, Model model, BindingResult bindingResult);
+    String registerUser(UserRegisterDTO userRegisterDTO, BindingResult bindingResult, Model model);
     String showProfilePage(Model model, Principal principal);
     String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, Principal principal);
 }

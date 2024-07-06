@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String registerUser(UserRegisterDTO userRegisterDTO, Model model, BindingResult bindingResult) {
+    public String registerUser(UserRegisterDTO userRegisterDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return AUTH_REGISTER_HTML;
         }
@@ -114,8 +114,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String updateProfilePage(UserUpdateDTO userUpdateDTO, BindingResult bindingResult,
-                                    Model model, RedirectAttributes redirectAttributes, Principal principal) {
+    public String updateProfilePage(UserUpdateDTO userUpdateDTO,
+                                    BindingResult bindingResult,
+                                    Model model,
+                                    RedirectAttributes redirectAttributes,
+                                    Principal principal) {
         if (bindingResult.hasErrors()) {
             breadcrumbs.addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
             return USER_PROFILE_HTML;
