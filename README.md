@@ -3,7 +3,7 @@
 <div align="center">
   <h2>EpicByte</h2>
   <img height="100px" alt="Site-Logo" src="src/main/resources/public/images/Site-Logo-Full-2.png">
-  <p>Hosted here: <a href="https://epicbyte-XXXX.herokuapp.com/">EpicByte.com</a></p>
+  <p>Hosted here: <a href="https://epic-byte-6f3d2e3c2d31.herokuapp.com/">EpicByte.com</a></p>
 </div>
 
 <br />
