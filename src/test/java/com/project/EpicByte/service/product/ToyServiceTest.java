@@ -84,39 +84,39 @@ public class ToyServiceTest {
     }
 
     @Test
-    public void test_displayProductAddToyPage() {
+    public void displayProductAddToyPage_success() {
         String actualPage = this.toyService.displayProductAddToyPage(model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddToy_success() {
+    public void handleProductAddToy_success() {
         String actualPage = this.toyService.handleProductAddToy(toyAddDTO, bindingResult, model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddToy_fail() {
+    public void handleProductAddToy_fail_bindingResultHasErrors() {
         when(bindingResult.hasErrors()).thenReturn(true);
         String actualPage = this.toyService.handleProductAddToy(new ToyAddDTO(), bindingResult, model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_displayAllToysPage() {
+    public void displayAllToysPage_success() {
         String actualPage = this.toyService.displayAllToysPage(this.model, "default");
         Assertions.assertEquals(PRODUCTS_ALL_HTML, actualPage);
     }
 
     @Test
-    public void test_displayDetailedViewToyPage() {
+    public void displayDetailedViewToyPage_success() {
         when(toyRepository.findToyById(any())).thenReturn(toy);
         String actualPage = this.toyService.displayDetailedViewToyPage(UUID.randomUUID(), model);
         Assertions.assertEquals(PRODUCT_DETAILS_HTML, actualPage);
     }
 
     @Test
-    public void test_deleteToy() {
+    public void deleteToy_success() {
         when(toyRepository.findToyById(any())).thenReturn(toy);
         when(productImagesService.removeImageURL(any())).thenReturn(true);
         String actualPage = this.toyService.deleteToy(UUID.randomUUID());

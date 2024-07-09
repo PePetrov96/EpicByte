@@ -103,7 +103,7 @@ public class FieldNamesGenerator {
         return fields;
     }
 
-    private String getPrettyName(String variableName, Locale locale) {
+    public String getPrettyName(String variableName, Locale locale) {
         String name = variableName + ".text";
         try {
             return messageSource.getMessage(name, null, locale);

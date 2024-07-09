@@ -6,9 +6,12 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UniqueUsernameValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {

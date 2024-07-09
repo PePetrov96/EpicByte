@@ -6,8 +6,12 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class NotUniqueEmailValidator implements ConstraintValidator<NotUniqueEmail, String> {
+    private final SubscriberRepository subscriberRepository;
+
     @Autowired
-    private SubscriberRepository subscriberRepository;
+    public NotUniqueEmailValidator(SubscriberRepository subscriberRepository) {
+        this.subscriberRepository = subscriberRepository;
+    }
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {

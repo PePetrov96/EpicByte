@@ -80,7 +80,7 @@ public class UserServiceTest {
 
         this.userEntity = new UserEntity();
         userEntity.setUsername("testUsername");
-        userEntity.setPassword(passwordEncoder.encode("testPassword"));
+        userEntity.setPassword("testPassword");
         userEntity.setEmail("testEmail");
         userEntity.setFirstName("testFirstName");
         userEntity.setLastName("testLastName");
@@ -91,45 +91,45 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_showLoginPage(){
+    public void showLoginPage_success(){
         String result = userService.showLoginPage();
         Assertions.assertEquals(AUTH_LOGIN_HTML, result);
     }
 
     @Test
-    public void test_handleLoginError(){
+    public void handleLoginError_success(){
         String result = userService.handleLoginError(model);
         Assertions.assertEquals(AUTH_LOGIN_HTML, result);
     }
 
     @Test
-    public void test_showRegisterPage(){
+    public void showRegisterPage_success(){
         String result = userService.showRegisterPage(model);
         Assertions.assertEquals(AUTH_REGISTER_HTML, result);
     }
 
     @Test
-    public void test_registerUser_success(){
+    public void registerUser_success(){
         String result = userService.registerUser(userRegisterDTO, bindingResult, model);
         Assertions.assertEquals("redirect:" + LOGIN_URL, result);
     }
 
     @Test
-    public void test_registerUser_fail_bindingResultHasErrors(){
+    public void registerUser_fail_bindingResultHasErrors(){
         when(bindingResult.hasErrors()).thenReturn(true);
         String result = userService.registerUser(new UserRegisterDTO(), bindingResult, model);
         Assertions.assertEquals(AUTH_REGISTER_HTML, result);
     }
 
     @Test
-    public void test_showProfilePage_success() {
+    public void showProfilePage_success() {
         when(this.userRepository.findUserEntityByUsername(any())).thenReturn(userEntity);
         String result = this.userService.showProfilePage(model, Mockito.mock(Principal.class));
         Assertions.assertEquals(USER_PROFILE_HTML, result);
     }
 
     @Test
-    public void test_showProfilePage_fail_UsernameNotFound() {
+    public void showProfilePage_fail_UsernameNotFound() {
         try {
             this.userService.showProfilePage(model, Mockito.mock(Principal.class));
         } catch (UsernameNotFoundException e) {
@@ -138,7 +138,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_updateProfilePage_success() {
+    public void updateProfilePage_success() {
         RedirectAttributes redirectAttributes = Mockito.mock(RedirectAttributes.class);
         Principal principal = Mockito.mock(Principal.class);
         when(this.userRepository.findUserEntityById(any())).thenReturn(userEntity);
@@ -154,7 +154,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_updateProfilePage_fail_bindingResultHasErrors() {
+    public void updateProfilePage_fail_bindingResultHasErrors() {
         RedirectAttributes redirectAttributes = Mockito.mock(RedirectAttributes.class);
         Principal principal = Mockito.mock(Principal.class);
         when(bindingResult.hasErrors()).thenReturn(true);

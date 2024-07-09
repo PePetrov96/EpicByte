@@ -1,0 +1,35 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+  datasource:
+    url: jdbc:hsqldb:mem:testdb;sql.syntax_mys=true
+  mail:
+    email-address: picbyte52@gmail.com
+    username: epicbyte52@gmail.com
+    password: 1234
+    host: localhost
+    port: 2000
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: TRACE
+        type: TRACE
+
+cloudinary:
+  name: ${CLOUDINARY_NAME:divhxhqsg}
+  api-key: ${CLOUDINARY_API_KEY:269588157677357}
+  api-secret: ${CLOUDINARY_API_SECRET:XpUZNs2ML7AQ56C4h2Q2222tgos}
+admin:
+  username: ${ADMIN_USERNAME:admin}
+  password: ${ADMIN_PASSWORD:admin}

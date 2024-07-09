@@ -46,7 +46,7 @@ public class ToyController {
     }
 
     // Delete a toy
-    @GetMapping(MODERATOR_TOYS_DELETE_URL)
+    @GetMapping(MODERATOR_TOYS_DELETE_URL + "{id}")
     public String deleteToy(@PathVariable UUID id) {
         return toyService.deleteToy(id);
     }

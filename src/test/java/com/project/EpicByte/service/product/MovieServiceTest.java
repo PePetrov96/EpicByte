@@ -89,39 +89,39 @@ public class MovieServiceTest {
     }
 
     @Test
-    public void test_displayProductAddMoviePage() {
+    public void displayProductAddMoviePage_success() {
         String actualPage = this.movieService.displayProductAddMoviePage(model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddMovie_success() {
+    public void handleProductAddMovie_success() {
         String actualPage = this.movieService.handleProductAddMovie(movieAddDTO, bindingResult, model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddMovie_fail() {
+    public void handleProductAddMovie_fail_bindingResultHasErrors() {
         when(bindingResult.hasErrors()).thenReturn(true);
         String actualPage = this.movieService.handleProductAddMovie(new MovieAddDTO(), bindingResult, model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_displayAllMoviesPage() {
+    public void displayAllMoviesPage_success() {
         String actualPage = this.movieService.displayAllMoviesPage(this.model, "default");
         Assertions.assertEquals(PRODUCTS_ALL_HTML, actualPage);
     }
 
     @Test
-    public void test_displayDetailedViewMoviePage() {
+    public void displayDetailedViewMoviePage_success() {
         when(movieRepository.findMovieById(any())).thenReturn(movie);
         String actualPage = this.movieService.displayDetailedViewMoviePage(UUID.randomUUID(), model);
         Assertions.assertEquals(PRODUCT_DETAILS_HTML, actualPage);
     }
 
     @Test
-    public void test_deleteMovie() {
+    public void deleteMovie_success() {
         when(movieRepository.findMovieById(any())).thenReturn(movie);
         when(productImagesService.removeImageURL(any())).thenReturn(true);
         String actualPage = this.movieService.deleteMovie(UUID.randomUUID());

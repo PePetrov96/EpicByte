@@ -33,6 +33,6 @@ public abstract class BaseProduct extends BaseEntity {
     @Column(name = "product_price") //, columnDefinition = "DECIMAL(19,2)"
     private BigDecimal productPrice;
 
-    @Column(name = "description", columnDefinition = "LONGTEXT")
+    @Column(name = "description", columnDefinition = "MEDIUMTEXT")
     private String description;
 }

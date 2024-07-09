@@ -2,7 +2,6 @@ package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.events.UserRegisterEvent;
 import com.project.EpicByte.exceptions.LogoutRequestException;
-import com.project.EpicByte.exceptions.UsernameAlreadyExistsException;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
 import com.project.EpicByte.model.dto.UserUpdateDTO;
 import com.project.EpicByte.model.entity.UserEntity;
@@ -128,10 +127,6 @@ public class UserServiceImpl implements UserService{
             updateUserInDatabase(userUpdateDTO);
             redirectAttributes.addFlashAttribute("operationSuccess", true);
             return "redirect:" + USER_PROFILE_URL;
-        } catch (UsernameAlreadyExistsException e) {
-            bindingResult.rejectValue(USERNAME_FIELD, USERNAME_FIELD, e.getMessage());
-            breadcrumbs.addProductBreadcrumb(model, USER_PROFILE_URL, "Profile");
-            return USER_PROFILE_HTML;
         } catch (LogoutRequestException e) {
             return "redirect:" + LOGIN_URL;
         }

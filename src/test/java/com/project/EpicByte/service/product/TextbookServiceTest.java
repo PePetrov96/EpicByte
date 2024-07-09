@@ -87,39 +87,39 @@ public class TextbookServiceTest {
     }
 
     @Test
-    public void test_displayProductAddTextbookPage() {
+    public void displayProductAddTextbookPage_success() {
         String actualPage = this.textbookService.displayProductAddTextbookPage(model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddTextbook_success() {
+    public void handleProductAddTextbook_success() {
         String actualPage = this.textbookService.handleProductAddTextbook(textbookAddDTO, bindingResult, model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddTextbook_fail() {
+    public void handleProductAddTextbook_fail_bindingResultHasErrors() {
         when(bindingResult.hasErrors()).thenReturn(true);
         String actualPage = this.textbookService.handleProductAddTextbook(new TextbookAddDTO(), bindingResult, model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_displayAllTextbooksPage() {
+    public void displayAllTextbooksPage_success() {
         String actualPage = this.textbookService.displayAllTextbooksPage(this.model, "default");
         Assertions.assertEquals(PRODUCTS_ALL_HTML, actualPage);
     }
 
     @Test
-    public void test_displayDetailedViewTextbookPage() {
+    public void displayDetailedViewTextbookPage_success() {
         when(textbookRepository.findTextbookById(any())).thenReturn(textbook);
         String actualPage = this.textbookService.displayDetailedViewTextbookPage(UUID.randomUUID(), model);
         Assertions.assertEquals(PRODUCT_DETAILS_HTML, actualPage);
     }
 
     @Test
-    public void test_deleteTextbook() {
+    public void deleteTextbook_success() {
         when(textbookRepository.findTextbookById(any())).thenReturn(textbook);
         when(productImagesService.removeImageURL(any())).thenReturn(true);
         String actualPage = this.textbookService.deleteTextbook(UUID.randomUUID());

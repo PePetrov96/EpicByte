@@ -17,7 +17,8 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
             context.disableDefaultConstraintViolation(); // disable the error on the global level.
 
             context.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate())
-                    .addPropertyNode("repeatPassword").addConstraintViolation(); // assign the error to repeatPassword field.
+                    .addPropertyNode("repeatPassword")
+                    .addConstraintViolation(); // assign the error to repeatPassword field.
             return false;
         }
 

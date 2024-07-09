@@ -48,7 +48,7 @@ public class MusicController {
     }
 
     // Delete a music
-    @GetMapping(MODERATOR_MUSIC_DELETE_URL)
+    @GetMapping(MODERATOR_MUSIC_DELETE_URL + "{id}")
     public String deleteMusic(@PathVariable UUID id) {
         return this.musicService.deleteMusic(id);
     }

@@ -40,7 +40,7 @@ public class CartController {
     }
 
     // Delete items from cart
-    @PostMapping(USER_CART_DELETE_URL)
+    @PostMapping(USER_CART_DELETE_URL + "{id}")
     public String handleItemDeletionFromCart(@PathVariable UUID id,
                                              Principal principal,
                                              Model model,

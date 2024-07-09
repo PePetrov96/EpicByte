@@ -48,7 +48,7 @@ public class TextbookController {
     }
 
     // Delete a textbook
-    @GetMapping(MODERATOR_TEXTBOOKS_DELETE_URL)
+    @GetMapping(MODERATOR_TEXTBOOKS_DELETE_URL + "{id}")
     public String deleteTextbooks(@PathVariable UUID id) {
         return this.textbookService.deleteTextbook(id);
     }

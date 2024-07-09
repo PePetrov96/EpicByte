@@ -1,6 +1,5 @@
 package com.project.EpicByte.service.impl;
 
-import com.project.EpicByte.exceptions.CartItemNotFoundException;
 import com.project.EpicByte.exceptions.EmptyCartException;
 import com.project.EpicByte.model.bindingModel.CartItemBindingModel;
 import com.project.EpicByte.model.bindingModel.UserCartBindingModel;
@@ -59,7 +58,8 @@ public class CartServiceImpl implements CartService {
                            ToyRepository toyRepository,
                            CartRepository cartRepository,
                            UserRepository userRepository,
-                           ModelMapper modelMapper, Breadcrumbs breadcrumbs) {
+                           ModelMapper modelMapper,
+                           Breadcrumbs breadcrumbs) {
         this.bookRepository = bookRepository;
         this.textbookRepository = textbookRepository;
         this.movieRepository = movieRepository;
@@ -97,8 +97,8 @@ public class CartServiceImpl implements CartService {
         }
 
 
-        int numItems = (int) session.getAttribute("numItems");
-        session.setAttribute("numItems", numItems - deletionProducts.size());
+        int numItems = (int) session.getAttribute("numItems") - deletionProducts.size();
+        session.setAttribute("numItems", numItems);
 
         return "redirect:" + USER_CART_URL;
     }
@@ -110,7 +110,7 @@ public class CartServiceImpl implements CartService {
             String productType = payload.get("productType").toString();
             addToCart(productId, productType, principal, session);
             return ResponseEntity.ok("Product added to cart successfully");
-        } catch (UsernameNotFoundException | CartItemNotFoundException exception) {
+        } catch (UsernameNotFoundException exception) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error while adding product to cart");
@@ -129,6 +129,7 @@ public class CartServiceImpl implements CartService {
         if (principal == null) {
             throw new UsernameNotFoundException("Username not found.");
         }
+
         UserEntity userEntity = getUserEntityByUsername(principal.getName());
 
         cartItem.setUser(userEntity);

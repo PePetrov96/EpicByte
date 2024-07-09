@@ -87,39 +87,39 @@ public class BookServiceTest {
     }
 
     @Test
-    public void test_displayProductAddBookPage() {
+    public void displayProductAddBookPage_success() {
         String actualPage = this.bookService.displayProductAddBookPage(model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddBook_success() {
+    public void handleProductAddBook_success() {
         String actualPage = this.bookService.handleProductAddBook(bookAddDTO, bindingResult, model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddBook_fail() {
+    public void handleProductAddBook_fail_bindingResultHasErrors() {
         when(bindingResult.hasErrors()).thenReturn(true);
         String actualPage = this.bookService.handleProductAddBook(new BookAddDTO(), bindingResult, model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_displayAllBooksPage() {
+    public void displayAllBooksPage_success() {
         String actualPage = this.bookService.displayAllBooksPage(this.model, "default");
         Assertions.assertEquals(PRODUCTS_ALL_HTML, actualPage);
     }
 
     @Test
-    public void test_displayDetailedViewBookPage() {
+    public void displayDetailedViewBookPage_success() {
         when(bookRepository.findBookById(any())).thenReturn(book);
         String actualPage = this.bookService.displayDetailedViewBookPage(UUID.randomUUID(), model);
         Assertions.assertEquals(PRODUCT_DETAILS_HTML, actualPage);
     }
 
     @Test
-    public void test_deleteBook() {
+    public void deleteBook_success() {
         when(bookRepository.findBookById(any())).thenReturn(book);
         when(productImagesService.removeImageURL(any())).thenReturn(true);
         String actualPage = this.bookService.deleteBook(UUID.randomUUID());

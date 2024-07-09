@@ -88,39 +88,39 @@ public class MusicServiceTest {
     }
 
     @Test
-    public void test_displayProductAddMusicPage() {
+    public void displayProductAddMusicPage_success() {
         String actualPage = this.musicService.displayProductAddMusicPage(model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddMusic_success() {
+    public void handleProductAddMusic_success() {
         String actualPage = this.musicService.handleProductAddMusic(musicAddDTO, bindingResult, model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, actualPage);
     }
 
     @Test
-    public void test_handleProductAddMusic_fail() {
+    public void handleProductAddMusic_fail_bindingResultHasErrors() {
         when(bindingResult.hasErrors()).thenReturn(true);
         String actualPage = this.musicService.handleProductAddMusic(new MusicAddDTO(), bindingResult, model);
         Assertions.assertEquals(PRODUCT_ADD_HTML, actualPage);
     }
 
     @Test
-    public void test_displayAllMusicPage() {
+    public void displayAllMusicPage_success() {
         String actualPage = this.musicService.displayAllMusicPage(this.model, "default");
         Assertions.assertEquals(PRODUCTS_ALL_HTML, actualPage);
     }
 
     @Test
-    public void test_displayDetailedViewMusicPage() {
+    public void displayDetailedViewMusicPage_success() {
         when(musicRepository.findMusicById(any())).thenReturn(music);
         String actualPage = this.musicService.displayDetailedViewMusicPage(UUID.randomUUID(), model);
         Assertions.assertEquals(PRODUCT_DETAILS_HTML, actualPage);
     }
 
     @Test
-    public void test_deleteMusic() {
+    public void deleteMusic_success() {
         when(musicRepository.findMusicById(any())).thenReturn(music);
         when(productImagesService.removeImageURL(any())).thenReturn(true);
         String actualPage = this.musicService.deleteMusic(UUID.randomUUID());

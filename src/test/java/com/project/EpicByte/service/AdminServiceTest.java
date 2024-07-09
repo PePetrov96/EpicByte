@@ -57,11 +57,9 @@ public class AdminServiceTest {
         this.adminService = new AdminServiceImpl(userRepository,
                 userRoleRepository);
 
-        PasswordEncoder passwordEncoder = Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-
         this.userEntity = new UserEntity();
         userEntity.setUsername("testUsername");
-        userEntity.setPassword(passwordEncoder.encode("testPassword"));
+        userEntity.setPassword("testPassword");
         userEntity.setEmail("testEmail");
         userEntity.setFirstName("testFirstName");
         userEntity.setLastName("testLastName");
@@ -73,7 +71,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void test_displayAdminManagePrivilegesPage(){
+    public void displayAdminManagePrivilegesPage_success(){
         when(this.userRepository.findAll()).thenReturn(new ArrayList<UserEntity>());
 
         String result = this.adminService.displayAdminManagePrivilegesPage(model);
@@ -81,7 +79,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void test_giveModeratorPrivilegesToUser_success(){
+    public void giveModeratorPrivilegesToUser_success(){
         when(this.userRepository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
         when(this.userRoleRepository.findUserRoleByRole(any())).thenReturn(userRole);
 
@@ -90,7 +88,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void test_giveModeratorPrivilegesToUser_fail(){
+    public void giveModeratorPrivilegesToUser_fail_usernameIsEmpty(){
         try {
             this.adminService.giveModeratorPrivilegesToUser(UUID.randomUUID(), model);
         } catch (UsernameIsEmptyException e) {
@@ -99,7 +97,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void test_removeModeratorPrivileges_success(){
+    public void removeModeratorPrivileges_success(){
         when(this.userRepository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
         when(this.userRoleRepository.findUserRoleByRole(any())).thenReturn(userRole);
 
@@ -108,7 +106,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void test_removeModeratorPrivileges_fail(){
+    public void removeModeratorPrivileges_fail_usernameIsEmpty(){
         try {
             this.adminService.removeModeratorPrivileges(UUID.randomUUID(), model);
         } catch (UsernameIsEmptyException e) {

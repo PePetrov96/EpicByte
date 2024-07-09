@@ -72,7 +72,6 @@ public class CartCheckoutServiceTest {
         messageSource.setDefaultEncoding("UTF-8");
 
         this.breadcrumbs = new Breadcrumbs(messageSource);
-        PasswordEncoder passwordEncoder = Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8();
 
         this.cartCheckoutService = new CartCheckoutServiceImpl(userOrderRepository,
                 cartRepository,
@@ -83,7 +82,7 @@ public class CartCheckoutServiceTest {
 
         this.userEntity = new UserEntity();
         userEntity.setUsername("testUsername");
-        userEntity.setPassword(passwordEncoder.encode("testPassword"));
+        userEntity.setPassword("testPassword");
         userEntity.setEmail("testEmail");
         userEntity.setFirstName("testFirstName");
         userEntity.setLastName("testLastName");
@@ -95,14 +94,14 @@ public class CartCheckoutServiceTest {
     }
 
     @Test
-    public void test_showCartCheckoutPage() {
+    public void showCartCheckoutPage_success() {
         session.setAttribute("userCartBindingModel", new UserCartBindingModel());
         String result = this.cartCheckoutService.showCartCheckoutPage(principal, model, session);
         Assertions.assertEquals(CART_CHECKOUT_HTML, result);
     }
 
     @Test
-    public void test_confirmCheckout_fail_bindingResultHasErrors() {
+    public void confirmCheckout_fail_bindingResultHasErrors() {
         this.bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
         String result = this.cartCheckoutService.confirmCheckout(new OrderAddressDTO(),
@@ -115,7 +114,7 @@ public class CartCheckoutServiceTest {
     }
 
     @Test
-    public void test_confirmCheckout_success_emptyCart() {
+    public void confirmCheckout_success_emptyCart() {
         this.bindingResult = mock(BindingResult.class);
         when(this.userRepository.findUserEntityByUsername(any())).thenReturn(userEntity);
 
@@ -129,7 +128,7 @@ public class CartCheckoutServiceTest {
     }
 
     @Test
-    public void test_confirmCheckout_success_finishOrder() {
+    public void confirmCheckout_success_finishOrder() {
         this.bindingResult = mock(BindingResult.class);
         when(this.userRepository.findUserEntityByUsername(any())).thenReturn(userEntity);
 
@@ -158,7 +157,7 @@ public class CartCheckoutServiceTest {
     }
 
     @Test
-    public void test_displayCartCheckoutConfirmationPage() {
+    public void displayCartCheckoutConfirmationPage_success() {
         String result = this.cartCheckoutService.displayCartCheckoutConfirmationPage(model);
         Assertions.assertEquals(DISPLAY_TEXT_HTML, result);
     }

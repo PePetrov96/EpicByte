@@ -33,7 +33,7 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     @Override
     public String displayUserOrders(Model model, Principal principal) {
-        UserEntity user = getUserEntityByUsername(principal.getName());
+        UserEntity user = getUserEntityByUsername(principal);
         Set<UserOrder> userOrdersSet = this.userOrderRepository.findUserOrderByUserIdOrderByOrderDateDesc(user.getId());
         return returnModelPage(userOrdersSet, model);
     }
@@ -89,12 +89,12 @@ public class UserOrderServiceImpl implements UserOrderService {
     }
 
     // Get user. Transactional, since the collections are prone to errors
-    protected UserEntity getUserEntityByUsername(String username) {
+    protected UserEntity getUserEntityByUsername(Principal principal) {
         UserEntity user = this.userRepository
-                .findUserByUsernameWithInitializedOrders(username);
+                .findUserByUsernameWithInitializedOrders(principal.getName());
 
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(principal.getName());
         }
 
         return user;

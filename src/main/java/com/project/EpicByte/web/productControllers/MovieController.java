@@ -47,7 +47,7 @@ public class MovieController {
     }
 
     // Delete a Movie
-    @GetMapping(MODERATOR_MOVIES_DELETE_URL)
+    @GetMapping(MODERATOR_MOVIES_DELETE_URL + "{id}")
     public String deleteMovie(@PathVariable UUID id) {
         return movieService.deleteMovie(id);
     }

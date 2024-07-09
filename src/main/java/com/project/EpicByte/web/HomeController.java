@@ -24,7 +24,9 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String index(Model model, HttpSession session, Principal principal) {
+    public String index(Model model,
+                        HttpSession session,
+                        Principal principal) {
         return this.homeService.displayIndexPage(model, session, principal);
     }
 

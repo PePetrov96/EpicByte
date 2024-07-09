@@ -15,12 +15,17 @@ import java.util.Locale;
 
 @Controller
 public class MyErrorController implements ErrorController {
-    @Autowired
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
     private LocaleContextHolder localeContextHolder;
 
+    @Autowired
+    public MyErrorController(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
+
     @RequestMapping("/error")
-    public String handleError(HttpServletRequest request, WebRequest webRequest) {
+    public String handleError(HttpServletRequest request,
+                              WebRequest webRequest) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
         if (status != null) {
