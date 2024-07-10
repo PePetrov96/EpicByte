@@ -1,9 +1,8 @@
 package com.project.EpicByte.init;
 
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.*;
-import com.project.EpicByte.repository.productRepositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -31,18 +30,18 @@ public class DataInitializer implements CommandLineRunner {
 
     private void fillUserRoles() {
         //SAVE USER ROLE
-        UserRoleEntity userRoleUSEREntity = new UserRoleEntity();
+        UserRole userRoleUSEREntity = new UserRole();
         userRoleUSEREntity.setRole(UserRolesEnum.USER);
         this.userRoleRepository.save(userRoleUSEREntity);
 
         //SAVE MODERATOR ROLE
-        UserRoleEntity userRoleEntityMODERATOR = new UserRoleEntity();
-        userRoleEntityMODERATOR.setRole(UserRolesEnum.MODERATOR);
-        this.userRoleRepository.save(userRoleEntityMODERATOR);
+        UserRole userRoleMODERATOR = new UserRole();
+        userRoleMODERATOR.setRole(UserRolesEnum.MODERATOR);
+        this.userRoleRepository.save(userRoleMODERATOR);
 
         //SAVE ADMIN ROLE
-        UserRoleEntity userRoleEntityADMIN = new UserRoleEntity();
-        userRoleEntityADMIN.setRole(UserRolesEnum.ADMIN);
-        this.userRoleRepository.save(userRoleEntityADMIN);
+        UserRole userRoleADMIN = new UserRole();
+        userRoleADMIN.setRole(UserRolesEnum.ADMIN);
+        this.userRoleRepository.save(userRoleADMIN);
     }
 }

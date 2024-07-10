@@ -300,6 +300,7 @@ body {
     justify-content: space-between;
     flex-grow: 1;
     text-align: start;
+    padding: 10px;
 }
 
 .product-item.details-names.book-name {

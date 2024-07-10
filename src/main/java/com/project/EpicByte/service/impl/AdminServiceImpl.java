@@ -2,7 +2,7 @@ package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.exceptions.UsernameIsEmptyException;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.AdminService;
@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public String giveModeratorPrivilegesToUser(UUID id, Model model) {
         UserEntity userEntity = getUserEntityById(id);
-        UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
+        UserRole userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
         userEntity.getRoles().add(userRole);
         userRepository.saveAndFlush(userEntity);
         return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
@@ -49,7 +49,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     public String removeModeratorPrivileges(UUID id, Model model) {
         UserEntity userEntity = getUserEntityById(id);
-        UserRoleEntity userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
+        UserRole userRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
         userEntity.getRoles().remove(userRole);
         userRepository.saveAndFlush(userEntity);
         return "redirect:" + ADMIN_MANAGE_PRIVILEGES_URL;
@@ -71,13 +71,13 @@ public class AdminServiceImpl implements AdminService {
         List<UserEntity> users = this.userRepository.findAll();
 
         LinkedHashMap<UserEntity, String> userMap = new LinkedHashMap<>();
-        UserRoleEntity moderatorRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
+        UserRole moderatorRole = this.userRoleRepository.findUserRoleByRole(MODERATOR);
 
         for (UserEntity user : users) {
             String role = "USER";
-            Set<UserRoleEntity> userRoles = user.getRoles();
+            Set<UserRole> userRoles = user.getRoles();
 
-            for (UserRoleEntity userRole : userRoles) {
+            for (UserRole userRole : userRoles) {
                 if (userRole.getRole().name().equals(MODERATOR.name())) {
                     role = "MODERATOR";
                     break;

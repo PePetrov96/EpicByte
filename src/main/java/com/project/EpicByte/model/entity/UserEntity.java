@@ -37,7 +37,7 @@ public class UserEntity extends BaseEntity {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<UserRoleEntity> roles = new HashSet<>();
+    private Set<UserRole> roles = new HashSet<>();
 
     @Column(name = "image_url")
     private String imageUrl;

@@ -11,7 +11,7 @@
         <div class="user-profile-container">
             <div th:replace="~{fragments/components :: breadcrumbs}"></div>
 
-            <h1 class="order-name">My Profile</h1>
+            <h1 th:text="#{my.profile.text}" class="order-name">My Profile</h1>
             <span class="order-name-underline"></span>
 
             <form th:method="POST"
@@ -33,7 +33,7 @@
                            type="text"
                            class="form-control">
 
-                    <label for="firstName">Username</label>
+                    <label th:text="#{firstName.text}" for="firstName"></label>
 
                     <small th:class="text-danger"
                            th:if="${#fields.hasErrors('firstName')}"
@@ -51,7 +51,7 @@
                            type="text"
                            class="form-control">
 
-                    <label for="lastName">Username</label>
+                    <label th:text="#{lastName.text}" for="lastName"></label>
 
                     <small th:class="text-danger"
                            th:if="${#fields.hasErrors('lastName')}"
@@ -69,7 +69,7 @@
                            type="text"
                            class="form-control">
 
-                    <label for="username">Username</label>
+                    <label th:text="#{username.text}" for="username">Username</label>
 
                     <small th:class="text-danger"
                            th:if="${#fields.hasErrors('username')}"
@@ -87,7 +87,7 @@
                            type="text"
                            class="form-control">
 
-                    <label for="email">email</label>
+                    <label th:text="#{emailAddress.text}" for="email">email</label>
 
                     <small th:class="text-danger"
                            th:if="${#fields.hasErrors('email')}"
@@ -95,12 +95,13 @@
                 </div>
 
                 <div class="successful-profile-update">
-                    <small th:class="text-success"
+                    <small th:text="#{successfully.saved.changes.test}"
+                           th:class="text-success"
                            th:if="${operationSuccess}">Successfully saved changes!</small>
                 </div>
 
                 <div class="col-12">
-                    <input type="submit" class="btn btn-primary update-user-button" value="Save Changes">
+                    <input type="submit" class="btn btn-primary update-user-button" th:value="#{save.changes.text}">
                 </div>
             </form>
         </div>

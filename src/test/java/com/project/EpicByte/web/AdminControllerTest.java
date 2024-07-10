@@ -3,7 +3,7 @@ package com.project.EpicByte.web;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
@@ -129,8 +129,8 @@ class AdminControllerTest {
         return this.userRepository.findAll().get(0).getId();
     }
 
-    private UserRoleEntity returnModeratorRole() {
-        UserRoleEntity userRole = new UserRoleEntity();
+    private UserRole returnModeratorRole() {
+        UserRole userRole = new UserRole();
         userRole.setRole(UserRolesEnum.MODERATOR);
         return userRole;
     }

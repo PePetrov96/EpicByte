@@ -3,7 +3,7 @@ package com.project.EpicByte.service.impl.RESTImpl;
 import com.project.EpicByte.model.dto.RESTDTOs.*;
 import com.project.EpicByte.model.entity.UserEntity;
 import com.project.EpicByte.model.entity.UserOrder;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.UserOrderRepository;
@@ -68,7 +68,7 @@ public class UserRESTServiceImpl implements UserRESTService {
     }
 
     // Map the Roles list
-    private HashSet<UserRoleRESTViewDTO> mapRoles(Set<UserRoleEntity> roles) {
+    private HashSet<UserRoleRESTViewDTO> mapRoles(Set<UserRole> roles) {
         return roles.stream()
                 .map(userRole -> modelMapper.map(userRole, UserRoleRESTViewDTO.class))
                 .collect(Collectors.toCollection(HashSet::new));

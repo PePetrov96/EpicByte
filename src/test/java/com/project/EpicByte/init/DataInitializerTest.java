@@ -1,6 +1,6 @@
 package com.project.EpicByte.init;
 
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRoleRepository;
 import org.junit.jupiter.api.Assertions;
@@ -33,9 +33,9 @@ class DataInitializerTest {
         dataInitializer.run();
 
         // Then
-        ArgumentCaptor<UserRoleEntity> captor = ArgumentCaptor.forClass(UserRoleEntity.class);
+        ArgumentCaptor<UserRole> captor = ArgumentCaptor.forClass(UserRole.class);
         verify(userRoleRepository, times(3)).save(captor.capture());
-        List<UserRoleEntity> capturedUserRoles = captor.getAllValues();
+        List<UserRole> capturedUserRoles = captor.getAllValues();
 
         Assertions.assertEquals(UserRolesEnum.USER, capturedUserRoles.get(0).getRole());
         Assertions.assertEquals(UserRolesEnum.MODERATOR, capturedUserRoles.get(1).getRole());
@@ -51,6 +51,6 @@ class DataInitializerTest {
         dataInitializer.run();
 
         // Then
-        verify(userRoleRepository, never()).save(any(UserRoleEntity.class));
+        verify(userRoleRepository, never()).save(any(UserRole.class));
     }
 }

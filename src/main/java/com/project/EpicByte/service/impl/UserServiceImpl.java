@@ -5,7 +5,7 @@ import com.project.EpicByte.exceptions.LogoutRequestException;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
 import com.project.EpicByte.model.dto.UserUpdateDTO;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.model.entity.enums.UserRolesEnum;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
@@ -174,15 +174,15 @@ public class UserServiceImpl implements UserService{
         return this.modelMapper.map(userEntity, UserUpdateDTO.class);
     }
 
-    private Set<UserRoleEntity> mapUserRoles(String role) {
-        Set<UserRoleEntity> userRoleEntities = new HashSet<>();
+    private Set<UserRole> mapUserRoles(String role) {
+        Set<UserRole> userRoleEntities = new HashSet<>();
 
         switch (role) {
             case "MODERATOR":
-                UserRoleEntity userRoleEntityMODERATOR = this.userRoleRepository.findUserRoleByRole(UserRolesEnum.MODERATOR);
-                userRoleEntities.add(userRoleEntityMODERATOR);
+                UserRole userRoleMODERATOR = this.userRoleRepository.findUserRoleByRole(UserRolesEnum.MODERATOR);
+                userRoleEntities.add(userRoleMODERATOR);
             case "USER":
-                UserRoleEntity userRoleUSEREntity = this.userRoleRepository.findUserRoleByRole(UserRolesEnum.USER);
+                UserRole userRoleUSEREntity = this.userRoleRepository.findUserRoleByRole(UserRolesEnum.USER);
                 userRoleEntities.add(userRoleUSEREntity);
         }
 

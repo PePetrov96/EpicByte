@@ -2,7 +2,7 @@ package com.project.EpicByte.service;
 
 import com.project.EpicByte.exceptions.UsernameIsEmptyException;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.repository.UserRoleRepository;
 import com.project.EpicByte.service.impl.AdminServiceImpl;
@@ -14,8 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class AdminServiceTest {
     private AdminService adminService;
     private UserEntity userEntity;
-    private UserRoleEntity userRole;
+    private UserRole userRole;
 
     @Mock
     UserRepository userRepository;
@@ -65,7 +63,7 @@ public class AdminServiceTest {
         userEntity.setLastName("testLastName");
         userEntity.setTermsAndConditionsAgreed(true);
 
-        this.userRole = new UserRoleEntity();
+        this.userRole = new UserRole();
         userRole.setRole(MODERATOR);
 
     }

@@ -1,7 +1,7 @@
 package com.project.EpicByte.service.impl;
 
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.UserRoleEntity;
+import com.project.EpicByte.model.entity.UserRole;
 import com.project.EpicByte.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,7 +57,7 @@ public class MyUserServiceDetails implements UserDetailsService {
                 .build();
     }
 
-    private static GrantedAuthority map(UserRoleEntity userRoleEntity) {
-        return new SimpleGrantedAuthority("ROLE_" + userRoleEntity.getRole());
+    private static GrantedAuthority map(UserRole userRole) {
+        return new SimpleGrantedAuthority("ROLE_" + userRole.getRole());
     }
 }
