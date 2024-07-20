@@ -30,13 +30,13 @@
                             <div class="cart-row-name" th:text="${orderItem.productName}" ></div>
                         </div>
                         <div class="cart-cell2">
-                            <div class="cart-row-single-price-box" th:text="${orderItem.productPrice} + ' €'"></div>
+                            <div class="cart-row-single-price-box" th:text="${orderItem.productPrice} + ' ' + #{currency}"></div>
                         </div>
                         <div class="cart-cell3">
                             <div class="cart-row-quantity" th:text="${orderItem.quantity}"></div>
                         </div>
                         <div class="cart-cell4">
-                            <div class="cart-row-total-price-box" th:text="${orderItem.totalProductPrice} + ' €'"></div>
+                            <div class="cart-row-total-price-box" th:text="${orderItem.totalProductPrice} + ' ' + #{currency}"></div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                             <tfoot>
                                 <tr>
                                     <th th:text="#{total.text}"></th>
-                                    <td th:text="${totalCost} + ' €'"></td>
+                                    <td th:text="${totalCost} + ' ' + #{currency}"></td>
                                 </tr>
                             </tfoot>
                         </table>

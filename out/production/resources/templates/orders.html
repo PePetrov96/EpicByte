@@ -28,7 +28,7 @@
                             </tr>
                             <tr>
                                 <th th:text="#{order.price.text}"></th>
-                                <td th:text="${orderItem.totalCost} + ' €'"></td>
+                                <td th:text="${orderItem.totalCost} + ' ' + #{currency}"></td>
                             </tr>
                             <tr th:if="${orderItem.isComplete}">
                                 <th th:text="#{order.status.text}"></th>

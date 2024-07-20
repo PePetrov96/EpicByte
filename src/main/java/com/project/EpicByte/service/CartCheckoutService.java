@@ -9,7 +9,6 @@ import org.springframework.validation.BindingResult;
 import java.security.Principal;
 
 public interface CartCheckoutService {
-    @Transactional
     String confirmCheckout(OrderAddressDTO orderAddressDTO, BindingResult bindingResult, Principal principal, Model model, HttpSession session);
     String showCartCheckoutPage(Principal principal, Model model, HttpSession session);
     String displayCartCheckoutConfirmationPage(Model model);

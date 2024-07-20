@@ -2,7 +2,6 @@ package com.project.EpicByte.service.RESTService;
 
 import com.project.EpicByte.model.dto.RESTDTOs.UserRESTViewDTO;
 import com.project.EpicByte.model.entity.UserEntity;
-import com.project.EpicByte.model.entity.productEntities.Book;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;

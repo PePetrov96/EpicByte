@@ -31,10 +31,6 @@ public class OrderItem {
     @Column(name = "product_price")
     private BigDecimal productPrice;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id")
-//    private BaseProduct product;
-
     @Column(name = "quantity")
     private int quantity;
 

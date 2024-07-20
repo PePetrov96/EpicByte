@@ -81,17 +81,17 @@
                     <tbody>
                     <tr>
                         <th th:text="#{product.total.text}">Product total</th>
-                        <td th:text="${cartItemList.totalPrice} + ' €'"></td>
+                        <td th:text="${cartItemList.totalPrice} + ' ' + #{currency}"></td>
                     </tr>
                     <tr>
                         <th th:text="#{delivery.text}">Delivery</th>
-                        <td>4,99 €</td>
+                        <td th:text="'4,99 ' + #{currency}"></td>
                     </tr>
                     </tbody>
                     <tfoot>
                     <tr>
                         <th th:text="#{total.text}">Total</th>
-                        <td th:text="${cartItemList.totalPrice + 4.99} + ' €'"></td>
+                        <td th:text="${cartItemList.totalPrice + 4.99} + ' ' + #{currency}"></td>
                     </tr>
                     </tfoot>
                 </table>

@@ -1,12 +1,9 @@
 package com.project.EpicByte.service.product;
 
-import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
-import com.project.EpicByte.model.entity.productEntities.Textbook;
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.ToyRepository;
-import com.project.EpicByte.service.impl.productImpl.TextbookServiceImpl;
 import com.project.EpicByte.service.impl.productImpl.ToyServiceImpl;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.service.productService.ToyService;
@@ -23,7 +20,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.project.EpicByte.util.Constants.*;

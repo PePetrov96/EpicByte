@@ -737,6 +737,14 @@ body {
     line-height: 2;
 }
 
+.order-text tbody th {
+    text-align: center;
+}
+
+.order-text tbody tr td:first-of-type {
+    font-weight: bold;
+}
+
 .order-button-container {
     display: flex;
 }

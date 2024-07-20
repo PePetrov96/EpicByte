@@ -33,13 +33,13 @@
                             <div class="cart-row-name" th:text="${cartItem.productName}" ></div>
                         </div>
                         <div class="cart-cell2">
-                            <div class="cart-row-single-price-box" th:text="${cartItem.productPrice} + ' €'"></div>
+                            <div class="cart-row-single-price-box" th:text="${cartItem.productPrice} + ' ' + #{currency}"></div>
                         </div>
                         <div class="cart-cell3">
                             <div class="cart-row-quantity" th:text="${cartItem.quantity}"></div>
                         </div>
                         <div class="cart-cell4">
-                            <div class="cart-row-total-price-box" th:text="${cartItem.totalPriceOfProduct} + ' €'"></div>
+                            <div class="cart-row-total-price-box" th:text="${cartItem.totalPriceOfProduct} + ' ' + #{currency}"></div>
                         </div>
                         <form th:method="POST"
                              th:action="@{/user/cart/delete/{id}(id=${cartItem.id})}"
@@ -55,17 +55,17 @@
                             <tbody>
                                 <tr>
                                     <th th:text="#{product.total.text}">Product total</th>
-                                    <td th:text="${cartItemList.totalPrice} + ' €'"></td>
+                                    <td th:text="${cartItemList.totalPrice} + ' ' + #{currency}"></td>
                                 </tr>
                                 <tr>
                                     <th th:text="#{delivery.text}">Delivery</th>
-                                    <td>4,99 €</td>
+                                    <td th:text="'4,99 ' + #{currency}"></td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th th:text="#{total.text}">Total</th>
-                                    <td th:text="${cartItemList.totalPrice + 4.99} + ' €'"></td>
+                                    <td th:text="${cartItemList.totalPrice + 4.99} + ' ' + #{currency}"></td>
                                 </tr>
                             </tfoot>
                         </table>

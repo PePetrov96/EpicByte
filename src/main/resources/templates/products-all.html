@@ -80,7 +80,7 @@
                                             <span class="product-price-wrapper">
                                                 <span class="product-price" th:text="${#strings.substring(product.productPrice.toString(), 0, product.productPrice.toString().indexOf('.'))}"></span>
                                                 <span class="product-price-precision" th:text="',' + ${#strings.contains(product.productPrice.toString(), '.') ? #strings.substring(product.productPrice.toString(), product.productPrice.toString().indexOf('.') + 1) : '00'}">Decimal Part</span>
-                                                <span class="product-price-currency"> €</span>
+                                                <span th:text="' ' + #{currency}" class="product-price-currency"></span>
                                             </span>
 
                                             <div class="product-item buttons">

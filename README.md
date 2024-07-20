@@ -75,7 +75,9 @@ In order to run EpicByte you need to:
    username: ${EMAIL_USERNAME}
    password: ${EMAIL_PASSWORD}
    ```
-3. Start the application and enjoy!
+3. See the database with products, from the `EpicByte_populate.sql` file
+   * in case of an older SQL version or one incompatible with **UUID**, use the `EpicByte_populate_oldVersion.sql` that seeds **UUID to BIN**
+4. Start the application and enjoy!
 
 
 ## About The Project

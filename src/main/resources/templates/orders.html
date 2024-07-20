@@ -18,30 +18,42 @@
                     <div class="order-text">
                         <table>
                             <tbody>
-                            <tr>
-                                <th th:text="#{order.number.text}"></th>
-                                <td th:text="${orderItem.id}"></td>
-                            </tr>
-                            <tr>
-                                <th th:text="#{order.date.text}"></th>
-                                <td th:text="${orderItem.orderDate}"></td>
-                            </tr>
-                            <tr>
-                                <th th:text="#{order.price.text}"></th>
-                                <td th:text="${orderItem.totalCost} + ' €'"></td>
-                            </tr>
-                            <tr th:if="${orderItem.isComplete}">
-                                <th th:text="#{order.status.text}"></th>
-                                <td th:text="#{order.is.complete.text}"></td>
-                            </tr>
-                            <tr th:unless="${orderItem.isComplete}">
-                                <th th:text="#{order.status.text}"></th>
-                                <td th:text="#{order.is.pending.text}"></td>
-                            </tr>
-                            <tr>
-                                <th th:text="#{order.address.text}"></th>
-                                <td th:text="${orderItem.city} + ', ' + ${orderItem.neighborhood} + ', ' + ${orderItem.address}"></td>
-                            </tr>
+                                <tr>
+                                    <th><i class="far fa-clipboard"></i></th>
+                                    <td th:text="#{order.number.text}"></td>
+    <!--                                <th th:utext="#{order.number.text}"></th>-->
+                                    <td th:text="${orderItem.id}"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="far fa-clock"></i></th>
+                                    <td th:text="#{order.date.text}"></td>
+    <!--                                <th th:text="#{order.date.text}"></th>-->
+                                    <td th:text="${orderItem.orderDate}"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="far fa-money-bill-alt"></i></th>
+                                    <td th:text="#{price.text}"></td>
+    <!--                                <th th:text="#{order.price.text}"></th>-->
+                                    <td th:text="${orderItem.totalCost} + ' ' + #{currency}"></td>
+                                </tr>
+                                <tr th:if="${orderItem.isComplete}">
+                                    <th><i class="fas fa-check"></i></th>
+                                    <td th:text="#{status.text}"></td>
+    <!--                                <th th:text="#{order.status.text}"></th>-->
+                                    <td th:text="#{order.is.complete.text}"></td>
+                                </tr>
+                                <tr th:unless="${orderItem.isComplete}">
+                                    <th><i class="fas fa-search"></i></th>
+                                    <td th:text="#{status.text}"></td>
+    <!--                                <th th:text="#{order.status.text}"></th>-->
+                                    <td th:text="#{order.is.pending.text}"></td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-map-marker-alt"></i></th>
+                                    <td th:text="#{address.text}"></td>
+    <!--                                <th th:text="#{order.address.text}"></th>-->
+                                    <td th:text="${orderItem.city} + ', ' + ${orderItem.neighborhood} + ', ' + ${orderItem.address}"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

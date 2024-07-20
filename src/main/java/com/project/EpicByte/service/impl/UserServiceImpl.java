@@ -1,5 +1,6 @@
 package com.project.EpicByte.service.impl;
 
+import com.project.EpicByte.events.ChangeUsernameEvent;
 import com.project.EpicByte.events.UserRegisterEvent;
 import com.project.EpicByte.exceptions.LogoutRequestException;
 import com.project.EpicByte.model.dto.UserRegisterDTO;
@@ -141,8 +142,17 @@ public class UserServiceImpl implements UserService{
         userEntity.setEmail(userUpdateDTO.getEmail());
 
         if (!userEntity.getUsername().equals(userUpdateDTO.getUsername())) {
+            this.eventPublisher.publishEvent(
+                    new ChangeUsernameEvent(
+                            this,
+                            userEntity.getUsername(),
+                            userUpdateDTO.getUsername(),
+                            userEntity.getEmail(),
+                            userEntity.getFirstName() + " " + userEntity.getLastName()));
+
             userEntity.setUsername(userUpdateDTO.getUsername());
             this.userRepository.saveAndFlush(userEntity);
+
             try {
                 request.logout();
                 throw new LogoutRequestException();

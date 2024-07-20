@@ -1,18 +1,14 @@
 package com.project.EpicByte.service.product;
 
-import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
-import com.project.EpicByte.model.entity.productEntities.Book;
 import com.project.EpicByte.model.entity.productEntities.Movie;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.MovieRepository;
-import com.project.EpicByte.service.impl.productImpl.BookServiceImpl;
 import com.project.EpicByte.service.impl.productImpl.MovieServiceImpl;
 import com.project.EpicByte.service.productService.MovieService;
 import com.project.EpicByte.service.productService.ProductImagesService;
 import com.project.EpicByte.util.Breadcrumbs;
 import com.project.EpicByte.util.FieldNamesGenerator;
-import jakarta.validation.constraints.NotEmpty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +20,6 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import static com.project.EpicByte.util.Constants.*;
