@@ -1,5 +1,6 @@
 package com.project.EpicByte.service.impl.RESTImpl;
 
+import com.project.EpicByte.exceptions.ObjectNotFoundException;
 import com.project.EpicByte.model.dto.productDTOs.*;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
@@ -57,12 +58,12 @@ public class ProductRESTServiceImpl implements ProductRESTService {
     @Override
     public BaseProduct getProduct(UUID uuid, String productType) {
         return switch (productType) {
-            case "BOOKS" -> this.bookRepository.findBookById(uuid);
-            case "TEXTBOOKS" -> this.textbookRepository.findTextbookById(uuid);
-            case "MOVIES" -> this.movieRepository.findMovieById(uuid);
-            case "MUSIC" -> this.musicRepository.findMusicById(uuid);
-            case "TOYS" -> this.toyRepository.findToyById(uuid);
-            default -> null;
+            case "BOOKS" -> this.bookRepository.findById(uuid).orElseThrow(ObjectNotFoundException::new);
+            case "TEXTBOOKS" -> this.textbookRepository.findById(uuid).orElseThrow(ObjectNotFoundException::new);
+            case "MOVIES" -> this.movieRepository.findById(uuid).orElseThrow(ObjectNotFoundException::new);
+            case "MUSIC" -> this.musicRepository.findById(uuid).orElseThrow(ObjectNotFoundException::new);
+            case "TOYS" -> this.toyRepository.findById(uuid).orElseThrow(ObjectNotFoundException::new);
+            default -> throw new ObjectNotFoundException();
         };
     }
 

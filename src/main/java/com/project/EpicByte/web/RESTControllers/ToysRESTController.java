@@ -2,8 +2,16 @@ package com.project.EpicByte.web.RESTControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
+import com.project.EpicByte.model.entity.productEntities.Textbook;
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.service.RESTService.ProductRESTService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,19 +31,48 @@ public class ToysRESTController {
         this.productRESTService = productRESTService;
     }
 
-    // SINGLE TOYS View
+    // ALL TOYS View
+    @ApiOperation(value = "Get all toys", notes = "Returns a list of all the toys")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "If the toy list was empty",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    }
+            )
+    })
     @GetMapping("/user/toys")
     public ResponseEntity<List<? extends BaseProduct>> getAllToys() {
         return ResponseEntity.ok(this.productRESTService.getAll("TOYS"));
     }
 
     // SINGLE TOYS View
+    @ApiOperation(value = "Get a single toy", notes = "Returns a toy based on the UUID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "If the toy was not found",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    }
+            )
+    })
     @GetMapping("/user/toys/{id}")
     public ResponseEntity<? extends BaseProduct> getToysById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "TOYS"));
     }
 
-    // ADD TOY
+    @ApiOperation(value = "Add toy", notes = "Add a new toy to the database")
+    @Operation(
+            security = @SecurityRequirement(
+                    name = "bearer-token"
+            )
+    )
     @PostMapping("/admin/toys")
     public ResponseEntity<Toy> addToy(@Valid @RequestBody ToyAddDTO toyAddDTO) {
         Toy savedToy = productRESTService.saveToy(toyAddDTO);
@@ -44,7 +81,12 @@ public class ToysRESTController {
                 .body(savedToy);
     }
 
-    // DELETE TOY
+    @ApiOperation(value = "Delete toy", notes = "Delete a toy based on UUID")
+    @Operation(
+            security = @SecurityRequirement(
+                    name = "bearer-token"
+            )
+    )
     @DeleteMapping("/admin/toys/{id}")
     public ResponseEntity<Toy> deleteToy(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "TOYS");

@@ -2,8 +2,16 @@ package com.project.EpicByte.web.RESTControllers;
 
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
+import com.project.EpicByte.model.entity.productEntities.Book;
 import com.project.EpicByte.model.entity.productEntities.Music;
 import com.project.EpicByte.service.RESTService.ProductRESTService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,19 +31,46 @@ public class MusicRESTController {
         this.productRESTService = productRESTService;
     }
 
-    // ALL MUSIC View
+    @ApiOperation(value = "Get all music", notes = "Returns a list of all the music")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "If the music list was empty",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    }
+            )
+    })
     @GetMapping("/user/music")
     public ResponseEntity<List<? extends BaseProduct>> getAllMusic() {
         return ResponseEntity.ok(this.productRESTService.getAll("MUSIC"));
     }
 
-    // SINGLE MUSIC View
+    @ApiOperation(value = "Get a single music", notes = "Returns a music based on the UUID")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "If the music was not found",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json"
+                            )
+                    }
+            )
+    })
     @GetMapping("/user/music/{id}")
     public ResponseEntity<? extends BaseProduct> getMusicById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "MUSIC"));
     }
 
-    // ADD MUSIC
+    @ApiOperation(value = "Add music", notes = "Add a new music to the database")
+    @Operation(
+            security = @SecurityRequirement(
+                    name = "bearer-token"
+            )
+    )
     @PostMapping("/admin/music")
     public ResponseEntity<Music> addMusic(@Valid @RequestBody MusicAddDTO musicAddDTO) {
         Music savedMusic = productRESTService.saveMusic(musicAddDTO);
@@ -44,7 +79,12 @@ public class MusicRESTController {
                 .body(savedMusic);
     }
 
-    // DELETE MUSIC
+    @ApiOperation(value = "Delete music", notes = "Delete a music based on UUID")
+    @Operation(
+            security = @SecurityRequirement(
+                    name = "bearer-token"
+            )
+    )
     @DeleteMapping("/admin/music/{id}")
     public ResponseEntity<Music> deleteMusic(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "MUSIC");

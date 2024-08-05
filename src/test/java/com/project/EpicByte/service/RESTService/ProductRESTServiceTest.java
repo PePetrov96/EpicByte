@@ -1,5 +1,6 @@
 package com.project.EpicByte.service.RESTService;
 
+import com.project.EpicByte.exceptions.ObjectNotFoundException;
 import com.project.EpicByte.model.entity.productEntities.*;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.productRepositories.*;
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -61,9 +63,18 @@ public class ProductRESTServiceTest {
 
     @Test
     public void getProduct_success_bookObject() {
-        when(this.bookRepository.findBookById(any())).thenReturn(new Book());
+        when(this.bookRepository.findById(any())).thenReturn(Optional.of(new Book()));
         boolean isBook = this.productRESTService.getProduct(UUID.randomUUID(), "BOOKS") instanceof Book;
         Assertions.assertTrue(isBook);
+    }
+
+    @Test
+    public void getProduct_fail_bookObject() {
+        try {
+            this.productRESTService.getProduct(UUID.randomUUID(), "BOOKS");
+        } catch (ObjectNotFoundException e) {
+            assert true;
+        }
     }
 
     @Test
@@ -84,9 +95,18 @@ public class ProductRESTServiceTest {
 
     @Test
     public void getProduct_success_TextbookObject() {
-        when(this.textbookRepository.findTextbookById(any())).thenReturn(new Textbook());
+        when(this.textbookRepository.findById(any())).thenReturn(Optional.of(new Textbook()));
         boolean isTextbook = this.productRESTService.getProduct(UUID.randomUUID(), "TEXTBOOKS") instanceof Textbook;
         Assertions.assertTrue(isTextbook);
+    }
+
+    @Test
+    public void getProduct_fail_TextbookObject() {
+        try {
+            this.productRESTService.getProduct(UUID.randomUUID(), "TEXTBOOKS");
+        } catch (ObjectNotFoundException e) {
+            assert true;
+        }
     }
 
     @Test
@@ -107,9 +127,18 @@ public class ProductRESTServiceTest {
 
     @Test
     public void getProduct_success_MovieObject() {
-        when(this.movieRepository.findMovieById(any())).thenReturn(new Movie());
+        when(this.movieRepository.findById(any())).thenReturn(Optional.of(new Movie()));
         boolean isMovie = this.productRESTService.getProduct(UUID.randomUUID(), "MOVIES") instanceof Movie;
         Assertions.assertTrue(isMovie);
+    }
+
+    @Test
+    public void getProduct_fail_MovieObject() {
+        try {
+            this.productRESTService.getProduct(UUID.randomUUID(), "MOVIES");
+        } catch (ObjectNotFoundException e) {
+            assert true;
+        }
     }
 
     @Test
@@ -117,7 +146,6 @@ public class ProductRESTServiceTest {
         boolean deleted = this.productRESTService.deleteProduct(UUID.randomUUID(), "MOVIES");
         Assertions.assertTrue(deleted);
     }
-
 
     @Test
     public void getAll_success_allMusicObjects() {
@@ -130,9 +158,18 @@ public class ProductRESTServiceTest {
 
     @Test
     public void getProduct_success_MusicObject() {
-        when(this.musicRepository.findMusicById(any())).thenReturn(new Music());
+        when(this.musicRepository.findById(any())).thenReturn(Optional.of(new Music()));
         boolean isMusic = this.productRESTService.getProduct(UUID.randomUUID(), "MUSIC") instanceof Music;
         Assertions.assertTrue(isMusic);
+    }
+
+    @Test
+    public void getProduct_fail_MusicObject() {
+        try {
+            this.productRESTService.getProduct(UUID.randomUUID(), "MUSIC");
+        } catch (ObjectNotFoundException e) {
+            assert true;
+        }
     }
 
     @Test
@@ -153,9 +190,18 @@ public class ProductRESTServiceTest {
 
     @Test
     public void getProduct_success_ToyObject() {
-        when(this.toyRepository.findToyById(any())).thenReturn(new Toy());
+        when(this.toyRepository.findById(any())).thenReturn(Optional.of(new Toy()));
         boolean isToy = this.productRESTService.getProduct(UUID.randomUUID(), "TOYS") instanceof Toy;
         Assertions.assertTrue(isToy);
+    }
+
+    @Test
+    public void getProduct_fail_ToyObject() {
+        try {
+            this.productRESTService.getProduct(UUID.randomUUID(), "TOYS");
+        } catch (ObjectNotFoundException e) {
+            assert true;
+        }
     }
 
     @Test
