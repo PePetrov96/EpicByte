@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.ToyAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Textbook;
@@ -44,6 +45,7 @@ public class ToysRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/toys")
     public ResponseEntity<List<? extends BaseProduct>> getAllToys() {
         return ResponseEntity.ok(this.productRESTService.getAll("TOYS"));
@@ -62,6 +64,7 @@ public class ToysRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/toys/{id}")
     public ResponseEntity<? extends BaseProduct> getToysById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "TOYS"));
@@ -73,6 +76,7 @@ public class ToysRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @PostMapping("/admin/toys")
     public ResponseEntity<Toy> addToy(@Valid @RequestBody ToyAddDTO toyAddDTO) {
         Toy savedToy = productRESTService.saveToy(toyAddDTO);
@@ -87,6 +91,7 @@ public class ToysRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @DeleteMapping("/admin/toys/{id}")
     public ResponseEntity<Toy> deleteToy(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "TOYS");

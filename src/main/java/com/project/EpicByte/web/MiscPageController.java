@@ -1,5 +1,6 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.util.Breadcrumbs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -31,6 +32,7 @@ public class MiscPageController {
         this.breadcrumbs = breadcrumbs;
     }
 
+    @SlowExecutionWarning
     @GetMapping(TERMS_AND_CONDITIONS_URL)
     public String displayTermsAndConditionsPage(Model model) {
         breadcrumbs.addProductBreadcrumb(model, TERMS_AND_CONDITIONS_URL, "Terms and Conditions");
@@ -38,6 +40,7 @@ public class MiscPageController {
         return DISPLAY_TEXT_HTML;
     }
 
+    @SlowExecutionWarning
     @GetMapping(PRIVACY_URL)
     public String displayPrivacyPage(Model model) {
         breadcrumbs.addProductBreadcrumb(model, PRIVACY_URL, "Privacy");

@@ -1,5 +1,6 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class MyErrorController implements ErrorController {
         this.messageSource = messageSource;
     }
 
+    @SlowExecutionWarning
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request,
                               WebRequest webRequest) {

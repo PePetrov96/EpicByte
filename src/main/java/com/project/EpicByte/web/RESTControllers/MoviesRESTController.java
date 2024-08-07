@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Book;
@@ -43,6 +44,7 @@ public class MoviesRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/movies")
     public ResponseEntity<List<? extends BaseProduct>> getAllMovies() {
         return ResponseEntity.ok(this.productRESTService.getAll("MOVIES"));
@@ -60,6 +62,7 @@ public class MoviesRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/movies/{id}")
     public ResponseEntity<? extends BaseProduct> getMoviesById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "MOVIES"));
@@ -71,6 +74,7 @@ public class MoviesRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @PostMapping("/admin/movies")
     public ResponseEntity<Movie> addMovie(@Valid @RequestBody MovieAddDTO movieAddDTO) {
         Movie savedMovie = productRESTService.saveMovie(movieAddDTO);
@@ -85,6 +89,7 @@ public class MoviesRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @DeleteMapping("/admin/movies/{id}")
     public ResponseEntity<Movie> deleteMovie(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "MOVIES");

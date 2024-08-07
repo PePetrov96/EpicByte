@@ -1,5 +1,6 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.SubscriberDTO;
 
 import com.project.EpicByte.service.HomeService;
@@ -23,6 +24,7 @@ public class HomeController {
         this.homeService = homeService;
     }
 
+    @SlowExecutionWarning
     @GetMapping("/")
     public String index(Model model,
                         HttpSession session,
@@ -30,6 +32,7 @@ public class HomeController {
         return this.homeService.displayIndexPage(model, session, principal);
     }
 
+    @SlowExecutionWarning
     @PostMapping("/subscribe")
     public String subscribe(@Valid @ModelAttribute("subscriberDTO") SubscriberDTO subscriberDTO,
                             BindingResult bindingResult) {

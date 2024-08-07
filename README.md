@@ -113,33 +113,58 @@ _The project incorporates some Aspect-Oriented Programming (AOP) to modularize c
 
 **Scheduled Task**
 1. **`Removing "New" status from products`**: Products who have a status of newly added, appear with a special classification. Any product added in the store more than 7 days ago, receives normal status.
+
 ---
+
 **Events _(Asynchronous)_**
 1. **`Welcome email`** sent to every user after a successful registration has been made.
+
 ---
+
 **Internalization/i18n**
 1. **`Bulgarian`**
 2. **`English`**
+
 ---
+
 **Mapping**
 1. **`ModelMapper`** - In this project, [ModelMapper](https://modelmapper.org/) was employed to handle the mapping between different types of objects, mainly between entity models and DTOs.
+
 ---
+
 **Authentication**
 1. Handled through Spring security with a web cookie.
    - *Expiration*: The token expires after 24 hours.
+
 ---
+
 **Exception Handling**
 1. **`Custom Exception`** handling is implemented within the application to manage and respond to exceptional situations or errors that occur during the runtime of the system.
 2. **`Custom Validators`** handling is implemented to manage the response of invalid data being entered into fields, for adding products, registering, logging-in and more.
 3. **`Global Exception Handler`** is implemented to handle specific exceptions and redirect to custom web-pages.
 4. **`Custom Error Controller`** is implemented to handle specific HTTP error statuses, like `403`, `404`, `500`, and all other error statuses, to provide a better user experience.
+
 ---
+
 **Integrated services**
 1. **`Cloudinary`** for managing and storing external image files for the products.
+
 ---
+
 **Testing**
-1. **`Unit Testing`**
-2. **`Integration Testing`**
+1. **`Junit`**
+2. **`Mockito`**
+3. **`HSQLDB`**
+4. **`GreenMail`**
+
+*The project includes **`JUnit`** and **`Mockito`** for unit testing and integration tests with in-memory database **`HSQLDB`**, ensuring the reliability and correctness of various components within the application.*
+
+---
+
+**Monitoring**
+
+1. **`AOP Aspect`** with an annotation for monitoring the time it takes for a method to execute. It logs a warning, if the method takes more than the threshold to execute.
+
 ---
 
 ## Usage

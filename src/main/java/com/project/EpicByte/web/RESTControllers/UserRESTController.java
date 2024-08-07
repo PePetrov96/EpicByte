@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.RESTDTOs.UserRESTViewDTO;
 import com.project.EpicByte.service.RESTService.UserRESTService;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +27,6 @@ public class UserRESTController {
         this.userRESTService = userRESTService;
     }
 
-    // GET all users from the database
     @ApiOperation(value = "Get all users", notes = "Returns a list of all the users")
     @ApiResponses(value = {
             @ApiResponse(
@@ -39,13 +39,13 @@ public class UserRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/users")
     public ResponseEntity<List<UserRESTViewDTO>> getAllUsers() {
         List<UserRESTViewDTO> users = userRESTService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    // GET a single user from the database
     @ApiOperation(value = "Get a single user", notes = "Returns a user based on the UUID")
     @ApiResponses(value = {
             @ApiResponse(
@@ -58,6 +58,7 @@ public class UserRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/users/{id}")
     public ResponseEntity<UserRESTViewDTO> getUserById(@PathVariable UUID id) {
         UserRESTViewDTO user = userRESTService.getUserById(id);

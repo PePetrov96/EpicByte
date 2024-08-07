@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.TextbookAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Book;
@@ -43,6 +44,7 @@ public class TextbooksRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/textbooks")
     public ResponseEntity<List<? extends BaseProduct>> getAllTextbooks() {
         return ResponseEntity.ok(this.productRESTService.getAll("TEXTBOOKS"));
@@ -60,6 +62,7 @@ public class TextbooksRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/textbooks/{id}")
     public ResponseEntity<? extends BaseProduct> getTextbookById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "TEXTBOOKS"));
@@ -71,6 +74,7 @@ public class TextbooksRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @PostMapping("/admin/textbooks")
     public ResponseEntity<Textbook> addTextbook(@Valid @RequestBody TextbookAddDTO textbookAddDTO) {
         Textbook savedTextbook = productRESTService.saveTextbook(textbookAddDTO);
@@ -85,6 +89,7 @@ public class TextbooksRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @DeleteMapping("/admin/textbooks/{id}")
     public ResponseEntity<Textbook> deleteTextbook(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "TEXTBOOKS");

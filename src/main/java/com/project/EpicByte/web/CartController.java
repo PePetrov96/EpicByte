@@ -1,5 +1,6 @@
 package com.project.EpicByte.web;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.OrderAddressDTO;
 import com.project.EpicByte.service.CartCheckoutService;
 import com.project.EpicByte.service.CartService;
@@ -32,6 +33,7 @@ public class CartController {
     }
 
     // Display cart page
+    @SlowExecutionWarning
     @GetMapping(USER_CART_URL)
     public String displayCartPage(Principal principal,
                                   Model model,
@@ -40,6 +42,7 @@ public class CartController {
     }
 
     // Delete items from cart
+    @SlowExecutionWarning
     @PostMapping(USER_CART_DELETE_URL + "{id}")
     public String handleItemDeletionFromCart(@PathVariable UUID id,
                                              Principal principal,
@@ -49,6 +52,7 @@ public class CartController {
     }
 
     // Add product to cart (no redirects. through AJAX request)
+    @SlowExecutionWarning
     @PostMapping(value = PRODUCT_ADD_TO_CART_URL, consumes = "application/json")
     public @ResponseBody ResponseEntity<?> addItemToUserCart(@RequestBody Map<String, Object> payload,
                                                              Principal principal,
@@ -57,6 +61,7 @@ public class CartController {
     }
 
     // Display cart-checkout page
+    @SlowExecutionWarning
     @GetMapping(USERS_CART_CHECKOUT_URL)
     public String displayCartCheckoutPage(Principal principal,
                                           Model model,
@@ -65,6 +70,7 @@ public class CartController {
     }
 
     // Process cart-checkout page
+    @SlowExecutionWarning
     @PostMapping(USERS_CART_CHECKOUT_URL)
     public String handleCartCheckoutConfirmation(@Valid @ModelAttribute("orderAddressDTO") OrderAddressDTO orderAddressDTO,
                                                  BindingResult bindingResult,
@@ -74,6 +80,7 @@ public class CartController {
         return this.cartCheckoutService.confirmCheckout(orderAddressDTO, bindingResult, principal, model, session);
     }
 
+    @SlowExecutionWarning
     @GetMapping(USERS_CART_CHECKOUT_CONFIRM_URL)
     public String displayConfirmCheckoutPage(Model model) {
         return this.cartCheckoutService.displayCartCheckoutConfirmationPage(model);

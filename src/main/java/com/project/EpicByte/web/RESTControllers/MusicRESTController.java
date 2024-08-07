@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Book;
@@ -43,6 +44,7 @@ public class MusicRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/music")
     public ResponseEntity<List<? extends BaseProduct>> getAllMusic() {
         return ResponseEntity.ok(this.productRESTService.getAll("MUSIC"));
@@ -60,6 +62,7 @@ public class MusicRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/music/{id}")
     public ResponseEntity<? extends BaseProduct> getMusicById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "MUSIC"));
@@ -71,6 +74,7 @@ public class MusicRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @PostMapping("/admin/music")
     public ResponseEntity<Music> addMusic(@Valid @RequestBody MusicAddDTO musicAddDTO) {
         Music savedMusic = productRESTService.saveMusic(musicAddDTO);
@@ -85,6 +89,7 @@ public class MusicRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @DeleteMapping("/admin/music/{id}")
     public ResponseEntity<Music> deleteMusic(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "MUSIC");

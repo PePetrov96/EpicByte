@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.productControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import com.project.EpicByte.service.productService.MusicService;
 import jakarta.validation.Valid;
@@ -23,24 +24,28 @@ public class MusicController {
     }
 
     // Display detailed single Music entity page
+    @SlowExecutionWarning
     @GetMapping("/music" + PRODUCT_DETAILS_URL + "/{id}")
     public String viewMusicProductDetails(@PathVariable UUID id, Model model) {
         return musicService.displayDetailedViewMusicPage(id, model);
     }
 
     // Display all Music page
+    @SlowExecutionWarning
     @GetMapping(ALL_MUSIC_URL)
     public String displayMusicPage(Model model, @RequestParam(name = "sort", required = false) String sort) {
         return this.musicService.displayAllMusicPage(model, sort);
     }
 
     // Display Add Music page
+    @SlowExecutionWarning
     @GetMapping(MODERATOR_PRODUCT_ADD_MUSIC_URL)
     protected String displayProductAddMusicPage(Model model) {
         return musicService.displayProductAddMusicPage(model);
     }
 
     // Process Add new Music
+    @SlowExecutionWarning
     @PostMapping(MODERATOR_PRODUCT_ADD_MUSIC_URL)
     public String handleProductAddMusicPage(@Valid @ModelAttribute("product") MusicAddDTO musicAddDTO,
                                             BindingResult bindingResult, Model model) {
@@ -48,6 +53,7 @@ public class MusicController {
     }
 
     // Delete a music
+    @SlowExecutionWarning
     @GetMapping(MODERATOR_MUSIC_DELETE_URL + "{id}")
     public String deleteMusic(@PathVariable UUID id) {
         return this.musicService.deleteMusic(id);

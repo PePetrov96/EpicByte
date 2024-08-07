@@ -1,5 +1,6 @@
 package com.project.EpicByte.web.RESTControllers;
 
+import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Book;
@@ -41,6 +42,7 @@ public class BooksRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/books")
     public ResponseEntity<List<? extends BaseProduct>> getAllBooks() {
         return ResponseEntity.ok(this.productRESTService.getAll("BOOKS"));
@@ -58,6 +60,7 @@ public class BooksRESTController {
                     }
             )
     })
+    @SlowExecutionWarning
     @GetMapping("/user/books/{id}")
     public ResponseEntity<? extends BaseProduct> getBookById(@PathVariable UUID id) {
         return ResponseEntity.ok(this.productRESTService.getProduct(id, "BOOKS"));
@@ -69,6 +72,7 @@ public class BooksRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @PostMapping("/admin/books")
     public ResponseEntity<Book> addBook(@Valid @RequestBody BookAddDTO bookAddDTO) {
         Book savedBook = productRESTService.saveBook(bookAddDTO);
@@ -83,6 +87,7 @@ public class BooksRESTController {
                     name = "bearer-token"
             )
     )
+    @SlowExecutionWarning
     @DeleteMapping("/admin/books/{id}")
     public ResponseEntity<Book> deleteBook(@PathVariable UUID id) {
         this.productRESTService.deleteProduct(id, "BOOKS");
