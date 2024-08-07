@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.productService;
+package com.project.EpicByte.service;
 
 // CLOUDINARY
 public interface ProductImagesService {

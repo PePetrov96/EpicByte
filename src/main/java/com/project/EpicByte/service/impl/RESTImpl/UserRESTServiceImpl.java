@@ -8,7 +8,7 @@ import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
-import com.project.EpicByte.service.RESTService.UserRESTService;
+import com.project.EpicByte.service.UserRESTService;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

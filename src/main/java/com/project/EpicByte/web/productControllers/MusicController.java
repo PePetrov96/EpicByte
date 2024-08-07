@@ -2,7 +2,7 @@ package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
-import com.project.EpicByte.service.productService.MusicService;
+import com.project.EpicByte.service.MusicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

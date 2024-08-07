@@ -2,7 +2,7 @@ package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
-import com.project.EpicByte.service.productService.BookService;
+import com.project.EpicByte.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -4,7 +4,7 @@ import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.BookAddDTO;
 import com.project.EpicByte.model.entity.BaseProduct;
 import com.project.EpicByte.model.entity.productEntities.Book;
-import com.project.EpicByte.service.RESTService.ProductRESTService;
+import com.project.EpicByte.service.ProductRESTService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

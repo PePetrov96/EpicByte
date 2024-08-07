@@ -2,7 +2,7 @@ package com.project.EpicByte.web.productControllers;
 
 import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.productDTOs.MovieAddDTO;
-import com.project.EpicByte.service.productService.MovieService;
+import com.project.EpicByte.service.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

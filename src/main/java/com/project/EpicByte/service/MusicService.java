@@ -1,4 +1,4 @@
-package com.project.EpicByte.service.productService;
+package com.project.EpicByte.service;
 
 import com.project.EpicByte.model.dto.productDTOs.MusicAddDTO;
 import org.springframework.ui.Model;

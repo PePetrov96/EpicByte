@@ -5,6 +5,7 @@ import com.project.EpicByte.model.entity.UserEntity;
 import com.project.EpicByte.repository.CartRepository;
 import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
+import com.project.EpicByte.service.UserRESTService;
 import com.project.EpicByte.service.impl.RESTImpl.UserRESTServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

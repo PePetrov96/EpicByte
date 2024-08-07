@@ -2,7 +2,7 @@ package com.project.EpicByte.web.RESTControllers;
 
 import com.project.EpicByte.aop.SlowExecutionWarning;
 import com.project.EpicByte.model.dto.RESTDTOs.UserRESTViewDTO;
-import com.project.EpicByte.service.RESTService.UserRESTService;
+import com.project.EpicByte.service.UserRESTService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
