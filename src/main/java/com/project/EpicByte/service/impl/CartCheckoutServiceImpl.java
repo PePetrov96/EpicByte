@@ -135,6 +135,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
             OrderItem orderItem = modelMapper.map(product, OrderItem.class);
 
             int quantity = productCountMap.get(product);
+            orderItem.setProductId(product.getId());
             orderItem.setQuantity(quantity);
             orderItem.setTotalProductPrice(product.getProductPrice().multiply(new BigDecimal(quantity)));
             orderItem.setUserOrder(userOrder);
@@ -146,13 +147,13 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     }
 
     protected void finalizeOrderCreation(UserOrder userOrder, UserEntity userEntity) {
-        this.userOrderRepository.save(userOrder);
+        userEntity.getUserOrders().add(userOrder);
+        userOrder.setUser(userEntity);
+        this.userRepository.save(userEntity);
 
         UserEntity user = this.userRepository
                 .findUserByUsernameWithInitializedCartItems(userEntity.getUsername());
-
         user.getCartItems().clear();
-
         this.userRepository.saveAndFlush(user);
     }
 

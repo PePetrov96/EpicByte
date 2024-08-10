@@ -16,5 +16,5 @@ public interface MusicRepository extends JpaRepository<Music, UUID> {
     Music findMusicById(@Param("userId") UUID userId);
 
     @Query("SELECT m FROM Music m WHERE m.isNewProduct = true and m.dateCreated <= :date")
-    List<Music> findNewMusicOlderThanAWeek(LocalDate date);
+    List<Music> findNewMusicOlderThanAWeek(@Param("date") LocalDate date);
 }

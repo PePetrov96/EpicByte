@@ -24,7 +24,7 @@
 
                     <div class="cart-row cart-item" th:each="orderItem : ${orderItems}">
                         <div class="cart-cell1">
-                            <a class="cart-row-image-container" th:href="@{/{linkType}/details/{id}(linkType=${#strings.toLowerCase(orderItem.productType)}, id=${orderItem.id})}">
+                            <a class="cart-row-image-container" th:href="@{/{linkType}/details/{id}(linkType=${#strings.toLowerCase(orderItem.productType)}, id=${orderItem.productId})}">
                                 <img th:src="${orderItem.productImageUrl}" th:alt="${orderItem.productName}">
                             </a>
                             <div class="cart-row-name" th:text="${orderItem.productName}" ></div>

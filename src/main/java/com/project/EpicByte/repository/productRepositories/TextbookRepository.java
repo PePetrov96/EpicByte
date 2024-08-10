@@ -16,5 +16,5 @@ public interface TextbookRepository extends JpaRepository<Textbook, UUID> {
     Textbook findTextbookById(@Param("userId") UUID userId);
 
     @Query("SELECT t FROM Textbook t WHERE t.isNewProduct = true and t.dateCreated <= :date")
-    List<Textbook> findNewTextbooksOlderThanAWeek(LocalDate date);
+    List<Textbook> findNewTextbooksOlderThanAWeek(@Param("date") LocalDate date);
 }

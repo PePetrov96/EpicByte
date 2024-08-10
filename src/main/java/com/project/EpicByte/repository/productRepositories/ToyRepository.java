@@ -16,5 +16,5 @@ public interface ToyRepository extends JpaRepository<Toy, UUID> {
     Toy findToyById(@Param("userId") UUID userId);
 
     @Query("SELECT t FROM Toy t WHERE t.isNewProduct = true and t.dateCreated <= :date")
-    List<Toy> findNewToysOlderThanAWeek(LocalDate date);
+    List<Toy> findNewToysOlderThanAWeek(@Param("date") LocalDate date);
 }

@@ -16,5 +16,5 @@ public interface MovieRepository extends JpaRepository<Movie, UUID> {
     Movie findMovieById(@Param("userId") UUID userId);
 
     @Query("SELECT m FROM Movie m WHERE m.isNewProduct = true and m.dateCreated <= :date")
-    List<Movie> findNewMoviesOlderThanAWeek(LocalDate date);
+    List<Movie> findNewMoviesOlderThanAWeek(@Param("date") LocalDate date);
 }

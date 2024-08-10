@@ -18,11 +18,6 @@ public class ApplicationEventMulticasterConfiguration {
         return eventMulticaster;
     }
 
-//    @Bean
-//    public UserRegisterEventListener myEventListener() {
-//        return new UserRegisterEventListener(new MailSenderService());
-//    }
-
     @Bean
     public UserRegisterEventListener myRegisterEventListener() {
         return new UserRegisterEventListener(new MailSenderService());

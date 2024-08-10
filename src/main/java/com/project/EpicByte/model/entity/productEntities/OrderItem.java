@@ -1,5 +1,6 @@
 package com.project.EpicByte.model.entity.productEntities;
 
+import com.project.EpicByte.model.entity.BaseEntity;
 import com.project.EpicByte.model.entity.UserOrder;
 import com.project.EpicByte.model.entity.enums.ProductTypeEnum;
 import jakarta.persistence.*;
@@ -14,13 +15,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderItem {
-    @Id
-    private UUID id;
-
+public class OrderItem extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "product_type")
     private ProductTypeEnum productType;
+
+    @Column(name = "product_id")
+    private UUID productId;
 
     @Column(name = "product_image_url")
     private String productImageUrl;

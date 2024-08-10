@@ -16,5 +16,5 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     Book findBookById(@Param("userId") UUID userId);
 
     @Query("SELECT b FROM Book b WHERE b.isNewProduct = true and b.dateCreated <= :date")
-    List<Book> findNewBooksOlderThanAWeek(LocalDate date);
+    List<Book> findNewBooksOlderThanAWeek(@Param("date") LocalDate date);
 }
