@@ -6,7 +6,6 @@ import com.project.EpicByte.model.entity.UserEntity;
 import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import com.project.EpicByte.repository.CartRepository;
-import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.service.impl.CartCheckoutServiceImpl;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -19,10 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
@@ -40,9 +36,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CartCheckoutServiceTest {
     @Mock
-    UserOrderRepository userOrderRepository;
-
-    @Mock
     CartRepository cartRepository;
 
     @Mock
@@ -58,8 +51,6 @@ public class CartCheckoutServiceTest {
     HttpSession session;
 
     CartCheckoutService cartCheckoutService;
-    MessageSource messageSource;
-    ModelMapper modelMapper;
     Breadcrumbs breadcrumbs;
     UserEntity userEntity;
     BindingResult bindingResult;
@@ -73,8 +64,7 @@ public class CartCheckoutServiceTest {
 
         this.breadcrumbs = new Breadcrumbs(messageSource);
 
-        this.cartCheckoutService = new CartCheckoutServiceImpl(userOrderRepository,
-                cartRepository,
+        this.cartCheckoutService = new CartCheckoutServiceImpl(cartRepository,
                 userRepository,
                 messageSource,
                 modelMapper,

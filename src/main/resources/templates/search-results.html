@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/components :: site-head}"></head>
+
+<body>
+    <header th:replace="~{fragments/components :: site-navigation}"></header>
+
+    <div class="page-container">
+        <div class="products-container">
+            <div th:replace="~{fragments/components :: breadcrumbs}"></div>
+
+            <div class="products-list-container">
+                <div class="products-list header">
+                    <h1 class="products-list-name" th:text="#{results.text}"></h1>
+                    <span class="products-list-name-underline"></span>
+                </div>
+
+                <div class="products-list all-items-wrapper">
+                    <ul class="products-list all-items">
+
+                        <li th:each="product : ${productList}" class="products-item">
+                            <div class="product-item info-container">
+                                <a class="product-item info" th:href="@{/{linkType}/details/{id}(linkType=${#strings.toLowerCase(product.productType)}, id=${product.id})}">
+                                    <div th:if="${product.isNewProduct}" class="new-item-tag">
+                                        <p th:text="#{new.text}"></p>
+                                    </div>
+                                    <div class="product-item-image">
+                                        <img th:src="${product.productImageUrl}" alt="bookImage">
+                                    </div>
+
+                                    <div class="product-item details">
+                                        <div class="product-item details-names">
+                                            <p th:text="${product.productName}" class="product-item details-names book-name">Brothers Karamazov</p>
+                                            <p th:if="${#strings.toLowerCase(product.productType) == 'books' || #strings.toLowerCase(product.productType) == 'textbooks'}"
+                                               th:text="${product.authorName}" class="product-item details-names author-name">Author: Fyodor Dostoyevski</p>
+                                        </div>
+
+                                        <div class="product-item details-additional">
+                                            <span class="product-price-wrapper">
+                                                <span class="product-price" th:text="${#strings.substring(product.productPrice.toString(), 0, product.productPrice.toString().indexOf('.'))}"></span>
+                                                <span class="product-price-precision" th:text="',' + ${#strings.contains(product.productPrice.toString(), '.') ? #strings.substring(product.productPrice.toString(), product.productPrice.toString().indexOf('.') + 1) : '00'}">Decimal Part</span>
+                                                <span th:text="' ' + #{currency}" class="product-price-currency"></span>
+                                            </span>
+
+                                            <div class="product-item buttons">
+                                                <button type="submit"
+                                                        class="item-add-to-cart-button"
+                                                        id="item-add-to-cart-button"
+                                                        th:data-product-id="${product.id}"
+                                                        th:data-product-type="${product.productType}"
+                                                        th:data-success-message="#{added.to.cart.success}"
+                                                        th:data-fail-message="#{added.to.cart.fail}">
+                                                    <i class="fas fa-cart-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<footer th:replace="~{fragments/components :: site-footer}"></footer>
+</html>

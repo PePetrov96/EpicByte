@@ -1,5 +1,7 @@
 package com.project.EpicByte.repository.productRepositories;
 
+import com.project.EpicByte.model.entity.BaseProduct;
+import com.project.EpicByte.model.entity.productEntities.Book;
 import com.project.EpicByte.model.entity.productEntities.Toy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +19,7 @@ public interface ToyRepository extends JpaRepository<Toy, UUID> {
 
     @Query("SELECT t FROM Toy t WHERE t.isNewProduct = true and t.dateCreated <= :date")
     List<Toy> findNewToysOlderThanAWeek(@Param("date") LocalDate date);
+
+    @Query("SELECT t FROM Toy t WHERE t.productName LIKE %:productName%")
+    List<BaseProduct> findToysByProductName(@Param("productName") String productName);
 }

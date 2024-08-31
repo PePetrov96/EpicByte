@@ -43,7 +43,7 @@ public class MonitoringAspect {
         return result;
     }
 
-    private static SlowExecutionWarning getAnnotation(ProceedingJoinPoint pjp) throws NoSuchMethodException {
+    private static SlowExecutionWarning getAnnotation(ProceedingJoinPoint pjp) {
         return ((MethodSignature) pjp.getSignature())
                 .getMethod()
                 .getAnnotation(SlowExecutionWarning.class);

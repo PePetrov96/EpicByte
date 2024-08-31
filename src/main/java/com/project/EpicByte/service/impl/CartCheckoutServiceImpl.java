@@ -8,7 +8,6 @@ import com.project.EpicByte.model.entity.UserOrder;
 import com.project.EpicByte.model.entity.productEntities.CartItem;
 import com.project.EpicByte.model.entity.productEntities.OrderItem;
 import com.project.EpicByte.repository.CartRepository;
-import com.project.EpicByte.repository.UserOrderRepository;
 import com.project.EpicByte.repository.UserRepository;
 import com.project.EpicByte.service.CartCheckoutService;
 import com.project.EpicByte.util.Breadcrumbs;
@@ -32,7 +31,6 @@ import static com.project.EpicByte.util.Constants.*;
 
 @Service
 public class CartCheckoutServiceImpl implements CartCheckoutService {
-    private final UserOrderRepository userOrderRepository;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
 
@@ -42,13 +40,11 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     private final Breadcrumbs breadcrumbs;
 
     @Autowired
-    public CartCheckoutServiceImpl(UserOrderRepository userOrderRepository,
-                                   CartRepository cartRepository,
+    public CartCheckoutServiceImpl(CartRepository cartRepository,
                                    UserRepository userRepository,
                                    MessageSource messageSource,
                                    ModelMapper modelMapper,
                                    Breadcrumbs breadcrumbs) {
-        this.userOrderRepository = userOrderRepository;
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.messageSource = messageSource;
@@ -84,7 +80,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
         try {
             createUserOrder(principal, orderAddressDTO);
             model.addAttribute("pageType", "Completed Successfully");
-            model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
+            model.addAttribute("pageText", getLocalizedText());
             session.setAttribute("numItems", 0);
             return DISPLAY_TEXT_HTML;
         } catch (EmptyCartException exception) {
@@ -96,7 +92,7 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     public String displayCartCheckoutConfirmationPage(Model model) {
         breadcrumbs.addProductBreadcrumb(model, "/user/cart", "Cart", "Confirm Checkout");
         model.addAttribute("pageType", "Completed Successfully");
-        model.addAttribute("pageText", getLocalizedText("order.successfully.received.text"));
+        model.addAttribute("pageText", getLocalizedText());
         return DISPLAY_TEXT_HTML;
     }
 
@@ -149,11 +145,13 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
     protected void finalizeOrderCreation(UserOrder userOrder, UserEntity userEntity) {
         userEntity.getUserOrders().add(userOrder);
         userOrder.setUser(userEntity);
+
         this.userRepository.save(userEntity);
 
         UserEntity user = this.userRepository
                 .findUserByUsernameWithInitializedCartItems(userEntity.getUsername());
         user.getCartItems().clear();
+
         this.userRepository.saveAndFlush(user);
     }
 
@@ -177,9 +175,9 @@ public class CartCheckoutServiceImpl implements CartCheckoutService {
         return order;
     }
 
-    private String getLocalizedText(String text) {
+    private String getLocalizedText() {
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource.getMessage(text, null, locale);
+        return messageSource.getMessage("order.successfully.received.text", null, locale);
     }
 
     private UserEntity getUserEntityByPrincipal(Principal principal) {

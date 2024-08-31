@@ -7,6 +7,7 @@ public class Constants {
     public static final String USER_PROFILE_HTML = "user-profile";
     public static final String ERROR_PAGE_HTML = "error";
     public static final String PRODUCTS_ALL_HTML = "products-all";
+    public static final String SEARCH_RESULTS_HTML = "search-results";
     public static final String PRODUCT_DETAILS_HTML = "product-details";
     public static final String PRODUCT_UPDATE_HTML = "product-update";
     public static final String PRODUCT_ADD_HTML = "product-add";

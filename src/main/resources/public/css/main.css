@@ -795,10 +795,9 @@ body {
     top: 0;
     right: 0;
 }
+
 /* MISC ITEMS */
 .new-item-tag p {
-    background: var(--red);
-    color: var(--white-color);
     padding: 2px 10px;
 }
 
@@ -808,13 +807,17 @@ body {
     right: 20px;
     z-index: 1000;
     padding: 10px 20px;
-    color: white;
     font-size: 18px;
     border-radius: 50rem 0 0 50rem;
 }
 
 .cart-totals-table-checkout {
     height: max-content;
+}
+
+.search-icon {
+    background: none;
+    border: none;
 }
 
 /* TEXT COLORS */
@@ -840,7 +843,9 @@ body {
 .cart-totals-table tfoot tr,
 .cart-totals-table tfoot,
 .order-button-container a,
-.order-button-container input{
+.order-button-container input,
+.new-item-tag p,
+.notification {
     color: var(--white-color);
 }
 
@@ -909,7 +914,8 @@ body {
 .checkout-button,
 .return-home-button,
 .order-button-container a,
-.order-button-container input {
+.order-button-container input,
+.new-item-tag p {
     background: var(--red);
 }
 

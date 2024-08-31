@@ -42,14 +42,24 @@
                     <!-- EO: LOGO IMAGE -->
 
                     <!-- SEARCH FORM -->
-<!--                    <form class="search-form">-->
-<!--                        <div class="search">-->
-<!--                            <input type="text" class="search-input form-floating" placeholder="Search..." name="">-->
-<!--                            <a href="#" class="search-icon">-->
-<!--                                <i class="fa fa-search"></i>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </form>-->
+                    <div class="search-form">
+                        <form th:method="GET"
+                              th:action="@{/search}"
+                              class="search">
+
+                            <input th:name="query"
+                                   type="text"
+                                   class="search-input form-floating"
+                                   th:placeholder="#{search.placeholder.text}"
+                                   name="query">
+
+                            <button type="submit"
+                                    class="search-icon">
+
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
                     <!-- EO: SEARCH FORM -->
 
                     <div class="header-right">
