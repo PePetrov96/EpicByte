@@ -87,16 +87,14 @@ _EpicByte project is a Spring Boot-based application designed to create a websit
 
 ### Built With
 
-* ![Java](https://img.shields.io/badge/Java-ED8B00)
-* ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E)
-* ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C)
-* ![HTML](https://img.shields.io/badge/HTML-F17545)
-* ![CSS](https://img.shields.io/badge/CSS-2964F2)
-* ![MySQL](https://img.shields.io/badge/MySQL-005C84)
-* ![Spring](https://img.shields.io/badge/Spring-6DB33F)
-* ![SpringBoot](https://img.shields.io/badge/Spring-Boot-%236BB13D)
-* ![SpringSecurity](https://img.shields.io/badge/Spring-Security-%236BB13D)
-* ![SpringDataJPA](https://img.shields.io/badge/Spring-DataJPA-%236BB13D)
+* [![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?logo=openjdk&logoColor=white)](#)
+* [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000)](#)
+* [![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?logo=bootstrap&logoColor=fff)](#)
+* [![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](#)
+* [![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff)](#)
+* [![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff)](#)
+* [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)
+* [![Thymeleaf](https://custom-icon-badges.demolab.com/badge/thymeleaf-seeklogo.svg?logo=thymeleaf-seeklogo&color=015e06)](#)
 
 ### Front End
 
