@@ -94,7 +94,7 @@ _EpicByte project is a Spring Boot-based application designed to create a websit
 * [![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=fff)](#)
 * [![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff)](#)
 * [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff)](#)
-* [![Thymeleaf](https://custom-icon-badges.demolab.com/badge/thymeleaf-seeklogo.svg?logo=thymeleaf-seeklogo&color=015e06)](#)
+* [![Thymeleaf](https://custom-icon-badges.demolab.com/badge/Thymeleaf-seeklogo.svg?logo=thymeleaf-seeklogo&color=015e06)](#)
 
 ### Front End
 
