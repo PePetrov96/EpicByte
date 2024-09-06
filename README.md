@@ -1,4 +1,4 @@
-# EpicByte website store (UNDER DEVELOPMENT)
+# EpicByte website store
 
 <div align="center">
   <h2>EpicByte</h2>
